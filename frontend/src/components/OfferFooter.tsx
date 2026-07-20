@@ -3,11 +3,9 @@ import { generalEnquiryMessage, whatsappLink } from '../utils/whatsapp';
 import Logo from './Logo';
 
 const legalPoints = [
-  'Enquiry submission does not guarantee selection under the introductory programme.',
   'Domain, hosting, premium services and advanced features may be charged separately.',
-  'Project scope is confirmed before development starts; additional requirements may be chargeable.',
-  'Any promotional concession is confirmed only through a written proposal.',
-  'Maintenance after deployment may be charged separately.',
+  'Project scope is confirmed in writing before development starts.',
+  'Maintenance after deployment is offered as a separate, optional service.',
 ];
 
 export default function OfferFooter() {
@@ -69,7 +67,7 @@ export default function OfferFooter() {
         </div>
 
         <div className="footer-terms">
-          <h4>Programme Terms</h4>
+          <h4>Additional Terms</h4>
           <ul>
             {legalPoints.map((point) => (
               <li key={point}>{point}</li>

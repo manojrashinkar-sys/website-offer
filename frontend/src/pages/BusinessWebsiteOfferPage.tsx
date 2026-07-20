@@ -3,12 +3,14 @@ import type { EnquiryResult } from '../api/enquiry';
 import { trackEvent } from '../analytics';
 import OfferHeader from '../components/OfferHeader';
 import HeroSection from '../components/HeroSection';
-import OfferSection from '../components/OfferSection';
-import IncludedServices from '../components/IncludedServices';
 import BusinessCategories from '../components/BusinessCategories';
+import IncludedServices from '../components/IncludedServices';
 import HowItWorks from '../components/HowItWorks';
+import TrustSection from '../components/TrustSection';
+import OfferSection from '../components/OfferSection';
 import EnquiryForm from '../components/EnquiryForm';
 import FAQSection from '../components/FAQSection';
+import ClosingCta from '../components/ClosingCta';
 import WhatsAppButton from '../components/WhatsAppButton';
 import SuccessModal from '../components/SuccessModal';
 import OfferFooter from '../components/OfferFooter';
@@ -28,10 +30,11 @@ export default function BusinessWebsiteOfferPage() {
       <OfferHeader />
       <main>
         <HeroSection />
-        <OfferSection />
-        <IncludedServices />
         <BusinessCategories />
+        <IncludedServices />
         <HowItWorks />
+        <TrustSection />
+        <OfferSection />
         <EnquiryForm
           onSuccess={(enquiryResult, applicantDetails) => {
             setResult(enquiryResult);
@@ -40,6 +43,7 @@ export default function BusinessWebsiteOfferPage() {
           }}
         />
         <FAQSection />
+        <ClosingCta />
       </main>
       <OfferFooter />
       <WhatsAppButton />

@@ -313,11 +313,25 @@ p { margin: 0 0 0.75rem; }
 .section-head { max-width: 640px; margin-bottom: 2.5rem; }
 .section-head::before { content: ""; display: block; width: 46px; height: 4px; border-radius: 999px; background: var(--gradient-brand); margin-bottom: 1rem; }
 .section-head p { color: var(--color-ink-soft); font-size: 1.03rem; }
+.section-head p a { color: var(--color-primary-dark); font-weight: 600; }
 .section-note {
   margin-top: 1.75rem; font-size: 0.92rem; color: var(--color-ink-soft);
   border-left: 3px solid var(--color-primary-soft); padding-left: 0.9rem;
 }
 .section-cta { margin-top: 2rem; }
+
+/* ---------- Closing CTA band ---------- */
+.closing-cta-card {
+  background: var(--gradient-brand); border-radius: var(--radius);
+  padding: 3rem 2rem; text-align: center; color: #fff;
+  box-shadow: var(--shadow-lg);
+}
+.closing-cta-card h2, .closing-cta-card p { color: #fff; }
+.closing-cta-card p { color: rgba(255, 255, 255, 0.88); max-width: 32rem; margin: 0 auto 1.75rem; }
+.closing-cta-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; justify-content: center; }
+.closing-cta-actions .btn-primary { background: #fff; color: var(--color-primary-dark); box-shadow: 0 10px 24px rgba(0, 0, 0, 0.2); animation: none; }
+.closing-cta-actions .btn-primary:hover { background: #f1f5ff; }
+.closing-cta-actions .btn-glow::after { display: none; }
 
 /* ---------- Promotion / offer status ---------- */
 .promo-status { padding: 2.5rem 0 1rem; }
@@ -465,6 +479,15 @@ p { margin: 0 0 0.75rem; }
   background: var(--color-danger-soft); border: 1px solid #fecaca; color: var(--color-danger);
   border-radius: var(--radius-sm); padding: 0.9rem 1.1rem; margin-bottom: 1.25rem; font-weight: 600;
 }
+
+.link-toggle {
+  display: inline-flex; align-items: center; gap: 0.3rem;
+  font: inherit; font-weight: 600; font-size: 0.9rem; color: var(--color-primary-dark);
+  background: none; border: 0; cursor: pointer; padding: 0.3rem 0; margin-bottom: 1rem;
+}
+.link-toggle:hover { text-decoration: underline; }
+
+.submit-wait-note { margin-top: 0.6rem; text-align: center; }
 
 /* ---------- Floating WhatsApp ---------- */
 .whatsapp-fab {

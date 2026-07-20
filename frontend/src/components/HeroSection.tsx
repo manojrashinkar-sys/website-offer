@@ -16,8 +16,8 @@ export default function HeroSection() {
             Build a <span className="text-gradient">Professional Website</span> for Your Business
           </h1>
           <p className="hero-sub">
-            We are helping selected businesses create a strong online presence through
-            our limited introductory website-development programme.
+            A clean, mobile-friendly website built around your business — designed to help
+            customers find you, trust you, and get in touch.
           </p>
           <div className="hero-actions">
             <button

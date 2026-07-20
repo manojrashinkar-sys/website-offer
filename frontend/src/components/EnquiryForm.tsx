@@ -2,7 +2,9 @@ import { useRef, useState } from 'react';
 import { submitEnquiry, type EnquiryResult } from '../api/enquiry';
 import type { ApiError } from '../api/client';
 import { trackEvent } from '../analytics';
+import { config } from '../config';
 import { categoryOptions } from '../content/pageContent';
+import { generalEnquiryMessage, whatsappLink } from '../utils/whatsapp';
 import { isValidEmail, isValidIndianMobile, isValidUrl, normaliseMobile } from '../utils/validation';
 
 interface Props {
@@ -35,6 +37,7 @@ export default function EnquiryForm({ onSuccess }: Props) {
   const [errors, setErrors] = useState<Errors>({});
   const [submitting, setSubmitting] = useState(false);
   const [serverError, setServerError] = useState('');
+  const [differentWhatsapp, setDifferentWhatsapp] = useState(false);
   const startedRef = useRef(false);
   const sectionRef = useRef<HTMLElement>(null);
 
@@ -52,7 +55,9 @@ export default function EnquiryForm({ onSuccess }: Props) {
     if (!form.full_name.trim()) e.full_name = 'Please enter your full name.';
     if (!form.business_name.trim()) e.business_name = 'Please enter your business name.';
     if (!isValidIndianMobile(form.mobile_number)) e.mobile_number = 'Enter a valid 10-digit Indian mobile number.';
-    if (!isValidIndianMobile(form.whatsapp_number)) e.whatsapp_number = 'Enter a valid 10-digit WhatsApp number.';
+    if (differentWhatsapp && !isValidIndianMobile(form.whatsapp_number)) {
+      e.whatsapp_number = 'Enter a valid 10-digit WhatsApp number.';
+    }
     if (!isValidEmail(form.email)) e.email = 'Enter a valid email address.';
     if (!form.business_category) e.business_category = 'Please select your business category.';
     if (!form.city.trim()) e.city = 'Please enter your city.';
@@ -83,7 +88,7 @@ export default function EnquiryForm({ onSuccess }: Props) {
       const result = await submitEnquiry({
         ...form,
         mobile_number: normaliseMobile(form.mobile_number),
-        whatsapp_number: normaliseMobile(form.whatsapp_number),
+        whatsapp_number: normaliseMobile(differentWhatsapp ? form.whatsapp_number : form.mobile_number),
         source: 'promo_page',
       });
       trackEvent('promo_form_submitted');
@@ -94,6 +99,7 @@ export default function EnquiryForm({ onSuccess }: Props) {
         city: form.city,
       });
       setForm(initialForm);
+      setDifferentWhatsapp(false);
       startedRef.current = false;
     } catch (err) {
       const apiError = err as ApiError;
@@ -150,8 +156,22 @@ export default function EnquiryForm({ onSuccess }: Props) {
         <div className="section-head">
           <h2>Apply for Your Business Website</h2>
           <p>
-            Share your business details below. Our team reviews every enquiry and
-            contacts suitable businesses to discuss the next steps.
+            Share your business details below. Every enquiry is reviewed personally, and
+            we'll contact you to discuss the next steps.
+            {config.whatsappNumber && (
+              <>
+                {' '}Prefer not to fill a form?{' '}
+                <a
+                  href={whatsappLink(generalEnquiryMessage())}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => trackEvent('promo_whatsapp_click', { placement: 'form_alt' })}
+                >
+                  Chat with us on WhatsApp instead
+                </a>
+                .
+              </>
+            )}
           </p>
         </div>
 
@@ -163,11 +183,38 @@ export default function EnquiryForm({ onSuccess }: Props) {
               {field('business_name', 'Business name', { required: true })}
             </div>
             <div className="form-row">
-              {field('mobile_number', 'Mobile number', { required: true, type: 'tel', placeholder: '10-digit mobile number', hint: 'Indian mobile number, e.g. 98XXXXXXXX' })}
-              {field('whatsapp_number', 'WhatsApp number', { required: true, type: 'tel', placeholder: '10-digit WhatsApp number' })}
-            </div>
-            <div className="form-row">
+              {field('mobile_number', 'Mobile number', { required: true, type: 'tel', placeholder: '10-digit mobile number', hint: 'Also used for WhatsApp, unless you specify a different number below.' })}
               {field('email', 'Email address', { required: true, type: 'email' })}
+            </div>
+
+            {!differentWhatsapp ? (
+              <button
+                type="button"
+                className="link-toggle"
+                onClick={() => setDifferentWhatsapp(true)}
+              >
+                + My WhatsApp number is different
+              </button>
+            ) : (
+              <div className="form-field">
+                <label htmlFor="enq-whatsapp_number">
+                  WhatsApp number<span className="req" aria-hidden="true"> *</span>
+                </label>
+                <input
+                  id="enq-whatsapp_number"
+                  type="tel"
+                  value={form.whatsapp_number}
+                  placeholder="10-digit WhatsApp number"
+                  aria-invalid={!!errors.whatsapp_number}
+                  onChange={(e) => setField('whatsapp_number', e.target.value)}
+                />
+                {errors.whatsapp_number && (
+                  <span className="field-error" role="alert">{errors.whatsapp_number}</span>
+                )}
+              </div>
+            )}
+
+            <div className="form-row">
               <div className={`form-field ${errors.business_category ? 'has-error' : ''}`}>
                 <label htmlFor="enq-business_category">
                   Business category<span className="req" aria-hidden="true"> *</span>
@@ -188,8 +235,8 @@ export default function EnquiryForm({ onSuccess }: Props) {
                   <span className="field-error" role="alert">{errors.business_category}</span>
                 )}
               </div>
+              {field('city', 'City', { required: true })}
             </div>
-            {field('city', 'City', { required: true })}
           </fieldset>
 
           <fieldset>
@@ -220,10 +267,14 @@ export default function EnquiryForm({ onSuccess }: Props) {
           <button type="submit" className="btn btn-primary btn-lg btn-glow" disabled={submitting}>
             {submitting ? 'Submitting…' : 'Submit Enquiry'}
           </button>
+          {submitting && (
+            <p className="field-hint submit-wait-note">
+              This can take up to a minute on the first request of the day — please don't close this page.
+            </p>
+          )}
           <p className="section-note">
-            Submitting an enquiry does not guarantee selection. Selected businesses may
-            qualify for reduced or waived development charges; terms are confirmed
-            through a written proposal.
+            Applications are reviewed individually and submitting one does not guarantee
+            selection — see programme terms above.
           </p>
         </form>
       </div>
