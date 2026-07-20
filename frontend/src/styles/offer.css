@@ -134,7 +134,7 @@ p { margin: 0 0 0.75rem; }
   transition: background 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
 }
 .offer-header.scrolled { background: rgba(255, 255, 255, 0.96); border-bottom-color: var(--color-line); box-shadow: 0 8px 24px rgba(13, 20, 36, 0.06); }
-.header-inner { display: flex; align-items: center; gap: 1rem; height: 68px; }
+.header-inner { display: flex; align-items: center; justify-content: space-between; gap: 1rem; height: 68px; }
 .brand {
   display: inline-flex; align-items: center; gap: 0.65rem; min-width: 0;
   font-family: var(--font-heading); font-weight: 700; font-size: 1.05rem;
