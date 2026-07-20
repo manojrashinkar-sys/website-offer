@@ -114,14 +114,8 @@ export default function OfferHeader() {
           <button className="btn btn-primary btn-sm" onClick={() => handleApply('header')}>
             Apply Now
           </button>
-          <button
-            className="menu-toggle"
-            aria-label="Open menu"
-            aria-expanded={menuOpen}
-            onClick={() => setMenuOpen(true)}
-          >
-            ☰
-          </button>
+          {/* Hamburger menu temporarily removed — mobile-nav drawer code below is
+              left in place, just unreachable, so it's a one-line restore later. */}
         </div>
       </div>
 
