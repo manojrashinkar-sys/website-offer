@@ -1,0 +1,16 @@
+# Frontend
+frontend/node_modules/
+frontend/dist/
+frontend/.env
+frontend/*.log
+.vercel
+
+# Backend
+backend/.venv/
+**/__pycache__/
+*.pyc
+backend/*.db
+backend/.env
+
+# This folder had an unrelated stray file before this project started.
+/Untitled-1.py
