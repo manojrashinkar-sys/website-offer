@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { config } from '../config';
 import { trackEvent } from '../analytics';
+import { generalEnquiryMessage, whatsappLink } from '../utils/whatsapp';
 import Logo from './Logo';
 
 const navLinks = [
@@ -96,6 +97,20 @@ export default function OfferHeader() {
         </nav>
 
         <div className="header-actions">
+          {config.whatsappNumber && (
+            <a
+              className="header-contact-btn"
+              href={whatsappLink(generalEnquiryMessage())}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Contact us on WhatsApp"
+              onClick={() => trackEvent('promo_whatsapp_click', { placement: 'header' })}
+            >
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true">
+                <path d="M12 2C6.48 2 2 6.02 2 11c0 2.44 1.08 4.65 2.84 6.27L4 22l4.98-1.6c.95.26 1.96.4 3.02.4 5.52 0 10-4.02 10-9S17.52 2 12 2zm-4 8h8v2H8v-2zm0-3h8v2H8V7zm0 6h5v2H8v-2z" />
+              </svg>
+            </a>
+          )}
           <button className="btn btn-primary btn-sm" onClick={() => handleApply('header')}>
             Apply Now
           </button>

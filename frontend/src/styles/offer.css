@@ -161,6 +161,13 @@ p { margin: 0 0 0.75rem; }
 .nav-link.active { color: var(--color-primary-dark); }
 .nav-link:focus-visible { outline: 3px solid var(--color-primary-soft); }
 .header-actions { display: flex; align-items: center; gap: 0.5rem; flex-shrink: 0; }
+.header-contact-btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 36px; height: 36px; border-radius: 50%; flex-shrink: 0;
+  background: var(--color-whatsapp); color: #fff; transition: transform 0.15s;
+}
+.header-contact-btn:hover { transform: scale(1.08); }
+.header-contact-btn:focus-visible { outline: 3px solid var(--color-primary-soft); outline-offset: 2px; }
 .menu-toggle {
   display: none; font-size: 1.25rem; background: none; border: 0; cursor: pointer;
   color: var(--color-ink); padding: 0.4rem 0.6rem; border-radius: var(--radius-sm);
