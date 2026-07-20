@@ -8,11 +8,12 @@ export const config = {
   apiBaseUrl: (env.VITE_API_BASE_URL || '').replace(/\/$/, ''),
   // Endpoint the enquiry form posts to.
   enquiryApiUrl: env.VITE_ENQUIRY_API_URL || '/api/website-enquiry',
-  offerRoute: env.VITE_OFFER_ROUTE || '/',
+  // Hardcoded: this deployment lives at a fixed, known subdomain — no need
+  // for an env var most hosts would forget to set anyway.
+  offerRoute: '/',
   // Intentionally blank by default — header/footer hide the name entirely
   // rather than showing a placeholder like "Your Business Name".
   businessName: env.VITE_BUSINESS_NAME || '',
-  siteDomain: env.VITE_SITE_DOMAIN || '',
   whatsappNumber: env.VITE_WHATSAPP_NUMBER || '',
   contactEmail: env.VITE_CONTACT_EMAIL || '',
   contactPhone: env.VITE_CONTACT_PHONE || '',
