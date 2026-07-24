@@ -708,16 +708,24 @@ p { margin: 0 0 0.75rem; }
     display: flex;
     align-items: center;
   }
+  .hero::before { z-index: -1; }
   .hero::after {
-    content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none;
+    content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
     background:
-      linear-gradient(180deg, rgba(5, 8, 22, 0.82) 0%, rgba(5, 8, 22, 0.91) 48%, rgba(5, 8, 22, 0.82) 100%),
-      linear-gradient(90deg, rgba(5, 8, 22, 0.48), rgba(5, 8, 22, 0.15)),
+      linear-gradient(180deg, rgba(5, 8, 22, 0.9) 0%, rgba(5, 8, 22, 0.94) 52%, rgba(5, 8, 22, 0.88) 100%),
+      linear-gradient(90deg, rgba(5, 8, 22, 0.58), rgba(5, 8, 22, 0.32)),
       var(--hero-mobile-image) center / cover no-repeat;
     transition: background-image 0.45s ease;
   }
   .hero-inner { gap: 1.25rem; }
-  .hero-copy { max-width: 34rem; margin: 0 auto; text-align: center; }
+  .hero-copy { position: relative; z-index: 3; max-width: 34rem; margin: 0 auto; text-align: center; }
+  .hero-eyebrow, .hero h1, .hero-sub, .hero-actions { animation: none; }
+  .hero h1 { text-shadow: 0 3px 20px rgba(0, 0, 0, 0.72); }
+  .hero .text-gradient {
+    background: linear-gradient(135deg, #67e8f9 0%, #60a5fa 48%, #c4b5fd 100%);
+    -webkit-background-clip: text; background-clip: text;
+  }
+  .hero-sub { text-shadow: 0 2px 12px rgba(0, 0, 0, 0.7); }
   .hero-visual { display: none; }
   .hero-eyebrow { margin-left: auto; margin-right: auto; }
   .hero-sub { margin-left: auto; margin-right: auto; color: rgba(232, 238, 255, 0.88); }
@@ -735,8 +743,15 @@ p { margin: 0 0 0.75rem; }
 }
 
 @media (max-width: 480px) {
+  .container { width: calc(100% - 2rem); }
+  .header-inner { height: 64px; gap: 0.5rem; }
+  .brand-name { display: none; }
+  .header-actions { gap: 0.4rem; }
+  .header-contact-btn { width: 34px; height: 34px; }
+  .header-actions .btn { padding: 0.55rem 0.8rem; font-size: 0.82rem; white-space: nowrap; }
   .hero { padding: 2.5rem 0; min-height: calc(100svh - 64px); }
   .hero h1 { font-size: clamp(2rem, 10vw, 2.65rem); }
+  .hero-eyebrow { max-width: 100%; padding-inline: 0.65rem; font-size: 0.68rem; letter-spacing: 0.055em; }
   .hero-sub { font-size: 1rem; margin-bottom: 1.35rem; }
   .hero-actions .btn { flex: 1 1 100%; }
   .reference-box strong { font-size: 1.05rem; letter-spacing: 0.03em; }
