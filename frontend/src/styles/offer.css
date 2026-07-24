@@ -704,6 +704,7 @@ p { margin: 0 0 0.75rem; }
 .menu-toggle:hover { color: var(--color-primary-dark); background: var(--color-primary-soft); transform: translateY(-1px); }
 
 @media (max-width: 900px) {
+  .offer-header { display: none; }
   .hero-inner { grid-template-columns: 1fr; gap: 2.5rem; }
   .hero {
     isolation: isolate; min-height: auto;
