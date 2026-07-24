@@ -284,6 +284,9 @@ p { margin: 0 0 0.75rem; }
   background: linear-gradient(90deg, transparent, rgba(255,255,255,.58), transparent);
   animation: promo-badge-shimmer 3.2s ease-in-out infinite;
 }
+.hero-offer-quick:hover,
+.hero-offer-quick:focus-visible { animation-play-state: paused; }
+.hero-offer-quick:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
 @keyframes promo-badge-shimmer {
   0%, 48% { left: -35%; opacity: 0; }
   58% { opacity: 1; }
@@ -756,7 +759,7 @@ p { margin: 0 0 0.75rem; }
     width: max-content; margin: 0; position: absolute;
     left: 0; bottom: -2rem;
     animation:
-      promo-quick-walk 6.5s ease-in-out infinite,
+      promo-quick-walk 16s ease-in-out infinite,
       gradient-shift 5s ease infinite;
   }
 }
