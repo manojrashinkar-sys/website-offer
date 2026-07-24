@@ -17,6 +17,14 @@ Last updated: 2026-07-24
 - On regular phone widths, category and service cards use a compact two-column layout.
 - Screens at 360px or narrower fall back to one card per row.
 - Body and form text remain at accessible sizes; only mobile card typography is slightly compacted.
+- Mobile/tablet carousel arrows are hidden; users swipe/drag or tap the dots.
+- Desktop carousel arrows remain visible.
+- A separate animated `View Offer` pill travels along the unused bottom edge of the hero without adding layout height.
+- The offer pill jumps directly to the `offer` section.
+- Mobile offer-pill travel uses the regular animation timing.
+- Desktop offer-pill travel takes 16 seconds and pauses on hover or keyboard focus for reliable clicking.
+- Original rotating hero labels remain visible: `Limited Introductory Programme`, `Designed for Every Screen`, and `Launch With Confidence`.
+- The Offer section has a highlighted promotional card, responsive terms grid, and `Apply for This Offer` CTA.
 
 ## Hero image assets
 
@@ -37,4 +45,4 @@ The images are 1200×800 JPEG files and roughly 94–126 KB each. They can be re
 - Use `npm run build` from `frontend/`.
 - Repository remote: `https://github.com/manojrashinkar-sys/website-offer.git`
 - Deployment branch: `main`
-- Latest pushed UI commit: `39025ce` (`Tighten responsive page typography and card layout`)
+- Latest pushed UI commit: `419e4cf` (`Slow desktop offer pill and pause on interaction`)
