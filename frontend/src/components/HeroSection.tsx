@@ -12,6 +12,7 @@ const heroSlides = [
     tail: ' for Your Business',
     description: 'A clean, mobile-friendly website built around your business — designed to help customers find you, trust you, and get in touch.',
     theme: 'blue',
+    preview: 'yourbusiness.com',
   },
   {
     eyebrow: 'Designed for Every Screen',
@@ -20,6 +21,7 @@ const heroSlides = [
     tail: '',
     description: 'Give customers a fast, polished experience with clear services, strong calls to action, and one-tap WhatsApp contact.',
     theme: 'violet',
+    preview: 'getmoreleads.com',
   },
   {
     eyebrow: 'Launch With Confidence',
@@ -28,6 +30,7 @@ const heroSlides = [
     tail: '',
     description: 'From mobile-friendly design to basic SEO and deployment support, everything you need for a credible online presence.',
     theme: 'teal',
+    preview: 'launchonline.com',
   },
 ] as const;
 
@@ -131,33 +134,42 @@ export default function HeroSection() {
         </div>
 
         <div className="hero-visual" aria-hidden="true">
-          <div className="blob blob-1" />
-          <div className="blob blob-2" />
-          <div className="browser-frame">
-            <div className="browser-bar">
-              <span className="dot" /><span className="dot" /><span className="dot" />
-              <span className="browser-url">yourbusiness.com</span>
-            </div>
-            <div className="browser-body">
-              <div className="mock-nav" />
-              <div className="mock-hero">
-                <div className="mock-line w-70" />
-                <div className="mock-line w-50" />
-                <div className="mock-btn-row"><span className="mock-btn" /><span className="mock-btn ghost" /></div>
+          <div
+            className="hero-visual-track"
+            style={{ transform: `translateX(-${activeSlide * 100}%)` }}
+          >
+            {heroSlides.map((slide, index) => (
+              <div className={`hero-visual-slide preview-${slide.theme}`} key={slide.preview}>
+                <div className="blob blob-1" />
+                <div className="blob blob-2" />
+                <div className="browser-frame">
+                  <div className="browser-bar">
+                    <span className="dot" /><span className="dot" /><span className="dot" />
+                    <span className="browser-url">{slide.preview}</span>
+                  </div>
+                  <div className={`browser-body preview-layout-${index + 1}`}>
+                    <div className="mock-nav" />
+                    <div className="mock-hero">
+                      <div className="mock-line w-70" />
+                      <div className="mock-line w-50" />
+                      <div className="mock-btn-row"><span className="mock-btn" /><span className="mock-btn ghost" /></div>
+                    </div>
+                    <div className="mock-cards">
+                      <div className="mock-card" /><div className="mock-card" /><div className="mock-card" />
+                    </div>
+                  </div>
+                </div>
+                <div className="phone-frame">
+                  <div className="phone-notch" />
+                  <div className="phone-body">
+                    <div className="mock-line w-70" />
+                    <div className="mock-line w-50" />
+                    <div className="mock-card tall" />
+                    <div className="mock-btn full" />
+                  </div>
+                </div>
               </div>
-              <div className="mock-cards">
-                <div className="mock-card" /><div className="mock-card" /><div className="mock-card" />
-              </div>
-            </div>
-          </div>
-          <div className="phone-frame">
-            <div className="phone-notch" />
-            <div className="phone-body">
-              <div className="mock-line w-70" />
-              <div className="mock-line w-50" />
-              <div className="mock-card tall" />
-              <div className="mock-btn full" />
-            </div>
+            ))}
           </div>
         </div>
       </div>

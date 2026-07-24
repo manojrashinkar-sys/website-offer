@@ -296,7 +296,16 @@ p { margin: 0 0 0.75rem; }
 }
 
 /* Abstract device mockups (pure CSS, no images) */
-.hero-visual { position: relative; min-height: 360px; animation: hero-fade-in 0.9s ease 0.2s both; }
+.hero-visual { position: relative; min-height: 390px; overflow: hidden; animation: hero-fade-in 0.9s ease 0.2s both; }
+.hero-visual-track { display: flex; transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1); }
+.hero-visual-slide { position: relative; flex: 0 0 100%; min-width: 0; min-height: 390px; padding-top: 16px; }
+.preview-violet .mock-btn { background: linear-gradient(135deg, #7c3aed, #ec4899); }
+.preview-violet .mock-line { background: linear-gradient(90deg, #ede9fe, #fdf2f8); }
+.preview-violet .mock-card:nth-child(2) { transform: translateY(-10px); background: #f5f3ff; }
+.preview-teal .mock-btn { background: linear-gradient(135deg, #0d9488, #22c55e); }
+.preview-teal .mock-line { background: linear-gradient(90deg, #ccfbf1, #f0fdf4); }
+.preview-teal .mock-cards { grid-template-columns: 1.4fr 0.8fr 0.8fr; }
+.preview-teal .mock-card:first-child { height: 78px; background: #ecfdf5; }
 @keyframes hero-fade-in {
   from { opacity: 0; transform: translateY(10px) scale(0.98); }
   to { opacity: 1; transform: none; }
@@ -687,5 +696,5 @@ p { margin: 0 0 0.75rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .hero-slider-track, .hero { transition: none; }
+  .hero-slider-track, .hero-visual-track, .hero { transition: none; }
 }
