@@ -13,7 +13,7 @@ const heroSlides = [
     description: 'A clean, mobile-friendly website built around your business — designed to help customers find you, trust you, and get in touch.',
     theme: 'blue',
     preview: 'yourbusiness.com',
-    image: '/images/hero/website-design.svg',
+    image: '/images/hero/website-design.jpg',
   },
   {
     eyebrow: 'Designed for Every Screen',
@@ -23,7 +23,7 @@ const heroSlides = [
     description: 'Give customers a fast, polished experience with clear services, strong calls to action, and one-tap WhatsApp contact.',
     theme: 'violet',
     preview: 'getmoreleads.com',
-    image: '/images/hero/lead-generation.svg',
+    image: '/images/hero/lead-generation.jpg',
   },
   {
     eyebrow: 'Launch With Confidence',
@@ -33,7 +33,7 @@ const heroSlides = [
     description: 'From mobile-friendly design to basic SEO and deployment support, everything you need for a credible online presence.',
     theme: 'teal',
     preview: 'launchonline.com',
-    image: '/images/hero/fast-launch.svg',
+    image: '/images/hero/fast-launch.jpg',
   },
 ] as const;
 

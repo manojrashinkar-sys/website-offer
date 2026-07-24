@@ -676,6 +676,8 @@ p { margin: 0 0 0.75rem; }
 @media (max-width: 900px) {
   .hero-inner { grid-template-columns: 1fr; gap: 2.5rem; }
   .hero { padding: 3.25rem 0; }
+  .hero-visual, .hero-visual-slide { min-height: 300px; }
+  .hero-preview-image { height: 300px; }
   .header-nav { display: none; }
   .menu-toggle { display: inline-flex; }
   .brand-name { max-width: 45vw; }
@@ -684,6 +686,11 @@ p { margin: 0 0 0.75rem; }
 }
 
 @media (max-width: 640px) {
+  .hero-inner { gap: 1.25rem; }
+  .hero-visual { min-height: 225px; margin: 0 -0.75rem -0.5rem; }
+  .hero-visual-slide { min-height: 225px; padding: 0 0.5rem; }
+  .hero-preview-image { height: 225px; border-radius: 16px; }
+  .hero-controls { justify-content: center; margin-top: 1rem; }
   .form-row { grid-template-columns: 1fr; }
   .section { padding: 3.25rem 0; }
   .footer-grid { grid-template-columns: 1fr; }
@@ -696,6 +703,11 @@ p { margin: 0 0 0.75rem; }
 }
 
 @media (max-width: 480px) {
+  .hero { padding: 2.5rem 0 2rem; }
+  .hero h1 { font-size: clamp(2rem, 10vw, 2.65rem); }
+  .hero-sub { font-size: 1rem; margin-bottom: 1.35rem; }
+  .hero-visual, .hero-visual-slide { min-height: 195px; }
+  .hero-preview-image { height: 195px; }
   .hero-actions .btn { flex: 1 1 100%; }
   .reference-box strong { font-size: 1.05rem; letter-spacing: 0.03em; }
   .card-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
