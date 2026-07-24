@@ -750,6 +750,17 @@ p { margin: 0 0 0.75rem; }
 }
 .menu-toggle:hover { color: var(--color-primary-dark); background: var(--color-primary-soft); transform: translateY(-1px); }
 
+@media (min-width: 901px) {
+  .hero-offer-quick {
+    display: flex; align-items: center; gap: 0.3rem; z-index: 4;
+    width: max-content; margin: 0; position: absolute;
+    left: 0; bottom: -2rem;
+    animation:
+      promo-quick-walk 6.5s ease-in-out infinite,
+      gradient-shift 5s ease infinite;
+  }
+}
+
 @media (max-width: 900px) {
   .offer-header { display: none; }
   .hero-inner { grid-template-columns: 1fr; gap: 2.5rem; }
