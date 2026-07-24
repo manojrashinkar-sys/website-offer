@@ -765,7 +765,7 @@ p { margin: 0 0 0.75rem; }
       linear-gradient(90deg, rgba(5, 8, 22, 0.58), rgba(5, 8, 22, 0.32)),
       var(--hero-mobile-image) center / cover no-repeat;
   }
-  .hero-copy { position: relative; z-index: 3; width: 100%; max-width: 650px; margin: 0 auto; text-align: center; }
+  .hero-copy { position: static; z-index: 3; width: 100%; max-width: 650px; margin: 0 auto; text-align: center; }
   .hero-visual { display: none; }
   .hero-eyebrow { margin-left: auto; margin-right: auto; }
   .hero-sub { margin-left: auto; margin-right: auto; color: rgba(232, 238, 255, 0.88); text-shadow: 0 2px 12px rgba(0, 0, 0, 0.7); }
@@ -773,8 +773,12 @@ p { margin: 0 0 0.75rem; }
   .hero-controls { margin-top: 0.7rem; }
   .hero-controls .hero-arrow { display: none; }
   .hero-offer-quick {
-    display: flex; align-items: center; gap: 0.3rem;
-    width: fit-content; margin: 0 auto 0.85rem;
+    display: flex; align-items: center; gap: 0.3rem; z-index: 4;
+    width: max-content; margin: 0; position: absolute;
+    left: 0; bottom: -2.05rem;
+    animation:
+      promo-quick-walk 5.5s ease-in-out infinite,
+      gradient-shift 5s ease infinite;
   }
   .hero-eyebrow, .hero h1, .hero-sub, .hero-actions { animation: none; }
   .hero h1 { text-shadow: 0 3px 20px rgba(0, 0, 0, 0.72); }
@@ -870,6 +874,23 @@ p { margin: 0 0 0.75rem; }
 @media (prefers-reduced-motion: reduce) {
   .hero-slider-track, .hero-visual-track, .hero, .hero::after { transition: none; }
   .hero-offer-quick, .hero-offer-quick::after { animation: none; }
+}
+
+@keyframes promo-quick-walk {
+  0%, 100% {
+    left: 0;
+    transform: translateY(0) rotate(0);
+    box-shadow: 0 8px 20px rgba(37, 99, 235, 0.24);
+  }
+  12% { transform: translateY(-3px) rotate(-1.2deg); }
+  25% { transform: translateY(0) rotate(0.8deg); }
+  50% {
+    left: calc(100% - 7.25rem);
+    transform: translateY(-2px) rotate(0);
+    box-shadow: 0 11px 26px rgba(37, 99, 235, 0.42);
+  }
+  68% { transform: translateY(-3px) rotate(1.2deg); }
+  82% { transform: translateY(0) rotate(-0.8deg); }
 }
 
 @media (max-width: 360px) {
