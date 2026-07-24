@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, type CSSProperties } from 'react';
 import { trackEvent } from '../analytics';
 import { config } from '../config';
 import { generalEnquiryMessage, whatsappLink } from '../utils/whatsapp';
@@ -57,6 +57,7 @@ export default function HeroSection() {
   return (
     <section
       className={`hero hero-theme-${heroSlides[activeSlide].theme}`}
+      style={{ '--hero-mobile-image': `url("${heroSlides[activeSlide].image}")` } as CSSProperties}
       id="top"
       aria-roledescription="carousel"
       aria-label="Website offer highlights"
