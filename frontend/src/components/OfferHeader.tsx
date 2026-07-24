@@ -53,8 +53,13 @@ export default function OfferHeader() {
   // Lock body scroll while the mobile drawer is open.
   useEffect(() => {
     document.body.style.overflow = menuOpen ? 'hidden' : '';
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setMenuOpen(false);
+    };
+    if (menuOpen) window.addEventListener('keydown', closeOnEscape);
     return () => {
       document.body.style.overflow = '';
+      window.removeEventListener('keydown', closeOnEscape);
     };
   }, [menuOpen]);
 
@@ -114,8 +119,16 @@ export default function OfferHeader() {
           <button className="btn btn-primary btn-sm" onClick={() => handleApply('header')}>
             Apply Now
           </button>
-          {/* Hamburger menu temporarily removed — mobile-nav drawer code below is
-              left in place, just unreachable, so it's a one-line restore later. */}
+          <button
+            className="menu-toggle"
+            type="button"
+            aria-label="Open navigation menu"
+            aria-expanded={menuOpen}
+            aria-controls="mobile-navigation"
+            onClick={() => setMenuOpen(true)}
+          >
+            <span aria-hidden="true">☰</span>
+          </button>
         </div>
       </div>
 
@@ -128,6 +141,7 @@ export default function OfferHeader() {
         />
       )}
       <nav
+        id="mobile-navigation"
         className={`mobile-nav ${menuOpen ? 'open' : ''}`}
         aria-label="Page sections"
         aria-hidden={!menuOpen}
@@ -135,7 +149,7 @@ export default function OfferHeader() {
         <div className="mobile-nav-head">
           <Logo size={26} />
           <button className="mobile-nav-close" aria-label="Close menu" onClick={() => setMenuOpen(false)}>
-            ✕
+            ×
           </button>
         </div>
         {navLinks.map((link) => (
