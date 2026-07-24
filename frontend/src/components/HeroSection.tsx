@@ -108,19 +108,10 @@ export default function HeroSection() {
             <div className="hero-slider-track" style={{ transform: `translateX(calc(-${activeSlide * 100}% + ${dragOffset}px))` }}>
               {heroSlides.map((slide, index) => (
                 <div className="hero-slide" key={slide.eyebrow} aria-hidden={index !== activeSlide}>
-                  <button
-                    className="hero-eyebrow"
-                    type="button"
-                    onClick={() => {
-                      trackEvent('promo_offer_view', { placement: 'hero_badge' });
-                      scrollToSection('offer');
-                    }}
-                    aria-label="View offer details"
-                  >
+                  <p className="hero-eyebrow">
                     <span className="pulse-dot" aria-hidden="true" />
-                    <span className="hero-eyebrow-full">{slide.eyebrow}</span>
-                    <span className="hero-eyebrow-mobile">View Offer <span aria-hidden="true">↓</span></span>
-                  </button>
+                    {slide.eyebrow}
+                  </p>
                   <h1>
                     {slide.lead}<span className="text-gradient">{slide.highlight}</span>{slide.tail}
                   </h1>
@@ -177,6 +168,16 @@ export default function HeroSection() {
                 />
               ))}
             </div>
+            <button
+              className="hero-offer-quick"
+              type="button"
+              onClick={() => {
+                trackEvent('promo_offer_view', { placement: 'hero_quick_link' });
+                scrollToSection('offer');
+              }}
+            >
+              View Offer <span aria-hidden="true">↓</span>
+            </button>
             <button className="hero-arrow" type="button" onClick={() => changeSlide(activeSlide + 1)} aria-label="Next hero slide">›</button>
           </div>
         </div>
