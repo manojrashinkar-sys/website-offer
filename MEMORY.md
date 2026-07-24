@@ -14,6 +14,9 @@ Last updated: 2026-07-24
 - Desktop navigation remains enabled.
 - Mobile hero CTAs stay on one row. The WhatsApp label shortens to `WhatsApp`.
 - Hero spacing uses natural content height rather than full-screen minimum heights.
+- On regular phone widths, category and service cards use a compact two-column layout.
+- Screens at 360px or narrower fall back to one card per row.
+- Body and form text remain at accessible sizes; only mobile card typography is slightly compacted.
 
 ## Hero image assets
 
@@ -34,5 +37,4 @@ The images are 1200×800 JPEG files and roughly 94–126 KB each. They can be re
 - Use `npm run build` from `frontend/`.
 - Repository remote: `https://github.com/manojrashinkar-sys/website-offer.git`
 - Deployment branch: `main`
-- Latest pushed UI commit: `6e5cb51` (`Hide navigation on mobile layouts`)
-
+- Latest pushed UI commit: `39025ce` (`Tighten responsive page typography and card layout`)
