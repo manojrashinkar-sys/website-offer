@@ -121,6 +121,17 @@ export default function HeroSection() {
             </div>
           </div>
 
+          <button
+            className="hero-offer-quick"
+            type="button"
+            onClick={() => {
+              trackEvent('promo_offer_view', { placement: 'hero_quick_link' });
+              scrollToSection('offer');
+            }}
+          >
+            View Offer <span aria-hidden="true">↓</span>
+          </button>
+
           <div className="hero-actions">
             <button
               className="btn btn-primary btn-glow"
@@ -168,16 +179,6 @@ export default function HeroSection() {
                 />
               ))}
             </div>
-            <button
-              className="hero-offer-quick"
-              type="button"
-              onClick={() => {
-                trackEvent('promo_offer_view', { placement: 'hero_quick_link' });
-                scrollToSection('offer');
-              }}
-            >
-              View Offer <span aria-hidden="true">↓</span>
-            </button>
             <button className="hero-arrow" type="button" onClick={() => changeSlide(activeSlide + 1)} aria-label="Next hero slide">›</button>
           </div>
         </div>
