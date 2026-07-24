@@ -13,6 +13,7 @@ const heroSlides = [
     description: 'A clean, mobile-friendly website built around your business — designed to help customers find you, trust you, and get in touch.',
     theme: 'blue',
     preview: 'yourbusiness.com',
+    image: '/images/hero/website-design.svg',
   },
   {
     eyebrow: 'Designed for Every Screen',
@@ -22,6 +23,7 @@ const heroSlides = [
     description: 'Give customers a fast, polished experience with clear services, strong calls to action, and one-tap WhatsApp contact.',
     theme: 'violet',
     preview: 'getmoreleads.com',
+    image: '/images/hero/lead-generation.svg',
   },
   {
     eyebrow: 'Launch With Confidence',
@@ -31,6 +33,7 @@ const heroSlides = [
     description: 'From mobile-friendly design to basic SEO and deployment support, everything you need for a credible online presence.',
     theme: 'teal',
     preview: 'launchonline.com',
+    image: '/images/hero/fast-launch.svg',
   },
 ] as const;
 
@@ -42,7 +45,7 @@ export default function HeroSection() {
     if (isPaused) return;
     const timer = window.setInterval(
       () => setActiveSlide((current) => (current + 1) % heroSlides.length),
-      5500,
+      3000,
     );
     return () => window.clearInterval(timer);
   }, [isPaused]);
@@ -142,32 +145,14 @@ export default function HeroSection() {
               <div className={`hero-visual-slide preview-${slide.theme}`} key={slide.preview}>
                 <div className="blob blob-1" />
                 <div className="blob blob-2" />
-                <div className="browser-frame">
-                  <div className="browser-bar">
-                    <span className="dot" /><span className="dot" /><span className="dot" />
-                    <span className="browser-url">{slide.preview}</span>
-                  </div>
-                  <div className={`browser-body preview-layout-${index + 1}`}>
-                    <div className="mock-nav" />
-                    <div className="mock-hero">
-                      <div className="mock-line w-70" />
-                      <div className="mock-line w-50" />
-                      <div className="mock-btn-row"><span className="mock-btn" /><span className="mock-btn ghost" /></div>
-                    </div>
-                    <div className="mock-cards">
-                      <div className="mock-card" /><div className="mock-card" /><div className="mock-card" />
-                    </div>
-                  </div>
-                </div>
-                <div className="phone-frame">
-                  <div className="phone-notch" />
-                  <div className="phone-body">
-                    <div className="mock-line w-70" />
-                    <div className="mock-line w-50" />
-                    <div className="mock-card tall" />
-                    <div className="mock-btn full" />
-                  </div>
-                </div>
+                <img
+                  className="hero-preview-image"
+                  src={slide.image}
+                  alt=""
+                  width="720"
+                  height="520"
+                  loading={index === 0 ? 'eager' : 'lazy'}
+                />
               </div>
             ))}
           </div>
