@@ -298,7 +298,10 @@ p { margin: 0 0 0.75rem; }
 /* Abstract device mockups (pure CSS, no images) */
 .hero-visual { position: relative; min-height: 390px; overflow: hidden; animation: hero-fade-in 0.9s ease 0.2s both; }
 .hero-visual-track { display: flex; transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1); }
-.hero-visual-slide { position: relative; flex: 0 0 100%; min-width: 0; min-height: 390px; padding-top: 16px; }
+.hero-visual-slide {
+  position: relative; flex: 0 0 100%; min-width: 0; min-height: 390px;
+  padding: 16px 18px 30px; overflow: hidden; isolation: isolate;
+}
 .preview-violet .mock-btn { background: linear-gradient(135deg, #7c3aed, #ec4899); }
 .preview-violet .mock-line { background: linear-gradient(90deg, #ede9fe, #fdf2f8); }
 .preview-violet .mock-card:nth-child(2) { transform: translateY(-10px); background: #f5f3ff; }
@@ -344,7 +347,7 @@ p { margin: 0 0 0.75rem; }
 .mock-card { height: 62px; border-radius: 8px; background: var(--color-surface-alt); border: 1px solid var(--color-line); }
 .mock-card.tall { height: 96px; margin: 0.6rem 0; }
 .phone-frame {
-  position: absolute; right: -6px; bottom: -26px; width: 138px; z-index: 2;
+  position: absolute; right: 10px; bottom: 4px; width: 138px; z-index: 2;
   background: var(--color-surface); border: 1px solid var(--color-line);
   border-radius: 20px; box-shadow: 0 25px 50px rgba(0, 0, 0, 0.45); padding: 0.8rem 0.7rem 1rem;
   animation: mockup-float 7.5s ease-in-out infinite; animation-delay: 1s;
