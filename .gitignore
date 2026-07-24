@@ -14,3 +14,5 @@ backend/.env
 
 # This folder had an unrelated stray file before this project started.
 /Untitled-1.py
+tmp-ui/
+ui-audit/
