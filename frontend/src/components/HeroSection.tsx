@@ -108,10 +108,19 @@ export default function HeroSection() {
             <div className="hero-slider-track" style={{ transform: `translateX(calc(-${activeSlide * 100}% + ${dragOffset}px))` }}>
               {heroSlides.map((slide, index) => (
                 <div className="hero-slide" key={slide.eyebrow} aria-hidden={index !== activeSlide}>
-                  <p className="hero-eyebrow">
+                  <button
+                    className="hero-eyebrow"
+                    type="button"
+                    onClick={() => {
+                      trackEvent('promo_offer_view', { placement: 'hero_badge' });
+                      scrollToSection('offer');
+                    }}
+                    aria-label="View offer details"
+                  >
                     <span className="pulse-dot" aria-hidden="true" />
-                    {slide.eyebrow}
-                  </p>
+                    <span className="hero-eyebrow-full">{slide.eyebrow}</span>
+                    <span className="hero-eyebrow-mobile">View Offer <span aria-hidden="true">↓</span></span>
+                  </button>
                   <h1>
                     {slide.lead}<span className="text-gradient">{slide.highlight}</span>{slide.tail}
                   </h1>
