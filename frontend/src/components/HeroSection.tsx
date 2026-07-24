@@ -1,4 +1,4 @@
-import { useEffect, useState, type CSSProperties } from 'react';
+import { useEffect, useRef, useState, type CSSProperties, type PointerEvent } from 'react';
 import { trackEvent } from '../analytics';
 import { config } from '../config';
 import { generalEnquiryMessage, whatsappLink } from '../utils/whatsapp';
@@ -40,6 +40,10 @@ const heroSlides = [
 export default function HeroSection() {
   const [activeSlide, setActiveSlide] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
+  const [dragOffset, setDragOffset] = useState(0);
+  const dragStartX = useRef<number | null>(null);
+  const dragOffsetRef = useRef(0);
+  const heroRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     if (isPaused) return;
@@ -54,9 +58,35 @@ export default function HeroSection() {
     setActiveSlide((index + heroSlides.length) % heroSlides.length);
   };
 
+  const startDrag = (event: PointerEvent<HTMLElement>) => {
+    if ((event.target as HTMLElement).closest('button, a')) return;
+    dragStartX.current = event.clientX;
+    setIsPaused(true);
+    event.currentTarget.setPointerCapture(event.pointerId);
+  };
+
+  const moveDrag = (event: PointerEvent<HTMLElement>) => {
+    if (dragStartX.current === null) return;
+    const width = heroRef.current?.clientWidth || 1;
+    const distance = Math.max(-width * 0.32, Math.min(width * 0.32, event.clientX - dragStartX.current));
+    dragOffsetRef.current = distance;
+    setDragOffset(distance);
+  };
+
+  const finishDrag = () => {
+    if (dragStartX.current === null) return;
+    if (dragOffsetRef.current < -48) changeSlide(activeSlide + 1);
+    if (dragOffsetRef.current > 48) changeSlide(activeSlide - 1);
+    dragStartX.current = null;
+    dragOffsetRef.current = 0;
+    setDragOffset(0);
+    setIsPaused(false);
+  };
+
   return (
     <section
-      className={`hero hero-theme-${heroSlides[activeSlide].theme}`}
+      ref={heroRef}
+      className={`hero hero-theme-${heroSlides[activeSlide].theme}${dragStartX.current !== null ? ' is-dragging' : ''}`}
       style={{ '--hero-mobile-image': `url("${heroSlides[activeSlide].image}")` } as CSSProperties}
       id="top"
       aria-roledescription="carousel"
@@ -67,11 +97,15 @@ export default function HeroSection() {
       onBlurCapture={(event) => {
         if (!event.currentTarget.contains(event.relatedTarget as Node | null)) setIsPaused(false);
       }}
+      onPointerDown={startDrag}
+      onPointerMove={moveDrag}
+      onPointerUp={finishDrag}
+      onPointerCancel={finishDrag}
     >
       <div className="container hero-inner">
         <div className="hero-copy">
           <div className="hero-slider-window">
-            <div className="hero-slider-track" style={{ transform: `translateX(-${activeSlide * 100}%)` }}>
+            <div className="hero-slider-track" style={{ transform: `translateX(calc(-${activeSlide * 100}% + ${dragOffset}px))` }}>
               {heroSlides.map((slide, index) => (
                 <div className="hero-slide" key={slide.eyebrow} aria-hidden={index !== activeSlide}>
                   <p className="hero-eyebrow">
@@ -140,7 +174,7 @@ export default function HeroSection() {
         <div className="hero-visual" aria-hidden="true">
           <div
             className="hero-visual-track"
-            style={{ transform: `translateX(-${activeSlide * 100}%)` }}
+            style={{ transform: `translateX(calc(-${activeSlide * 100}% + ${dragOffset}px))` }}
           >
             {heroSlides.map((slide, index) => (
               <div className={`hero-visual-slide preview-${slide.theme}`} key={slide.preview}>
