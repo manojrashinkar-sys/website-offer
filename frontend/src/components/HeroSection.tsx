@@ -148,7 +148,8 @@ export default function HeroSection() {
                 rel="noopener noreferrer"
                 onClick={() => trackEvent('promo_whatsapp_click', { placement: 'hero' })}
               >
-                Chat on WhatsApp
+                <span className="hero-wa-label-full">Chat on WhatsApp</span>
+                <span className="hero-wa-label-short">WhatsApp</span>
               </a>
             )}
           </div>

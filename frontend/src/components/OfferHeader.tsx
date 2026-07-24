@@ -17,7 +17,6 @@ export function scrollToSection(id: string) {
 }
 
 export default function OfferHeader() {
-  const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState('');
 
@@ -28,49 +27,25 @@ export default function OfferHeader() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  // Scroll-spy: highlight whichever section's heading is currently nearest
-  // the top of the viewport, so the nav reflects where the visitor actually
-  // is on the page.
   useEffect(() => {
     const sections = navLinks
       .map((link) => document.getElementById(link.id))
-      .filter((el): el is HTMLElement => !!el);
+      .filter((element): element is HTMLElement => !!element);
     if (sections.length === 0) return;
 
     const observer = new IntersectionObserver(
       (entries) => {
-        const visible = entries.filter((e) => e.isIntersecting);
-        if (visible.length > 0) {
-          setActiveSection(visible[0].target.id);
-        }
+        const visible = entries.find((entry) => entry.isIntersecting);
+        if (visible) setActiveSection(visible.target.id);
       },
       { rootMargin: '-45% 0px -45% 0px', threshold: 0 },
     );
-    sections.forEach((el) => observer.observe(el));
+    sections.forEach((element) => observer.observe(element));
     return () => observer.disconnect();
   }, []);
 
-  // Lock body scroll while the mobile drawer is open.
-  useEffect(() => {
-    document.body.style.overflow = menuOpen ? 'hidden' : '';
-    const closeOnEscape = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') setMenuOpen(false);
-    };
-    if (menuOpen) window.addEventListener('keydown', closeOnEscape);
-    return () => {
-      document.body.style.overflow = '';
-      window.removeEventListener('keydown', closeOnEscape);
-    };
-  }, [menuOpen]);
-
-  const handleNav = (id: string) => {
-    setMenuOpen(false);
-    scrollToSection(id);
-  };
-
-  const handleApply = (placement: string) => {
-    setMenuOpen(false);
-    trackEvent('promo_apply_click', { placement });
+  const handleApply = () => {
+    trackEvent('promo_apply_click', { placement: 'header' });
     scrollToSection('enquiry');
   };
 
@@ -80,8 +55,8 @@ export default function OfferHeader() {
         <a
           className="brand"
           href={config.offerRoute}
-          onClick={(e) => {
-            e.preventDefault();
+          onClick={(event) => {
+            event.preventDefault();
             window.scrollTo({ top: 0, behavior: 'smooth' });
           }}
         >
@@ -94,7 +69,7 @@ export default function OfferHeader() {
             <button
               key={link.id}
               className={`nav-link ${activeSection === link.id ? 'active' : ''}`}
-              onClick={() => handleNav(link.id)}
+              onClick={() => scrollToSection(link.id)}
             >
               {link.label}
             </button>
@@ -116,55 +91,11 @@ export default function OfferHeader() {
               </svg>
             </a>
           )}
-          <button className="btn btn-primary btn-sm" onClick={() => handleApply('header')}>
+          <button className="btn btn-primary btn-sm" onClick={handleApply}>
             Apply Now
-          </button>
-          <button
-            className="menu-toggle"
-            type="button"
-            aria-label="Open navigation menu"
-            aria-expanded={menuOpen}
-            aria-controls="mobile-navigation"
-            onClick={() => setMenuOpen(true)}
-          >
-            <span aria-hidden="true">☰</span>
           </button>
         </div>
       </div>
-
-      {menuOpen && (
-        <div
-          className="mobile-nav-backdrop"
-          style={{ display: 'block' }}
-          role="presentation"
-          onClick={() => setMenuOpen(false)}
-        />
-      )}
-      <nav
-        id="mobile-navigation"
-        className={`mobile-nav ${menuOpen ? 'open' : ''}`}
-        aria-label="Page sections"
-        aria-hidden={!menuOpen}
-      >
-        <div className="mobile-nav-head">
-          <Logo size={26} />
-          <button className="mobile-nav-close" aria-label="Close menu" onClick={() => setMenuOpen(false)}>
-            ×
-          </button>
-        </div>
-        {navLinks.map((link) => (
-          <button
-            key={link.id}
-            className={`mobile-nav-link ${activeSection === link.id ? 'active' : ''}`}
-            onClick={() => handleNav(link.id)}
-          >
-            {link.label}
-          </button>
-        ))}
-        <button className="btn btn-primary" onClick={() => handleApply('mobile_menu')}>
-          Apply Now
-        </button>
-      </nav>
     </header>
   );
 }
