@@ -272,9 +272,9 @@ p { margin: 0 0 0.75rem; }
 .hero-offer-quick {
   display: none; position: relative; overflow: hidden; isolation: isolate;
   border: 1px solid rgba(103, 232, 249, 0.5); border-radius: 999px;
-  padding: 0.38rem 0.78rem; color: #fff; cursor: pointer;
+  padding: 0.24rem 0.62rem; color: #fff; cursor: pointer;
   background: linear-gradient(120deg, rgba(37, 99, 235, 0.88), rgba(13, 148, 136, 0.88), rgba(124, 58, 237, 0.88));
-  background-size: 220% 220%; font: inherit; font-size: 0.72rem; font-weight: 800;
+  background-size: 220% 220%; font: inherit; font-size: 0.65rem; line-height: 1.35; font-weight: 800;
   letter-spacing: 0.035em; text-transform: uppercase;
   animation: promo-quick-dance 2.2s ease-in-out infinite, gradient-shift 5s ease infinite;
 }
@@ -775,7 +775,7 @@ p { margin: 0 0 0.75rem; }
   .hero-offer-quick {
     display: flex; align-items: center; gap: 0.3rem; z-index: 4;
     width: max-content; margin: 0; position: absolute;
-    left: 0; bottom: -2.05rem;
+    left: 0; bottom: -1.7rem;
     animation:
       promo-quick-walk 5.5s ease-in-out infinite,
       gradient-shift 5s ease infinite;
