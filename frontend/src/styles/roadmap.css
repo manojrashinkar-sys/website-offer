@@ -561,9 +561,61 @@
   .phase-icon { width: 40px; height: 40px; border-radius: 12px; }
   .phase-body { padding: 1.05rem 1.15rem; }
   .ownership-statement { flex-direction: column; align-items: flex-start; gap: 0.75rem; padding: 1.15rem 1.25rem; }
-  .ownership-grid, .hosting-grid, .pricing-grid, .support-grid, .checklist-grid { grid-template-columns: 1fr; }
+
+  /* Two-up card grid, matching the offer page's mobile treatment. A single
+     column here made the page read as an endless stack of full-width cards. */
+  .principle-grid,
+  .checklist-grid,
+  .ownership-grid,
+  .hosting-grid,
+  .pricing-grid,
+  .support-grid,
+  .statement-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.8rem; }
+
+  /* Sections with an odd number of cards: the last one spans both columns
+     rather than leaving a visibly half-empty row. */
+  .principle-grid > *:last-child:nth-child(odd),
+  .checklist-grid > *:last-child:nth-child(odd),
+  .ownership-grid > *:last-child:nth-child(odd),
+  .hosting-grid > *:last-child:nth-child(odd),
+  .pricing-grid > *:last-child:nth-child(odd),
+  .support-grid > *:last-child:nth-child(odd),
+  .statement-grid > *:last-child:nth-child(odd) { grid-column: 1 / -1; }
+
+  /* Type and padding scaled down to suit half-width cards — same ratios the
+     offer page uses for .info-card at this breakpoint. */
+  .principle-card,
+  .checklist-card,
+  .ownership-card,
+  .hosting-card,
+  .support-card,
+  .pricing-card { padding: 1.05rem; }
+  .principle-card { flex-direction: column; gap: 0.6rem; }
+  .principle-icon { width: 34px; height: 34px; border-radius: 10px; }
+  .ownership-icon { width: 38px; height: 38px; margin-bottom: 0.7rem; }
+  .principle-card h3,
+  .checklist-card h3,
+  .ownership-card h3,
+  .hosting-card h3,
+  .support-card h3,
+  .pricing-card h3 { font-size: 0.92rem; line-height: 1.25; }
+  .principle-card p { font-size: 0.8rem; }
+  .dot-list li { font-size: 0.8rem; padding-left: 0.85rem; }
+  .dot-list li::before { top: 0.58em; }
+  .tag { font-size: 0.75rem; padding: 0.24rem 0.62rem; }
+  .hosting-card h4, .pricing-card h4 { font-size: 0.68rem; margin: 0.9rem 0 0.45rem; }
+  .label-chip { font-size: 0.7rem; padding: 0.22rem 0.6rem; }
+  .pricing-label { font-size: 0.88rem; }
+  .pricing-sublabel { font-size: 0.76rem; }
+  .pricing-label-block { padding-top: 0.9rem; }
+  .statement-card { padding: 0.85rem 0.95rem; }
+  .statement-card p { font-size: 0.82rem; }
+
+  /* Technology cards stay full width on purpose: their three fields are
+     prose, and halving the width just doubles the number of lines. */
   .tech-grid { grid-template-columns: 1fr; }
-  .principle-grid { grid-template-columns: 1fr; }
+  .tech-card { padding: 1.15rem; }
+
   .deliverables-card, .charges-card, .pricing-factors, .ownership-notes, .deploy-card { padding: 1.25rem; }
   .solution-panel { padding: 1.25rem; }
   .offer-card-cta-actions { flex-direction: column; }
@@ -579,7 +631,26 @@
   .roadmap-hero .hero-actions { flex-wrap: nowrap; }
   .roadmap-hero .hero-actions .btn { flex: 1 1 0; min-width: 0; padding: 0.65rem 0.4rem; font-size: 0.74rem; white-space: nowrap; }
   .flow-stack .flow-node { font-size: 0.82rem; padding: 0.5rem 0.75rem; }
-  .tick-list.two-column, .tick-list.three-column { grid-template-columns: 1fr; }
+
+  /* Short labels pair up two-across; the deliverables and phase-task lists are
+     the longest runs on the page and this roughly halves them. */
+  .tick-list.three-column { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.4rem 0.8rem; }
+  .phase-tasks ol { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.3rem 0.9rem; font-size: 0.82rem; }
+  .tick-list li { font-size: 0.82rem; }
+  /* Full sentences stay one per row — two-up would wrap them to shreds. */
+  .tick-list.two-column { grid-template-columns: 1fr; }
+}
+
+/* Very narrow phones: two-up stops paying for itself, so everything unstacks. */
+@media (max-width: 360px) {
+  .principle-grid,
+  .checklist-grid,
+  .ownership-grid,
+  .hosting-grid,
+  .pricing-grid,
+  .support-grid,
+  .statement-grid,
+  .tick-list.three-column,
   .phase-tasks ol { grid-template-columns: 1fr; }
 }
 
