@@ -8,7 +8,7 @@
 
 /* Sections are jumped to from two sticky bars, so they need clearance. */
 .roadmap-page section[id],
-.roadmap-page .section[id] { scroll-margin-top: 132px; }
+.roadmap-page .section[id] { scroll-margin-top: 122px; }
 
 /* ---------- Hero ---------- */
 .roadmap-hero { cursor: default; touch-action: auto; padding: 3.5rem 0 3.25rem; }
@@ -39,7 +39,7 @@
 
 /* ---------- Sticky section navigation ---------- */
 .section-nav {
-  position: sticky; top: 68px; z-index: 80;
+  position: sticky; top: 58px; z-index: 80;
   background: rgba(255, 255, 255, 0.92);
   backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--color-line);
@@ -533,9 +533,9 @@
 
 /* ---------- Responsive ---------- */
 @media (max-width: 900px) {
-  /* Header shrinks to 60px here, so the second sticky bar follows it down. */
-  .section-nav { top: 60px; }
-  .roadmap-page section[id], .roadmap-page .section[id] { scroll-margin-top: 118px; }
+  /* Header shrinks to 52px here, so the second sticky bar follows it down. */
+  .section-nav { top: 52px; }
+  .roadmap-page section[id], .roadmap-page .section[id] { scroll-margin-top: 108px; }
   .roadmap-hero-inner { grid-template-columns: 1fr; gap: 2rem; }
   .roadmap-hero .hero-copy { text-align: center; }
   .roadmap-hero-flow { max-width: 30rem; margin: 0 auto; width: 100%; }
@@ -574,8 +574,8 @@
 }
 
 @media (max-width: 480px) {
-  .section-nav { top: 56px; }
-  .roadmap-page section[id], .roadmap-page .section[id] { scroll-margin-top: 110px; }
+  .section-nav { top: 48px; }
+  .roadmap-page section[id], .roadmap-page .section[id] { scroll-margin-top: 100px; }
   .roadmap-hero .hero-actions { flex-wrap: nowrap; }
   .roadmap-hero .hero-actions .btn { flex: 1 1 0; min-width: 0; padding: 0.65rem 0.4rem; font-size: 0.74rem; white-space: nowrap; }
   .flow-stack .flow-node { font-size: 0.82rem; padding: 0.5rem 0.75rem; }

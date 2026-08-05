@@ -17,8 +17,9 @@ export const config = {
   // rather than showing a placeholder like "Your Business Name".
   businessName: env.VITE_BUSINESS_NAME || '',
   // The wordmark always needs something to render, so unlike businessName this
-  // falls back to the name the site already publishes in its page titles.
-  brandName: env.VITE_BUSINESS_NAME || 'Manoj Rashinkar',
+  // has a fallback. Kept in step with og:site_name and the schema.org name in
+  // index.html — change all three together.
+  brandName: env.VITE_BUSINESS_NAME || 'Business Websites',
   whatsappNumber: env.VITE_WHATSAPP_NUMBER || '',
   contactEmail: env.VITE_CONTACT_EMAIL || '',
   contactPhone: env.VITE_CONTACT_PHONE || '',
