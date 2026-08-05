@@ -37,6 +37,51 @@
   margin: 0 0 1rem;
 }
 
+/* ---------- Journey panel motion ----------
+   Two layers, both built from the animation vocabulary already on the site
+   (staggered fade-up on load, a slow looping accent — the same idea as
+   .pulse-dot and .btn-glow) rather than a new motion style.
+
+   1. The eight stages arrive one after another, so the panel reads as a
+      journey being traced instead of a list appearing at once.
+   2. A highlight then travels the chain on a long loop, hinting at forward
+      movement without anything blinking or sliding around.
+
+   The global prefers-reduced-motion rule in offer.css disables both; because
+   neither sets a resting opacity of 0 outside its keyframes, the nodes stay
+   fully visible when motion is off. */
+.roadmap-hero-flow .flow-node {
+  animation: flow-node-in 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: calc(0.3s + var(--flow-i, 0) * 75ms);
+}
+/* The entrance animation's fill would otherwise pin transform and cancel any
+   hover lift, so the panel's nodes are explicitly non-interactive. */
+.roadmap-hero-flow .flow-node:hover { transform: none; box-shadow: none; }
+
+@keyframes flow-node-in {
+  from { opacity: 0; transform: translateY(9px) scale(0.97); }
+  to { opacity: 1; transform: none; }
+}
+
+.roadmap-hero-flow .flow-node-index {
+  animation: flow-step-travel 7s ease-in-out infinite;
+  animation-delay: calc(1.5s + var(--flow-i, 0) * 0.16s);
+}
+@keyframes flow-step-travel {
+  0%, 14%, 100% { box-shadow: 0 0 0 0 rgba(103, 232, 249, 0); transform: scale(1); }
+  5% { box-shadow: 0 0 0 4px rgba(103, 232, 249, 0.32); transform: scale(1.14); }
+}
+
+/* The connector arrows fade in just behind their node. */
+.roadmap-hero-flow .flow-node:not(:last-child)::after {
+  animation: flow-arrow-in 0.4s ease both;
+  animation-delay: calc(0.62s + var(--flow-i, 0) * 75ms);
+}
+@keyframes flow-arrow-in {
+  from { opacity: 0; }
+  to { opacity: 0.9; }
+}
+
 /* ---------- Sticky section navigation ---------- */
 .section-nav {
   position: sticky; top: 58px; z-index: 80;
@@ -676,8 +721,19 @@
 @media (max-width: 480px) {
   .section-nav { top: 48px; }
   .roadmap-page section[id], .roadmap-page .section[id] { scroll-margin-top: 100px; }
-  .roadmap-hero .hero-actions { flex-wrap: nowrap; }
-  .roadmap-hero .hero-actions .btn { flex: 1 1 0; min-width: 0; padding: 0.65rem 0.4rem; font-size: 0.74rem; white-space: nowrap; }
+  /* Three equal columns cannot hold "Discuss Your Website" at this width — the
+     label needs about 130px and gets ~116px, so it escaped its button. The
+     primary CTA now takes a full-width row of its own and the two secondary
+     actions share the row below, which leaves every label comfortably inside
+     its container. */
+  .roadmap-hero .hero-actions {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem;
+  }
+  .roadmap-hero .hero-actions > :first-child { grid-column: 1 / -1; }
+  .roadmap-hero .hero-actions .btn {
+    width: 100%; min-width: 0; padding: 0.72rem 0.5rem;
+    font-size: 0.82rem; white-space: nowrap;
+  }
   /* Chips tighten a little further rather than growing back — the ≤640 rule
      above owns their sizing now. */
   .roadmap-hero-flow .flow-stack { gap: 0.34rem 0.22rem; }
@@ -700,6 +756,9 @@
   .hosting-grid,
   .pricing-grid,
   .support-grid,
+  /* Narrowest phones: even two columns is tight for these labels. */
+  .roadmap-hero .hero-actions .btn { font-size: 0.76rem; padding: 0.68rem 0.4rem; }
+
   .statement-grid,
   .tech-grid,
   .solution-tabs,
