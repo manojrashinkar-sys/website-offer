@@ -1,21 +1,18 @@
 import { useState } from 'react';
 import { trackEvent } from '../../analytics';
 import { technologies, type TechnologyCard } from '../../content/roadmapContent';
+import { useIsMobile } from '../../hooks/useMediaQuery';
 import Icon from '../Icon';
 import Reveal from '../Reveal';
 
 const coreTech = technologies.filter((tech) => tech.group === 'core');
 const advancedTech = technologies.filter((tech) => tech.group === 'advanced');
 
-function TechCard({ tech, delay }: { tech: TechnologyCard; delay: number }) {
+const slug = (name: string) => name.replace(/[^a-z0-9]+/gi, '-').toLowerCase();
+
+function TechFields({ tech }: { tech: TechnologyCard }) {
   return (
-    <Reveal delay={delay} className="tech-card">
-      <div className="tech-card-head">
-        <span className="tech-icon" aria-hidden="true">
-          <Icon name={tech.icon} size={20} />
-        </span>
-        <h3>{tech.name}</h3>
-      </div>
+    <>
       <dl className="tech-fields">
         <dt>What it does</dt>
         <dd>{tech.purpose}</dd>
@@ -25,6 +22,58 @@ function TechCard({ tech, delay }: { tech: TechnologyCard; delay: number }) {
         <dd>{tech.suitableFor}</dd>
       </dl>
       {tech.note && <p className="tech-note">{tech.note}</p>}
+    </>
+  );
+}
+
+// Two layouts, because these cards are the one place on the page where a
+// two-up grid alone does not help: the content is three fields of prose, so
+// halving the width simply doubles the line count. On a phone each technology
+// becomes a compact tile that expands, full width, on tap.
+function TechCard({ tech, delay }: { tech: TechnologyCard; delay: number }) {
+  const isMobile = useIsMobile();
+  const [open, setOpen] = useState(false);
+  const panelId = `tech-panel-${slug(tech.name)}`;
+
+  if (!isMobile) {
+    return (
+      <Reveal delay={delay} className="tech-card">
+        <div className="tech-card-head">
+          <span className="tech-icon" aria-hidden="true">
+            <Icon name={tech.icon} size={20} />
+          </span>
+          <h3>{tech.name}</h3>
+        </div>
+        <TechFields tech={tech} />
+      </Reveal>
+    );
+  }
+
+  return (
+    <Reveal delay={delay} className={`tech-card tech-card-collapsible ${open ? 'open' : ''}`}>
+      <h3 className="tech-card-heading">
+        <button
+          type="button"
+          className="tech-card-head tech-card-toggle"
+          aria-expanded={open}
+          aria-controls={panelId}
+          onClick={() => {
+            setOpen((current) => !current);
+            if (!open) trackEvent('roadmap_tech_open', { technology: tech.name });
+          }}
+        >
+          <span className="tech-icon" aria-hidden="true">
+            <Icon name={tech.icon} size={18} />
+          </span>
+          <span className="tech-name">{tech.name}</span>
+          <span className="tech-chevron" aria-hidden="true">+</span>
+        </button>
+      </h3>
+      <div className="tech-fields-wrap">
+        <div className="tech-fields-inner" id={panelId} aria-hidden={!open}>
+          <TechFields tech={tech} />
+        </div>
+      </div>
     </Reveal>
   );
 }

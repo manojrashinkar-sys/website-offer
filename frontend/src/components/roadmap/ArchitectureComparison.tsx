@@ -1,10 +1,15 @@
 import { comparisonLabels, comparisonRows } from '../../content/roadmapContent';
 import Reveal from '../Reveal';
 
-// Rendered twice: a table for wide screens and a card per architecture for
-// narrow ones. Only one is ever displayed (the other is display:none, so it
-// stays out of the accessibility tree too), which avoids either a cramped
-// eleven-row table on a phone or a scroll-hunt across two columns.
+// Every label used by either architecture, de-duplicated, so the chip row
+// stays in step with the data instead of being written out by hand.
+const allLabels = Array.from(
+  new Set([...comparisonLabels.profile, ...comparisonLabels.application]),
+);
+
+// One table at every width. Stacking this as two cards on mobile repeated the
+// eleven area names and produced twice the rows; keeping the two architectures
+// side by side lets each row be as tall as its longest cell and no taller.
 export default function ArchitectureComparison() {
   return (
     <section className="section" id="comparison">
@@ -26,8 +31,8 @@ export default function ArchitectureComparison() {
               <thead>
                 <tr>
                   <th scope="col">Area</th>
-                  <th scope="col">Business Profile Website</th>
-                  <th scope="col">Advanced Web Application</th>
+                  <th scope="col">Business Profile</th>
+                  <th scope="col">Advanced Application</th>
                 </tr>
               </thead>
               <tbody>
@@ -43,37 +48,10 @@ export default function ArchitectureComparison() {
           </div>
         </Reveal>
 
-        <div className="compare-cards">
-          {(['profile', 'application'] as const).map((column, index) => (
-            <Reveal
-              key={column}
-              delay={index * 80}
-              className="status-card compare-card"
-            >
-              <h3>{column === 'profile' ? 'Business Profile Website' : 'Advanced Web Application'}</h3>
-              <ul className="tag-list tag-brand">
-                {comparisonLabels[column].map((label) => (
-                  <li className="tag" key={label}>{label}</li>
-                ))}
-              </ul>
-              <dl className="compare-dl">
-                {comparisonRows.map((row) => (
-                  <div className="compare-dl-row" key={row.area}>
-                    <dt>{row.area}</dt>
-                    <dd>{row[column]}</dd>
-                  </div>
-                ))}
-              </dl>
-            </Reveal>
-          ))}
-        </div>
-
         <div className="compare-labels">
-          <span className="label-chip">Low infrastructure requirement</span>
-          <span className="label-chip">Managed deployment</span>
-          <span className="label-chip">Custom infrastructure</span>
-          <span className="label-chip">Scope-based quotation</span>
-          <span className="label-chip">Advanced maintenance</span>
+          {allLabels.map((label) => (
+            <span className="label-chip" key={label}>{label}</span>
+          ))}
         </div>
       </div>
     </section>
