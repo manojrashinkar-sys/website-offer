@@ -554,7 +554,30 @@
 @media (max-width: 640px) {
   .roadmap-hero { padding: 2.25rem 0 2.5rem; }
   .roadmap-hero .hero-lead { font-size: 1.1rem; }
-  .roadmap-hero-flow { padding: 1.15rem 1rem; border-radius: 20px; }
+
+  /* "The journey at a glance": eight stacked full-width nodes ate most of the
+     phone screen. Below 640px the same eight stages become compact numbered
+     chips that wrap over three or four short rows instead of eight tall ones.
+     The step numbers carry the order, so the arrows can sit inline. */
+  .roadmap-hero-flow { padding: 0.95rem 1rem 1.05rem; border-radius: 18px; }
+  .roadmap-hero-flow-title { font-size: 0.68rem; margin-bottom: 0.7rem; }
+  .roadmap-hero-flow .flow-stack {
+    flex-direction: row; flex-wrap: wrap; align-items: center;
+    gap: 0.38rem 0.26rem;
+  }
+  .roadmap-hero-flow .flow-stack .flow-node {
+    position: static; border-radius: 999px;
+    padding: 0.3rem 0.62rem 0.3rem 0.32rem;
+    font-size: 0.735rem; font-weight: 600; gap: 0.34rem;
+  }
+  .roadmap-hero-flow .flow-stack .flow-node:hover { transform: none; }
+  .roadmap-hero-flow .flow-stack .flow-node-index {
+    width: 17px; height: 17px; font-size: 0.6rem;
+  }
+  .roadmap-hero-flow .flow-stack .flow-node:not(:last-child)::after {
+    content: "→"; position: static; inset: auto;
+    margin-left: 0.28rem; font-size: 0.72rem; line-height: 1;
+  }
   .solution-tabs { grid-template-columns: 1fr; }
   .solution-grid { grid-template-columns: 1fr; gap: 1.5rem; }
   .phase-card { grid-template-columns: 40px minmax(0, 1fr); gap: 0.85rem; }
@@ -630,7 +653,10 @@
   .roadmap-page section[id], .roadmap-page .section[id] { scroll-margin-top: 100px; }
   .roadmap-hero .hero-actions { flex-wrap: nowrap; }
   .roadmap-hero .hero-actions .btn { flex: 1 1 0; min-width: 0; padding: 0.65rem 0.4rem; font-size: 0.74rem; white-space: nowrap; }
-  .flow-stack .flow-node { font-size: 0.82rem; padding: 0.5rem 0.75rem; }
+  /* Chips tighten a little further rather than growing back — the ≤640 rule
+     above owns their sizing now. */
+  .roadmap-hero-flow .flow-stack { gap: 0.34rem 0.22rem; }
+  .roadmap-hero-flow .flow-stack .flow-node { font-size: 0.7rem; padding: 0.28rem 0.55rem 0.28rem 0.3rem; }
 
   /* Short labels pair up two-across; the deliverables and phase-task lists are
      the longest runs on the page and this roughly halves them. */
