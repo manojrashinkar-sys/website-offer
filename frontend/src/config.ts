@@ -11,9 +11,15 @@ export const config = {
   // Hardcoded: this deployment lives at a fixed, known subdomain — no need
   // for an env var most hosts would forget to set anyway.
   offerRoute: '/',
+  roadmapRoute: '/development-roadmap',
+  siteUrl: 'https://website-offer.manojrashinkar.com',
   // Intentionally blank by default — header/footer hide the name entirely
   // rather than showing a placeholder like "Your Business Name".
   businessName: env.VITE_BUSINESS_NAME || '',
+  // The wordmark always needs something to render, so unlike businessName this
+  // has a fallback. Kept in step with og:site_name and the schema.org name in
+  // index.html — change all three together.
+  brandName: env.VITE_BUSINESS_NAME || 'Business Websites',
   whatsappNumber: env.VITE_WHATSAPP_NUMBER || '',
   contactEmail: env.VITE_CONTACT_EMAIL || '',
   contactPhone: env.VITE_CONTACT_PHONE || '',

@@ -1,0 +1,714 @@
+/* ============================================================
+   Development Roadmap page — additive styles.
+   Every value here is derived from the tokens already defined in
+   offer.css (:root). No new palette, font, radius scale or shadow
+   system is introduced; this file only adds the layouts the
+   roadmap content needs.
+   ============================================================ */
+
+/* Sections are jumped to from two sticky bars, so they need clearance. */
+.roadmap-page section[id],
+.roadmap-page .section[id] { scroll-margin-top: 122px; }
+
+/* ---------- Hero ---------- */
+.roadmap-hero { cursor: default; touch-action: auto; padding: 3.5rem 0 3.25rem; }
+/* The offer hero paints a photo behind the copy on mobile via a CSS variable.
+   The roadmap hero has no photo, so that layer is switched off entirely. */
+.roadmap-hero::after { content: none; }
+
+.roadmap-hero-inner { grid-template-columns: minmax(0, 1.05fr) minmax(320px, 0.95fr); align-items: center; }
+.roadmap-hero .hero-lead {
+  font-family: var(--font-heading); font-weight: 700;
+  font-size: clamp(1.15rem, 2.4vw, 1.5rem); line-height: 1.3;
+  color: #cfe0ff; margin: 0 0 0.85rem;
+}
+.roadmap-hero .hero-sub { margin-bottom: 1.75rem; }
+
+.roadmap-hero-flow {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  border-radius: 26px; padding: 1.5rem 1.4rem;
+  box-shadow: 0 28px 70px rgba(0, 0, 0, 0.34);
+  animation: hero-fade-in 0.9s ease 0.2s both;
+}
+.roadmap-hero-flow-title {
+  font-family: var(--font-heading); font-weight: 700; font-size: 0.78rem;
+  letter-spacing: 0.08em; text-transform: uppercase; color: var(--hero-ink-soft);
+  margin: 0 0 1rem;
+}
+
+/* ---------- Sticky section navigation ---------- */
+.section-nav {
+  position: sticky; top: 58px; z-index: 80;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--color-line);
+}
+.section-nav-list {
+  display: flex; gap: 0.15rem; overflow-x: auto; scrollbar-width: none;
+  padding: 0.45rem 0;
+}
+.section-nav-list::-webkit-scrollbar { display: none; }
+.section-nav-link {
+  font: inherit; font-weight: 600; font-size: 0.88rem; white-space: nowrap;
+  background: none; border: 0; cursor: pointer; flex: 0 0 auto;
+  color: var(--color-ink-soft); padding: 0.5rem 0.85rem; border-radius: var(--radius-sm);
+  position: relative; transition: color 0.15s, background 0.15s;
+}
+.section-nav-link::after {
+  content: ""; position: absolute; left: 0.85rem; right: 0.85rem; bottom: 0.22rem; height: 2px;
+  background: var(--gradient-brand); border-radius: 999px;
+  transform: scaleX(0); transform-origin: left; transition: transform 0.2s ease;
+}
+.section-nav-link:hover { color: var(--color-ink); }
+.section-nav-link:hover::after, .section-nav-link.active::after { transform: scaleX(1); }
+.section-nav-link.active { color: var(--color-primary-dark); }
+.section-nav-link:focus-visible { outline: 3px solid var(--color-primary-soft); outline-offset: -2px; }
+
+/* Cross-page link in the site header. */
+.nav-link-page {
+  display: inline-flex; align-items: center; text-decoration: none;
+  color: var(--color-primary-dark);
+}
+.nav-link-page:hover { color: var(--color-primary-dark); }
+
+/* ---------- Shared list primitives ---------- */
+.tag-list { list-style: none; display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 0; padding: 0; }
+.tag {
+  font-size: 0.83rem; font-weight: 600; line-height: 1.35;
+  color: var(--color-ink-soft); background: var(--color-bg);
+  border: 1px solid var(--color-line); border-radius: 999px; padding: 0.3rem 0.8rem;
+}
+.tag-brand .tag {
+  color: var(--color-primary-dark); background: var(--color-primary-soft);
+  border-color: rgba(37, 99, 235, 0.18);
+}
+
+.dot-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.35rem; }
+.dot-list li {
+  position: relative; padding-left: 1.05rem;
+  font-size: 0.9rem; color: var(--color-ink-soft); line-height: 1.5;
+}
+.dot-list li::before {
+  content: ""; position: absolute; left: 0; top: 0.62em;
+  width: 5px; height: 5px; border-radius: 50%; background: var(--color-primary);
+}
+
+.tick-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.6rem; }
+.tick-list li {
+  display: flex; gap: 0.6rem; align-items: flex-start;
+  font-size: 0.9rem; color: var(--color-ink-soft); line-height: 1.5;
+}
+.tick { flex: 0 0 auto; color: var(--color-accent); margin-top: 0.1rem; display: inline-flex; }
+.tick-list.two-column { grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 0.6rem 1.5rem; }
+.tick-list.three-column { grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 0.55rem 1.5rem; }
+
+.label-chip {
+  display: inline-flex; align-items: center;
+  font-size: 0.78rem; font-weight: 700; letter-spacing: 0.01em;
+  color: var(--color-primary-dark); background: var(--color-primary-soft);
+  border-radius: 999px; padding: 0.28rem 0.8rem;
+}
+
+/* ---------- Flow diagrams ---------- */
+.flow-chain { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.5rem 0.4rem; align-items: stretch; }
+.flow-node {
+  display: inline-flex; align-items: center; gap: 0.55rem;
+  background: var(--color-surface); border: 1px solid var(--color-line);
+  border-radius: var(--radius-sm); padding: 0.6rem 0.9rem;
+  font-size: 0.87rem; font-weight: 600; color: var(--color-ink);
+  transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+.flow-node:hover { border-color: rgba(37, 99, 235, 0.34); transform: translateY(-2px); box-shadow: var(--shadow); }
+.flow-node-index {
+  flex: 0 0 auto; width: 22px; height: 22px; border-radius: 50%;
+  background: var(--gradient-brand); color: #fff;
+  font-size: 0.72rem; font-weight: 800; line-height: 1;
+  display: inline-flex; align-items: center; justify-content: center;
+}
+.flow-node-label { min-width: 0; }
+
+/* Arrows are decoration only — drawn, never announced or copied. */
+.flow-wrap .flow-node:not(:last-child)::after {
+  content: "→"; margin-left: 0.55rem; color: var(--color-primary);
+  font-weight: 700; opacity: 0.75;
+}
+.flow-stack { flex-direction: column; align-items: stretch; gap: 0.95rem; }
+.flow-stack .flow-node { position: relative; }
+.flow-stack .flow-node:not(:last-child)::after {
+  content: "↓"; position: absolute; left: 1.15rem; bottom: -0.92rem;
+  font-size: 0.8rem; line-height: 1; color: var(--color-primary); opacity: 0.75;
+}
+
+.flow-tone-dark .flow-node {
+  background: rgba(255, 255, 255, 0.06); border-color: rgba(255, 255, 255, 0.14);
+  color: var(--hero-ink);
+}
+.flow-tone-dark .flow-node:hover { border-color: rgba(255, 255, 255, 0.34); box-shadow: none; }
+.flow-tone-dark .flow-node:not(:last-child)::after { color: #67e8f9; opacity: 0.9; }
+
+/* ---------- Callouts ---------- */
+.callout {
+  display: flex; gap: 0.75rem; align-items: flex-start;
+  border-radius: var(--radius); padding: 1rem 1.25rem; margin-top: 1.75rem;
+  border: 1px solid var(--color-line); background: var(--color-surface);
+}
+.callout p { margin: 0; font-size: 0.92rem; line-height: 1.6; }
+.callout-icon { flex: 0 0 auto; display: inline-flex; margin-top: 0.12rem; }
+.callout-info { border-color: rgba(37, 99, 235, 0.2); background: var(--color-primary-soft); }
+.callout-info .callout-icon, .callout-info p { color: var(--color-primary-dark); }
+.callout-security { border-color: #fcd9b0; background: var(--color-warn-soft); }
+.callout-security .callout-icon, .callout-security p { color: var(--color-warn); font-weight: 600; }
+
+/* ---------- 2. Principles ---------- */
+.principle-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(235px, 1fr)); gap: 1rem; }
+.principle-card {
+  display: flex; gap: 0.85rem; align-items: flex-start;
+  background: var(--color-surface); border: 1px solid var(--color-line);
+  border-radius: var(--radius); padding: 1.15rem 1.25rem;
+  box-shadow: 0 4px 18px rgba(13, 20, 36, 0.055);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+.principle-card:hover { transform: translateY(-4px); box-shadow: 0 18px 42px rgba(13, 20, 36, 0.12); border-color: rgba(37, 99, 235, 0.24); }
+.principle-icon {
+  flex: 0 0 auto; width: 38px; height: 38px; border-radius: 11px;
+  display: inline-flex; align-items: center; justify-content: center;
+  color: var(--color-primary-dark);
+  background: linear-gradient(145deg, #eaf1ff, #f0fbff);
+  border: 1px solid rgba(37, 99, 235, 0.11);
+}
+.principle-card h3 { font-size: 0.98rem; margin-bottom: 0.2rem; }
+.principle-card p { margin: 0; font-size: 0.86rem; color: var(--color-ink-soft); line-height: 1.5; }
+
+/* ---------- 3. Solution selector ---------- */
+.solution-tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 1.5rem; }
+.solution-tab {
+  display: flex; align-items: center; gap: 0.8rem; text-align: left;
+  font: inherit; cursor: pointer;
+  background: var(--color-surface); border: 1.5px solid var(--color-line);
+  border-radius: var(--radius); padding: 1rem 1.2rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease, background 0.2s ease;
+}
+.solution-tab:hover { transform: translateY(-2px); border-color: rgba(37, 99, 235, 0.34); }
+.solution-tab:focus-visible { outline: 3px solid var(--color-primary-soft); outline-offset: 2px; }
+.solution-tab.active {
+  border-color: var(--color-primary);
+  box-shadow: 0 10px 28px rgba(37, 99, 235, 0.16);
+  background: radial-gradient(420px 180px at 100% 0%, rgba(6, 182, 212, 0.1), transparent 70%), var(--color-surface);
+}
+.solution-tab-icon {
+  flex: 0 0 auto; width: 42px; height: 42px; border-radius: 12px;
+  display: inline-flex; align-items: center; justify-content: center;
+  color: var(--color-primary-dark);
+  background: linear-gradient(145deg, #eaf1ff, #f0fbff);
+  border: 1px solid rgba(37, 99, 235, 0.11);
+  transition: transform 0.25s ease;
+}
+.solution-tab.active .solution-tab-icon { transform: scale(1.08); }
+.solution-tab-text { display: flex; flex-direction: column; min-width: 0; }
+.solution-tab-text strong { font-family: var(--font-heading); font-size: 1rem; line-height: 1.25; }
+.solution-tab-text small { font-size: 0.78rem; color: var(--color-ink-soft); line-height: 1.35; }
+
+.solution-panel { padding: clamp(1.4rem, 3.5vw, 2.25rem); }
+.solution-panel:focus-visible, .solution-panel [role="tabpanel"]:focus-visible { outline: none; }
+.solution-title { font-size: clamp(1.25rem, 2.6vw, 1.6rem); margin-top: 0.35rem; }
+.solution-summary { color: var(--color-ink-soft); max-width: 62ch; }
+.solution-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 1.5rem; }
+.solution-block h4 {
+  font-size: 0.8rem; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase;
+  color: var(--color-ink-soft); margin-bottom: 0.7rem;
+}
+.solution-architecture { margin-top: 1.75rem; }
+.solution-block + .solution-block:not(.solution-architecture) { margin-top: 1.75rem; }
+.solution-footnote { margin-top: 1.75rem; }
+
+/* ---------- 4. Comparison ---------- */
+.compare-table { width: 100%; border-collapse: collapse; font-size: 0.92rem; min-width: 720px; }
+.compare-table th, .compare-table td {
+  text-align: left; padding: 0.8rem 1rem; border-bottom: 1px solid var(--color-line);
+  vertical-align: top;
+}
+.compare-table thead th {
+  background: var(--color-surface-alt); font-family: var(--font-heading);
+  font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.04em;
+  position: sticky; top: 0;
+}
+.compare-table tbody th { font-weight: 700; color: var(--color-ink); width: 22%; }
+.compare-table td { color: var(--color-ink-soft); }
+.compare-table tbody tr:last-child th, .compare-table tbody tr:last-child td { border-bottom: 0; }
+.compare-table tbody tr:hover td, .compare-table tbody tr:hover th { background: rgba(37, 99, 235, 0.035); }
+
+.compare-labels { display: flex; flex-wrap: wrap; gap: 0.45rem; margin-top: 1.5rem; }
+
+/* ---------- 5. Roadmap timeline ---------- */
+.phase-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0; }
+.phase-card { display: grid; grid-template-columns: 56px minmax(0, 1fr); gap: 1.15rem; }
+.phase-marker { display: flex; flex-direction: column; align-items: center; }
+.phase-icon {
+  flex: 0 0 auto; width: 48px; height: 48px; border-radius: 15px;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: var(--gradient-brand); color: #fff;
+  box-shadow: 0 10px 22px rgba(37, 99, 235, 0.32);
+  transition: transform 0.25s ease;
+}
+.phase-card:hover .phase-icon { transform: translateY(-2px) scale(1.06); }
+.phase-rail { flex: 1 1 auto; width: 2px; background: linear-gradient(180deg, rgba(37, 99, 235, 0.32), rgba(37, 99, 235, 0.06)); margin: 0.6rem 0 0; }
+.phase-card:last-child .phase-rail { display: none; }
+
+.phase-body {
+  background: var(--color-surface); border: 1px solid var(--color-line);
+  border-radius: var(--radius); padding: 1.25rem 1.4rem;
+  margin-bottom: 1.1rem; min-width: 0;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+.section-alt .phase-body { background: var(--color-bg); }
+.phase-card.open .phase-body { border-color: rgba(37, 99, 235, 0.34); box-shadow: 0 10px 30px rgba(37, 99, 235, 0.1); }
+.phase-eyebrow {
+  font-size: 0.74rem; font-weight: 800; letter-spacing: 0.09em; text-transform: uppercase;
+  color: var(--color-primary); margin: 0 0 0.25rem;
+}
+.phase-summary { color: var(--color-ink-soft); font-size: 0.92rem; margin-bottom: 0.85rem; }
+
+.resp-badge {
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  font-size: 0.78rem; font-weight: 700; border-radius: 999px; padding: 0.28rem 0.85rem;
+  background: var(--color-surface-alt); color: var(--color-ink-soft);
+}
+.resp-badge.resp-developer { background: var(--color-primary-soft); color: var(--color-primary-dark); }
+.resp-badge.resp-shared { background: #ccfbf1; color: #0f766e; }
+.resp-badge.resp-client { background: #dcfce7; color: #15803d; }
+
+.phase-toggle {
+  display: flex; align-items: center; gap: 0.45rem; margin-top: 0.9rem;
+  font: inherit; font-weight: 700; font-size: 0.88rem; color: var(--color-primary-dark);
+  background: none; border: 0; cursor: pointer; padding: 0.25rem 0;
+}
+.phase-toggle:hover { text-decoration: underline; }
+.phase-toggle:focus-visible { outline: 3px solid var(--color-primary-soft); outline-offset: 2px; border-radius: 6px; }
+.phase-chevron {
+  width: 20px; height: 20px; border-radius: 50%;
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: 0.95rem; background: var(--color-primary-soft); color: var(--color-primary);
+  transition: transform 0.25s ease;
+}
+.phase-card.open .phase-chevron { transform: rotate(45deg); }
+
+.phase-tasks-wrap { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 0.32s ease; }
+.phase-card.open .phase-tasks-wrap { grid-template-rows: 1fr; }
+.phase-tasks { overflow: hidden; }
+.phase-tasks ol {
+  margin: 0.9rem 0 0; padding: 0 0 0 1.1rem;
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(205px, 1fr)); gap: 0.35rem 1.5rem;
+  font-size: 0.89rem; color: var(--color-ink-soft);
+}
+.phase-tasks li { padding-left: 0.15rem; }
+.phase-tasks li::marker { color: var(--color-primary); font-weight: 700; }
+
+/* ---------- 6. Client checklist ---------- */
+.checklist-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(255px, 1fr)); gap: 1.25rem; }
+.checklist-card {
+  background: var(--color-surface); border: 1px solid var(--color-line);
+  border-radius: var(--radius); padding: 1.5rem;
+  box-shadow: 0 4px 18px rgba(13, 20, 36, 0.055);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+.checklist-card:hover { transform: translateY(-5px); box-shadow: 0 18px 42px rgba(13, 20, 36, 0.12); border-color: rgba(37, 99, 235, 0.24); }
+
+/* ---------- 7. Ownership ---------- */
+.ownership-statement {
+  display: flex; align-items: center; gap: 1rem;
+  background: radial-gradient(420px 220px at 15% 0%, rgba(255, 255, 255, 0.2), transparent 60%), var(--gradient-brand);
+  color: #fff; border-radius: var(--radius); padding: 1.25rem 1.5rem;
+  box-shadow: var(--shadow-lg); margin-bottom: 1.75rem;
+}
+.ownership-statement p {
+  margin: 0; font-family: var(--font-heading); font-weight: 700;
+  font-size: clamp(1rem, 2.2vw, 1.2rem); line-height: 1.35;
+}
+.ownership-statement-icon {
+  flex: 0 0 auto; width: 44px; height: 44px; border-radius: 13px;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: rgba(255, 255, 255, 0.18); border: 1px solid rgba(255, 255, 255, 0.28);
+}
+
+.ownership-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.25rem; }
+.ownership-card {
+  background: var(--color-surface); border: 1px solid var(--color-line);
+  border-top: 3px solid var(--color-primary);
+  border-radius: var(--radius); padding: 1.5rem;
+  box-shadow: 0 4px 18px rgba(13, 20, 36, 0.055);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.ownership-card:hover { transform: translateY(-4px); box-shadow: 0 18px 42px rgba(13, 20, 36, 0.12); }
+.ownership-client { border-top-color: var(--color-whatsapp); }
+.ownership-developer { border-top-color: var(--color-primary); }
+.ownership-shared { border-top-color: var(--color-accent); }
+.ownership-icon {
+  width: 42px; height: 42px; border-radius: 12px; margin-bottom: 0.9rem;
+  display: inline-flex; align-items: center; justify-content: center;
+  color: var(--color-primary-dark);
+  background: linear-gradient(145deg, #eaf1ff, #f0fbff);
+  border: 1px solid rgba(37, 99, 235, 0.11);
+}
+.ownership-client .ownership-icon { color: #15803d; background: linear-gradient(145deg, #e7f9ee, #f2fdf6); border-color: rgba(34, 197, 94, 0.16); }
+.ownership-shared .ownership-icon { color: #0f766e; background: linear-gradient(145deg, #e6faf7, #f0fdfa); border-color: rgba(13, 148, 136, 0.16); }
+.ownership-notes { margin-top: 1.75rem; padding: 1.5rem 1.75rem; }
+.ownership-notes h3 { margin-bottom: 1rem; }
+
+/* ---------- 8. Deployment ---------- */
+.deploy-card { padding: 1.75rem; }
+.deploy-card .flow-chain { justify-content: center; }
+.deploy-points { margin-top: 1.5rem; }
+
+/* ---------- 9. Technologies ---------- */
+.tech-group-title {
+  font-size: 0.8rem; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase;
+  color: var(--color-ink-soft); margin-bottom: 1rem;
+}
+.tech-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(275px, 1fr)); gap: 1.1rem; }
+.tech-card {
+  background: var(--color-surface); border: 1px solid var(--color-line);
+  border-radius: var(--radius); padding: 1.35rem;
+  box-shadow: 0 4px 18px rgba(13, 20, 36, 0.055);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+.tech-card:hover { transform: translateY(-4px); box-shadow: 0 18px 42px rgba(13, 20, 36, 0.12); border-color: rgba(37, 99, 235, 0.24); }
+.tech-card-head { display: flex; align-items: center; gap: 0.7rem; margin-bottom: 0.9rem; }
+.tech-card-head h3 { margin: 0; font-size: 1rem; }
+.tech-icon {
+  flex: 0 0 auto; width: 36px; height: 36px; border-radius: 11px;
+  display: inline-flex; align-items: center; justify-content: center;
+  color: var(--color-primary-dark);
+  background: linear-gradient(145deg, #eaf1ff, #f0fbff);
+  border: 1px solid rgba(37, 99, 235, 0.11);
+}
+.tech-fields { margin: 0; }
+.tech-fields dt {
+  font-size: 0.72rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--color-primary); margin-bottom: 0.15rem;
+}
+.tech-fields dd { margin: 0 0 0.75rem; font-size: 0.88rem; color: var(--color-ink-soft); line-height: 1.55; }
+.tech-fields dd:last-child { margin-bottom: 0; }
+.tech-note {
+  margin: 0.9rem 0 0; font-size: 0.85rem; font-weight: 600; color: var(--color-warn);
+  background: var(--color-warn-soft); border-radius: var(--radius-sm); padding: 0.6rem 0.85rem;
+}
+
+.tech-advanced { margin-top: 1.75rem; }
+.disclosure-toggle {
+  width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  font: inherit; font-weight: 700; text-align: left; cursor: pointer;
+  background: var(--color-surface); border: 1.5px dashed var(--color-line);
+  border-radius: var(--radius); padding: 1rem 1.3rem; color: var(--color-ink);
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+.disclosure-toggle:hover { border-color: var(--color-primary); background: var(--color-surface); }
+.disclosure-toggle:focus-visible { outline: 3px solid var(--color-primary-soft); outline-offset: 2px; }
+.disclosure-toggle span { display: flex; flex-direction: column; gap: 0.15rem; min-width: 0; }
+.disclosure-toggle small { font-weight: 500; font-size: 0.83rem; color: var(--color-ink-soft); }
+.disclosure-chevron {
+  flex: 0 0 auto; width: 26px; height: 26px; border-radius: 50%;
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: 1.1rem; color: var(--color-primary); background: var(--color-primary-soft);
+  transition: transform 0.25s ease;
+}
+.disclosure-toggle[aria-expanded="true"] .disclosure-chevron { transform: rotate(45deg); }
+.disclosure-toggle[aria-expanded="true"] { border-style: solid; border-color: var(--color-primary); }
+#advanced-tech-group { margin-top: 1.1rem; animation: hero-fade-up 0.4s ease both; }
+
+/* ---------- 10. Hosting ---------- */
+.hosting-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.25rem; }
+.hosting-card {
+  background: var(--color-surface); border: 1px solid var(--color-line);
+  border-radius: var(--radius); padding: 1.5rem;
+  box-shadow: 0 4px 18px rgba(13, 20, 36, 0.055);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+.hosting-card:hover { transform: translateY(-5px); box-shadow: 0 18px 42px rgba(13, 20, 36, 0.12); border-color: rgba(37, 99, 235, 0.24); }
+.hosting-card h4, .pricing-card h4 {
+  font-size: 0.76rem; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase;
+  color: var(--color-ink-soft); margin: 1.1rem 0 0.6rem;
+}
+
+/* ---------- 11. Pricing ---------- */
+.pricing-factors { padding: 1.5rem 1.75rem; margin-bottom: 1.75rem; }
+.pricing-factors h3 { margin-bottom: 0.9rem; }
+.pricing-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.25rem; }
+.pricing-card {
+  display: flex; flex-direction: column;
+  background: var(--color-surface); border: 1px solid var(--color-line);
+  border-radius: var(--radius); padding: 1.5rem;
+  box-shadow: 0 4px 18px rgba(13, 20, 36, 0.055);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+.pricing-card:hover { transform: translateY(-5px); box-shadow: 0 18px 42px rgba(13, 20, 36, 0.12); }
+.pricing-card.featured {
+  position: relative; overflow: hidden;
+  border-color: rgba(37, 99, 235, 0.28);
+  background: radial-gradient(420px 180px at 100% 0%, rgba(6, 182, 212, 0.1), transparent 70%), var(--color-surface);
+}
+.pricing-card.featured::before {
+  content: ""; position: absolute; inset: 0 0 auto; height: 4px; background: var(--gradient-brand);
+}
+.pricing-label-block {
+  margin-top: auto; padding-top: 1.25rem;
+  display: flex; flex-direction: column; gap: 0.25rem;
+}
+.pricing-label {
+  font-family: var(--font-heading); font-weight: 800; font-size: 1rem; line-height: 1.3;
+  color: var(--color-primary-dark);
+}
+.pricing-card.featured .pricing-label {
+  background: var(--gradient-brand); -webkit-background-clip: text; background-clip: text;
+  color: transparent; -webkit-text-fill-color: transparent;
+}
+.pricing-sublabel { font-size: 0.82rem; color: var(--color-ink-soft); }
+
+/* ---------- 12. Complimentary offer ---------- */
+.offer-card-cta-actions { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+
+/* ---------- 13. Third-party charges ---------- */
+.charges-card { padding: 1.5rem 1.75rem; }
+.statement-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; margin-top: 1.25rem; }
+.statement-card {
+  display: flex; gap: 0.75rem; align-items: flex-start;
+  background: var(--color-surface); border: 1px solid var(--color-line);
+  border-left: 3px solid var(--color-primary);
+  border-radius: var(--radius-sm); padding: 1rem 1.15rem;
+}
+.statement-card p { margin: 0; font-size: 0.9rem; font-weight: 600; line-height: 1.5; }
+.statement-icon { flex: 0 0 auto; color: var(--color-primary); margin-top: 0.1rem; display: inline-flex; }
+
+/* ---------- 14. Deliverables ---------- */
+.deliverables-card {
+  background: var(--color-surface); border: 1px solid var(--color-line);
+  border-radius: var(--radius); padding: 1.75rem;
+  box-shadow: 0 4px 18px rgba(13, 20, 36, 0.055);
+}
+.deliverables-card + .deliverables-card { margin-top: 1.25rem; }
+.deliverables-card.optional { border-style: dashed; background: var(--color-bg); }
+.deliverables-card h3 { margin-bottom: 1.1rem; }
+.deliverables-note { font-size: 0.88rem; color: var(--color-ink-soft); margin-top: -0.75rem; margin-bottom: 1.1rem; }
+.deliverables-card.optional .tick { color: var(--color-primary); }
+
+/* ---------- 15. Support ---------- */
+.support-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.25rem; }
+.support-card {
+  background: var(--color-surface); border: 1px solid var(--color-line);
+  border-radius: var(--radius); padding: 1.5rem;
+  box-shadow: 0 4px 18px rgba(13, 20, 36, 0.055);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+.support-card:hover { transform: translateY(-5px); box-shadow: 0 18px 42px rgba(13, 20, 36, 0.12); border-color: rgba(37, 99, 235, 0.24); }
+.support-labels { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 0.35rem 0 1rem; }
+
+/* ---------- 17. Closing CTA (outline button on the gradient band) ---------- */
+.closing-cta-actions .btn-outline {
+  color: #fff; border-color: rgba(255, 255, 255, 0.5); background: rgba(255, 255, 255, 0.08);
+}
+.closing-cta-actions .btn-outline:hover { background: rgba(255, 255, 255, 0.18); border-color: #fff; }
+
+/* ---------- Back to top ---------- */
+.back-to-top {
+  position: fixed; right: 1.25rem; z-index: 89;
+  bottom: calc(5.75rem + env(safe-area-inset-bottom, 0px));
+  width: 42px; height: 42px; border-radius: 50%; cursor: pointer;
+  background: var(--color-surface); color: var(--color-primary-dark);
+  border: 1px solid var(--color-line); box-shadow: var(--shadow);
+  display: inline-flex; align-items: center; justify-content: center;
+  opacity: 0; visibility: hidden; transform: translateY(8px);
+  transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+}
+.back-to-top.visible { opacity: 1; visibility: visible; transform: none; }
+.back-to-top:hover { border-color: var(--color-primary); transform: translateY(-2px); }
+.back-to-top:focus-visible { outline: 3px solid var(--color-primary-soft); outline-offset: 2px; }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 900px) {
+  /* Header shrinks to 52px here, so the second sticky bar follows it down. */
+  .section-nav { top: 52px; }
+  .roadmap-page section[id], .roadmap-page .section[id] { scroll-margin-top: 108px; }
+  .roadmap-hero-inner { grid-template-columns: 1fr; gap: 2rem; }
+  .roadmap-hero .hero-copy { text-align: center; }
+  .roadmap-hero-flow { max-width: 30rem; margin: 0 auto; width: 100%; }
+  .roadmap-hero-flow-title { text-align: left; }
+  .ownership-grid, .hosting-grid, .pricing-grid, .support-grid { grid-template-columns: repeat(auto-fit, minmax(255px, 1fr)); }
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 768px) {
+  /* The table stays, tightened, rather than becoming two stacked cards. Side
+     by side, each row is only as tall as its longest cell; stacked, the eleven
+     area names were repeated and the section ran to twice the height. */
+  .compare-table { min-width: 0; font-size: 0.78rem; }
+  .compare-table th, .compare-table td { padding: 0.5rem 0.55rem; }
+  .compare-table thead th { font-size: 0.66rem; letter-spacing: 0.02em; }
+  .compare-table tbody th { width: 26%; font-size: 0.74rem; }
+}
+
+@media (max-width: 640px) {
+  .roadmap-hero { padding: 2.25rem 0 2.5rem; }
+  .roadmap-hero .hero-lead { font-size: 1.1rem; }
+
+  /* "The journey at a glance": eight stacked full-width nodes ate most of the
+     phone screen. Below 640px the same eight stages become compact numbered
+     chips that wrap over three or four short rows instead of eight tall ones.
+     The step numbers carry the order, so the arrows can sit inline. */
+  .roadmap-hero-flow { padding: 0.95rem 1rem 1.05rem; border-radius: 18px; }
+  .roadmap-hero-flow-title { font-size: 0.68rem; margin-bottom: 0.7rem; }
+  .roadmap-hero-flow .flow-stack {
+    flex-direction: row; flex-wrap: wrap; align-items: center;
+    gap: 0.38rem 0.26rem;
+  }
+  .roadmap-hero-flow .flow-stack .flow-node {
+    position: static; border-radius: 999px;
+    padding: 0.3rem 0.62rem 0.3rem 0.32rem;
+    font-size: 0.735rem; font-weight: 600; gap: 0.34rem;
+  }
+  .roadmap-hero-flow .flow-stack .flow-node:hover { transform: none; }
+  .roadmap-hero-flow .flow-stack .flow-node-index {
+    width: 17px; height: 17px; font-size: 0.6rem;
+  }
+  .roadmap-hero-flow .flow-stack .flow-node:not(:last-child)::after {
+    content: "→"; position: static; inset: auto;
+    margin-left: 0.28rem; font-size: 0.72rem; line-height: 1;
+  }
+  /* The two options sit side by side rather than stacking. */
+  .solution-tabs { grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-bottom: 1.1rem; }
+  .solution-tab { flex-direction: column; align-items: flex-start; gap: 0.5rem; padding: 0.8rem; }
+  .solution-tab-icon { width: 34px; height: 34px; border-radius: 10px; }
+  .solution-tab-text strong { font-size: 0.85rem; }
+  .solution-tab-text small { font-size: 0.7rem; }
+  .solution-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+  .phase-card { grid-template-columns: 40px minmax(0, 1fr); gap: 0.85rem; }
+  .phase-icon { width: 40px; height: 40px; border-radius: 12px; }
+  .phase-body { padding: 1.05rem 1.15rem; }
+  .ownership-statement { flex-direction: column; align-items: flex-start; gap: 0.75rem; padding: 1.15rem 1.25rem; }
+
+  /* Two-up card grid, matching the offer page's mobile treatment. A single
+     column here made the page read as an endless stack of full-width cards. */
+  .principle-grid,
+  .checklist-grid,
+  .ownership-grid,
+  .hosting-grid,
+  .pricing-grid,
+  .support-grid,
+  .statement-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.8rem; }
+
+  /* Sections with an odd number of cards: the last one spans both columns
+     rather than leaving a visibly half-empty row. */
+  .principle-grid > *:last-child:nth-child(odd),
+  .checklist-grid > *:last-child:nth-child(odd),
+  .ownership-grid > *:last-child:nth-child(odd),
+  .hosting-grid > *:last-child:nth-child(odd),
+  .pricing-grid > *:last-child:nth-child(odd),
+  .support-grid > *:last-child:nth-child(odd),
+  .statement-grid > *:last-child:nth-child(odd) { grid-column: 1 / -1; }
+
+  /* Type and padding scaled down to suit half-width cards — same ratios the
+     offer page uses for .info-card at this breakpoint. */
+  .principle-card,
+  .checklist-card,
+  .ownership-card,
+  .hosting-card,
+  .support-card,
+  .pricing-card { padding: 1.05rem; }
+  .principle-card { flex-direction: column; gap: 0.6rem; }
+  .principle-icon { width: 34px; height: 34px; border-radius: 10px; }
+  .ownership-icon { width: 38px; height: 38px; margin-bottom: 0.7rem; }
+  .principle-card h3,
+  .checklist-card h3,
+  .ownership-card h3,
+  .hosting-card h3,
+  .support-card h3,
+  .pricing-card h3 { font-size: 0.92rem; line-height: 1.25; }
+  .principle-card p { font-size: 0.8rem; }
+  .dot-list li { font-size: 0.8rem; padding-left: 0.85rem; }
+  .dot-list li::before { top: 0.58em; }
+  .tag { font-size: 0.75rem; padding: 0.24rem 0.62rem; }
+  .hosting-card h4, .pricing-card h4 { font-size: 0.68rem; margin: 0.9rem 0 0.45rem; }
+  .label-chip { font-size: 0.7rem; padding: 0.22rem 0.6rem; }
+  .pricing-label { font-size: 0.88rem; }
+  .pricing-sublabel { font-size: 0.76rem; }
+  .pricing-label-block { padding-top: 0.9rem; }
+  .statement-card { padding: 0.85rem 0.95rem; }
+  .statement-card p { font-size: 0.82rem; }
+
+  /* Technology tiles: two-up and collapsed to name + icon. Tapping one expands
+     it across both columns, where its three prose fields have room to read. */
+  .tech-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.8rem; }
+  .tech-grid > *:last-child:nth-child(odd) { grid-column: 1 / -1; }
+  .tech-card { padding: 0; overflow: hidden; }
+  .tech-card.open { grid-column: 1 / -1; border-color: rgba(37, 99, 235, 0.34); }
+  .tech-card-heading { margin: 0; font-size: inherit; }
+  .tech-card-toggle {
+    display: flex; align-items: center; gap: 0.5rem; width: 100%;
+    font: inherit; text-align: left; cursor: pointer;
+    background: none; border: 0; padding: 0.8rem 0.85rem; margin: 0;
+    color: var(--color-ink);
+  }
+  .tech-card-toggle:focus-visible { outline: 3px solid var(--color-primary-soft); outline-offset: -3px; }
+  .tech-icon { width: 30px; height: 30px; border-radius: 9px; }
+  .tech-name { font-family: var(--font-heading); font-weight: 700; font-size: 0.86rem; line-height: 1.2; min-width: 0; }
+  .tech-chevron {
+    flex: 0 0 auto; margin-left: auto; width: 20px; height: 20px; border-radius: 50%;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 0.95rem; color: var(--color-primary); background: var(--color-primary-soft);
+    transition: transform 0.25s ease;
+  }
+  .tech-card.open .tech-chevron { transform: rotate(45deg); }
+  .tech-fields-wrap { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 0.3s ease; }
+  .tech-card.open .tech-fields-wrap { grid-template-rows: 1fr; }
+  .tech-fields-inner { overflow: hidden; }
+  .tech-fields { padding: 0 0.85rem 0.85rem; }
+  .tech-fields dd { font-size: 0.84rem; }
+  .tech-note { margin: 0 0.85rem 0.85rem; }
+
+  .deliverables-card, .charges-card, .pricing-factors, .ownership-notes, .deploy-card { padding: 1.25rem; }
+  .solution-panel { padding: 1.25rem; }
+  .offer-card-cta-actions { flex-direction: column; }
+  .offer-card-cta-actions .btn { width: 100%; }
+  .section-nav-list { padding: 0.35rem 0; }
+  .section-nav-link { font-size: 0.84rem; padding: 0.45rem 0.7rem; }
+  .back-to-top { bottom: calc(5.5rem + env(safe-area-inset-bottom, 0px)); right: 1.4rem; width: 38px; height: 38px; }
+}
+
+@media (max-width: 480px) {
+  .section-nav { top: 48px; }
+  .roadmap-page section[id], .roadmap-page .section[id] { scroll-margin-top: 100px; }
+  .roadmap-hero .hero-actions { flex-wrap: nowrap; }
+  .roadmap-hero .hero-actions .btn { flex: 1 1 0; min-width: 0; padding: 0.65rem 0.4rem; font-size: 0.74rem; white-space: nowrap; }
+  /* Chips tighten a little further rather than growing back — the ≤640 rule
+     above owns their sizing now. */
+  .roadmap-hero-flow .flow-stack { gap: 0.34rem 0.22rem; }
+  .roadmap-hero-flow .flow-stack .flow-node { font-size: 0.7rem; padding: 0.28rem 0.55rem 0.28rem 0.3rem; }
+
+  /* Short labels pair up two-across; the deliverables and phase-task lists are
+     the longest runs on the page and this roughly halves them. */
+  .tick-list.three-column { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.4rem 0.8rem; }
+  .phase-tasks ol { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.3rem 0.9rem; font-size: 0.82rem; }
+  .tick-list li { font-size: 0.82rem; }
+  .tick-list.two-column { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.45rem 0.7rem; }
+  .tick-list.two-column li { font-size: 0.76rem; }
+}
+
+/* Very narrow phones: two-up stops paying for itself, so everything unstacks. */
+@media (max-width: 360px) {
+  .principle-grid,
+  .checklist-grid,
+  .ownership-grid,
+  .hosting-grid,
+  .pricing-grid,
+  .support-grid,
+  .statement-grid,
+  .tech-grid,
+  .solution-tabs,
+  .tick-list.two-column,
+  .tick-list.three-column,
+  .phase-tasks ol { grid-template-columns: 1fr; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .phase-tasks-wrap { transition: none; }
+  #advanced-tech-group { animation: none; }
+}

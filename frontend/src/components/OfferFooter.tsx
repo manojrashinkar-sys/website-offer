@@ -1,4 +1,6 @@
+import { Link } from 'react-router-dom';
 import { config } from '../config';
+import { trackEvent } from '../analytics';
 import { generalEnquiryMessage, whatsappLink } from '../utils/whatsapp';
 import Logo from './Logo';
 
@@ -22,8 +24,7 @@ export default function OfferFooter() {
         <div className="footer-grid">
           <div>
             <h3 className="footer-brand">
-              <Logo size={26} />
-              {config.businessName || "Let's Build Your Website"}
+              <Logo tone="light" />
             </h3>
             <p>Professional business website design and development.</p>
             {config.businessLocation && <p>{config.businessLocation}</p>}
@@ -58,6 +59,23 @@ export default function OfferFooter() {
           </div>
 
           <div>
+            <h4>Explore</h4>
+            <ul className="footer-links">
+              <li>
+                <Link to={config.offerRoute}>Website Offer</Link>
+              </li>
+              <li>
+                <Link
+                  to={config.roadmapRoute}
+                  onClick={() => trackEvent('roadmap_link_click', { placement: 'footer' })}
+                >
+                  Development Roadmap
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          <div>
             <h4>Legal</h4>
             <ul className="footer-links">
               <li><a href={config.privacyPolicyUrl}>Privacy Policy</a></li>
@@ -76,7 +94,7 @@ export default function OfferFooter() {
         </div>
 
         <p className="footer-copy">
-          © {new Date().getFullYear()}{config.businessName ? ` ${config.businessName}` : ''}. All rights reserved.
+          © {new Date().getFullYear()} {config.brandName}. All rights reserved.
         </p>
       </div>
     </footer>

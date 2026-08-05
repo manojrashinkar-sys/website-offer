@@ -1,27 +1,24 @@
-// Abstract gradient monogram used in place of a business name/logo that
-// hasn't been decided yet. Swap this out for a real logo image once one
-// exists — nothing elsewhere references its internals.
-export default function Logo({ size = 32 }: { size?: number }) {
+import { config } from '../config';
+
+interface Props {
+  /** `light` is for the dark footer; `dark` for the white header. */
+  tone?: 'dark' | 'light';
+}
+
+// Typographic wordmark. It replaced an abstract gradient monogram that, with no
+// business name beside it, read as a stray icon rather than a brand — a poor
+// first impression on what is a landing page for new clients.
+//
+// The last word takes the brand gradient; everything before it stays in ink.
+export default function Logo({ tone = 'dark' }: Props) {
+  const parts = config.brandName.trim().split(/\s+/).filter(Boolean);
+  const accent = parts.length > 1 ? parts[parts.length - 1] : '';
+  const lead = parts.length > 1 ? parts.slice(0, -1).join(' ') : parts[0] ?? '';
+
   return (
-    <span className="logo-mark" aria-hidden="true">
-      <svg viewBox="0 0 40 40" width={size} height={size}>
-        <defs>
-          <linearGradient id="logoGrad" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stopColor="#818cf8" />
-            <stop offset="55%" stopColor="#a78bfa" />
-            <stop offset="100%" stopColor="#f472b6" />
-          </linearGradient>
-        </defs>
-        <rect x="1.5" y="1.5" width="37" height="37" rx="11" fill="url(#logoGrad)" />
-        <path
-          d="M11 25 L16 14 L20 21 L24 14 L29 25"
-          stroke="#fff"
-          strokeWidth="2.6"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          fill="none"
-        />
-      </svg>
+    <span className={`wordmark wordmark-${tone}`}>
+      <span className="wordmark-lead">{lead}</span>
+      {accent && <span className="wordmark-accent">{accent}</span>}
     </span>
   );
 }
