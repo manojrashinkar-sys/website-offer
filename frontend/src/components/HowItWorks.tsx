@@ -1,4 +1,7 @@
+import { Link } from 'react-router-dom';
 import { howItWorksSteps } from '../content/pageContent';
+import { config } from '../config';
+import { trackEvent } from '../analytics';
 import Reveal from './Reveal';
 
 export default function HowItWorks() {
@@ -20,6 +23,15 @@ export default function HowItWorks() {
             </Reveal>
           ))}
         </ol>
+        <div className="section-cta">
+          <Link
+            className="btn btn-outline"
+            to={config.roadmapRoute}
+            onClick={() => trackEvent('roadmap_link_click', { placement: 'how_it_works' })}
+          >
+            View Development Roadmap
+          </Link>
+        </div>
       </div>
     </section>
   );
