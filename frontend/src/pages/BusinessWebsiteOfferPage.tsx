@@ -7,6 +7,7 @@ import OfferHeader from '../components/OfferHeader';
 import HeroSection from '../components/HeroSection';
 import BusinessCategories from '../components/BusinessCategories';
 import BusinessTypeSelector from '../components/BusinessTypeSelector';
+import RequirementEstimator from '../components/RequirementEstimator';
 import IncludedServices from '../components/IncludedServices';
 import HowItWorks from '../components/HowItWorks';
 import TrustSection from '../components/TrustSection';
@@ -49,6 +50,7 @@ export default function BusinessWebsiteOfferPage() {
         <IncludedServices />
         <HowItWorks />
         <TrustSection />
+        <RequirementEstimator />
         <OfferSection />
         <EnquiryForm
           onSuccess={(enquiryResult, applicantDetails) => {
