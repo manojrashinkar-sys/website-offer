@@ -1,0 +1,289 @@
+/* ============================================================
+   Light / dark theming
+   ------------------------------------------------------------
+   Loaded last. Two jobs:
+
+   1. Replace the handful of hardcoded light surfaces in the
+      older stylesheets with tokens, so a theme can move them.
+   2. Supply the dark palette under [data-theme="dark"].
+
+   The hero and footer are dark in both themes by design — they
+   are the brand's dark bookends, not a light surface to invert.
+   ============================================================ */
+
+:root {
+  color-scheme: light;
+
+  --header-bg: rgba(255, 255, 255, 0.82);
+  --header-bg-scrolled: rgba(255, 255, 255, 0.96);
+  --header-shadow: 0 8px 24px rgba(13, 20, 36, 0.06);
+  --nav-glass: rgba(255, 255, 255, 0.92);
+  --section-alt-bg: linear-gradient(180deg, #ffffff 0%, #fbfcff 100%);
+  --card-bg: linear-gradient(180deg, #ffffff 0%, #fcfdff 100%);
+  --card-highlight: rgba(255, 255, 255, 0.9);
+  --icon-tile-bg: linear-gradient(145deg, #eaf1ff, #f0fbff);
+  --drawer-bg: #ffffff;
+  --scrim: rgba(6, 10, 23, 0.55);
+
+  /* A brighter, more optimistic green for the "with a website" side.
+     Two values, because they are held to different standards:
+       --green-bright  borders and fills, purely decorative, free to be vivid
+       --green-icon    icons, which are interface elements and must clear
+                       3:1 against the surface behind them
+     #22c55e measures only 2.28:1 on white, so icons use green-600 instead
+     while the vivid tone stays where contrast is not a requirement. */
+  --green-bright: #22c55e;
+  --green-icon: #16a34a;
+  --green-deep: #16a34a;
+  --green-tint: rgba(34, 197, 94, 0.08);
+}
+
+[data-theme="dark"] {
+  color-scheme: dark;
+
+  /* Surfaces climb in lightness with elevation, which is what makes a dark
+     interface legible — a single flat near-black reads as unfinished. */
+  --color-bg: #070b14;
+  --color-surface: #0f1521;
+  --color-surface-alt: #161d2c;
+  --color-ink: #e9eef8;
+  --color-ink-soft: #98a3ba;
+  --color-line: #212a3d;
+
+  /* Saturated blues vibrate on dark backgrounds, so the primary lifts and
+     the "dark" variant — which is used as a text colour — becomes light. */
+  --color-primary: #4d8bf5;
+  --color-primary-dark: #93c5fd;
+  --color-primary-soft: rgba(77, 139, 245, 0.18);
+
+  --header-bg: rgba(10, 15, 25, 0.72);
+  --header-bg-scrolled: rgba(10, 15, 25, 0.94);
+  --header-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+  --nav-glass: rgba(10, 15, 25, 0.9);
+  --section-alt-bg: linear-gradient(180deg, #0a1019 0%, #0c121d 100%);
+  --card-bg: linear-gradient(180deg, #111826 0%, #0e1420 100%);
+  --card-highlight: rgba(255, 255, 255, 0.06);
+  --icon-tile-bg: linear-gradient(145deg, rgba(77, 139, 245, 0.16), rgba(6, 182, 212, 0.1));
+  --drawer-bg: #0f1521;
+  --scrim: rgba(0, 0, 0, 0.7);
+
+  --state-success: #4ade80;
+  --state-success-soft: rgba(74, 222, 128, 0.16);
+  /* On dark surfaces the vivid green already measures 10.5:1, so icons can
+     use the bright tone directly. */
+  --green-bright: #4ade80;
+  --green-icon: #4ade80;
+  --green-deep: #22c55e;
+  --green-tint: rgba(74, 222, 128, 0.09);
+  --state-warning: #fbbf24;
+  --state-warning-soft: rgba(251, 191, 36, 0.14);
+
+  --border-strong: rgba(77, 139, 245, 0.4);
+
+  /* Shadows do almost nothing on a dark background; depth comes from the
+     surface steps above plus a hairline, so these are pulled right back. */
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 6px 16px rgba(0, 0, 0, 0.34);
+  --shadow-lg: 0 2px 4px rgba(0, 0, 0, 0.4), 0 16px 40px rgba(0, 0, 0, 0.5);
+  --shadow-1: 0 1px 2px rgba(0, 0, 0, 0.36);
+  --shadow-2: 0 1px 2px rgba(0, 0, 0, 0.4), 0 6px 16px rgba(0, 0, 0, 0.3);
+  --shadow-3: 0 2px 6px rgba(0, 0, 0, 0.42), 0 14px 32px rgba(0, 0, 0, 0.38);
+}
+
+/* ---------- Tokenised surfaces ---------- */
+body {
+  background:
+    radial-gradient(900px 420px at 12% 24%, rgba(37, 99, 235, 0.05), transparent 65%),
+    var(--color-bg);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.offer-header { background: var(--header-bg); }
+.offer-header.scrolled { background: var(--header-bg-scrolled); box-shadow: var(--header-shadow); }
+.section-nav { background: var(--nav-glass); }
+.section-alt { background: var(--section-alt-bg); }
+.mobile-nav { background: var(--drawer-bg); }
+.mobile-nav-backdrop { background: var(--scrim); }
+.modal-overlay { background: var(--scrim); }
+
+.info-card, .checklist-card, .hosting-card, .support-card,
+.pricing-card, .tech-card, .principle-card, .ownership-card {
+  background: var(--card-bg);
+}
+.info-card::after, .checklist-card::after, .hosting-card::after,
+.support-card::after, .pricing-card::after, .tech-card::after, .ownership-card::after {
+  box-shadow: inset 0 1px 0 var(--card-highlight);
+}
+.section-alt .info-card { background: var(--card-bg); }
+.solution-tab-icon, .est-option-icon { background: var(--icon-tile-bg); }
+
+/* Dark-mode corrections for surfaces that assumed a white page. */
+[data-theme="dark"] .status-card,
+[data-theme="dark"] .offer-card,
+[data-theme="dark"] .biz-panel,
+[data-theme="dark"] .deliverables-card,
+[data-theme="dark"] .phase-body,
+[data-theme="dark"] .flow-node,
+[data-theme="dark"] .statement-card,
+[data-theme="dark"] .callout,
+[data-theme="dark"] .step,
+[data-theme="dark"] .faq-item,
+[data-theme="dark"] .solution-tab,
+[data-theme="dark"] .biz-tab,
+[data-theme="dark"] .tag,
+[data-theme="dark"] .disclosure-toggle,
+[data-theme="dark"] .application-form fieldset {
+  background: var(--color-surface);
+}
+[data-theme="dark"] .section-alt .phase-body,
+[data-theme="dark"] .deliverables-card.optional,
+[data-theme="dark"] .offer-points li,
+[data-theme="dark"] .est-recap { background: var(--color-surface-alt); }
+
+[data-theme="dark"] .compare-table thead th,
+[data-theme="dark"] .leads-table th { background: var(--color-surface-alt); }
+[data-theme="dark"] .table-wrap { background: var(--color-surface); }
+[data-theme="dark"] .compare-table tbody tr:hover td,
+[data-theme="dark"] .compare-table tbody tr:hover th { background: rgba(77, 139, 245, 0.07); }
+
+[data-theme="dark"] .form-field input,
+[data-theme="dark"] .form-field select,
+[data-theme="dark"] .form-field textarea,
+[data-theme="dark"] .admin-filters input,
+[data-theme="dark"] .admin-filters select,
+[data-theme="dark"] .toggle-btn,
+[data-theme="dark"] .toggle-field,
+[data-theme="dark"] .stat-card,
+[data-theme="dark"] .modal { background: var(--color-surface); color: var(--color-ink); }
+
+[data-theme="dark"] .status-badge.open { background: var(--state-success-soft); color: var(--state-success); }
+[data-theme="dark"] .status-badge.limited { background: var(--state-warning-soft); color: var(--state-warning); }
+[data-theme="dark"] .resp-badge.resp-shared { background: rgba(45, 212, 191, 0.16); color: #5eead4; }
+[data-theme="dark"] .resp-badge.resp-client { background: var(--state-success-soft); color: var(--state-success); }
+[data-theme="dark"] .est-tier-advanced { background: rgba(45, 212, 191, 0.16); color: #5eead4; }
+[data-theme="dark"] .tech-note { background: var(--state-warning-soft); color: var(--state-warning); }
+[data-theme="dark"] .callout-security { background: var(--state-warning-soft); border-color: rgba(251, 191, 36, 0.3); }
+[data-theme="dark"] .callout-info { background: var(--color-primary-soft); border-color: var(--border-strong); }
+
+[data-theme="dark"] .skeleton::after {
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.06), transparent);
+}
+[data-theme="dark"] .mobile-nav { box-shadow: -12px 0 40px rgba(0, 0, 0, 0.6); }
+
+/* The wordmark's ink half needs to be light on a dark header. */
+[data-theme="dark"] .wordmark-dark .wordmark-lead { color: var(--color-ink); }
+
+/* ---------- Theme controls ---------- */
+.theme-toggle {
+  position: relative; flex: 0 0 auto;
+  width: 34px; height: 34px; border-radius: 50%; cursor: pointer;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: var(--color-surface-alt); border: 1px solid var(--color-line);
+  color: var(--color-ink);
+  transition: background 0.18s ease, border-color 0.18s ease, transform 0.18s ease;
+}
+.theme-toggle:hover { border-color: var(--border-strong); transform: translateY(-1px); }
+.theme-toggle:focus-visible { outline: 3px solid var(--color-primary-soft); outline-offset: 2px; }
+.theme-icon {
+  position: absolute; display: inline-flex;
+  transition: opacity 0.24s ease, transform 0.32s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.theme-icon-sun { opacity: 1; transform: rotate(0) scale(1); }
+.theme-icon-moon { opacity: 0; transform: rotate(-70deg) scale(0.5); }
+[data-theme="dark"] .theme-icon-sun { opacity: 0; transform: rotate(70deg) scale(0.5); }
+[data-theme="dark"] .theme-icon-moon { opacity: 1; transform: rotate(0) scale(1); }
+
+/* Labelled row used inside the drawer. */
+.theme-row {
+  display: flex; align-items: center; justify-content: space-between; gap: 0.75rem;
+  width: 100%; font: inherit; font-weight: 600; font-size: 0.92rem;
+  cursor: pointer; text-align: left;
+  background: none; border: 0; color: var(--color-ink);
+  padding: 0.8rem 0.7rem; border-radius: var(--radius-sm);
+}
+.theme-row:hover { background: var(--color-surface-alt); }
+.theme-row:focus-visible { outline: 3px solid var(--color-primary-soft); outline-offset: -3px; }
+.theme-row-label { display: inline-flex; align-items: center; gap: 0.6rem; }
+.theme-switch {
+  flex: 0 0 auto; width: 40px; height: 23px; border-radius: 999px;
+  background: var(--color-surface-alt); border: 1px solid var(--color-line);
+  position: relative; transition: background 0.22s ease;
+}
+[data-theme="dark"] .theme-switch { background: var(--gradient-brand); border-color: transparent; }
+.theme-switch-knob {
+  position: absolute; top: 2px; left: 2px; width: 17px; height: 17px; border-radius: 50%;
+  background: #fff; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  transition: transform 0.24s cubic-bezier(0.22, 1, 0.36, 1);
+}
+[data-theme="dark"] .theme-switch-knob { transform: translateX(17px); }
+
+/* ---------- Drawer ----------
+   Restructured into a fixed head, a scrolling body and a pinned foot, so the
+   primary action and the contact links stay reachable no matter how many
+   section links the page contributes. */
+.mobile-nav { padding: 0; gap: 0; }
+.mobile-nav-head {
+  flex: 0 0 auto; margin: 0;
+  padding: 0.9rem 1.1rem;
+  border-bottom: 1px solid var(--color-line);
+  background: var(--color-surface);
+}
+.mobile-nav-close {
+  width: 34px; height: 34px;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: var(--color-surface-alt); border: 1px solid var(--color-line);
+  color: var(--color-ink); border-radius: 50%;
+}
+.mobile-nav-close:hover { border-color: var(--border-strong); }
+.mobile-nav-close:focus-visible { outline: 3px solid var(--color-primary-soft); outline-offset: 2px; }
+
+.mobile-nav-body {
+  flex: 1 1 auto; overflow-y: auto; overscroll-behavior: contain;
+  padding: 0.9rem 1.1rem 1.1rem;
+}
+.mobile-nav-group { display: flex; flex-direction: column; }
+.mobile-nav-label {
+  font-size: 0.66rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--color-ink-soft); margin: 1.15rem 0 0.4rem; padding: 0 0.7rem;
+}
+.mobile-nav-body > .mobile-nav-label:first-child { margin-top: 0; }
+
+.mobile-nav-link {
+  display: flex; align-items: center; justify-content: space-between; gap: 0.75rem;
+  border-bottom: 0; padding: 0.78rem 0.7rem; border-radius: var(--radius-sm);
+  color: var(--color-ink); font-size: 0.94rem;
+}
+.mobile-nav-arrow {
+  flex: 0 0 auto; color: var(--color-primary);
+  opacity: 0; transform: translateX(-5px);
+  transition: opacity 0.18s ease, transform 0.18s ease;
+}
+.mobile-nav-link:hover .mobile-nav-arrow,
+.mobile-nav-link.active .mobile-nav-arrow { opacity: 1; transform: none; }
+.mobile-nav-link.active {
+  background: var(--color-primary-soft); color: var(--color-primary-dark); font-weight: 700;
+}
+
+.mobile-nav-foot {
+  flex: 0 0 auto;
+  padding: 0.9rem 1.1rem calc(0.9rem + env(safe-area-inset-bottom, 0px));
+  border-top: 1px solid var(--color-line);
+  background: var(--color-surface);
+}
+.mobile-nav-foot .btn { width: 100%; margin: 0; }
+.mobile-nav-contact {
+  display: grid; grid-auto-flow: column; grid-auto-columns: 1fr;
+  gap: 0.4rem; margin-top: 0.7rem;
+}
+.mobile-nav-contact-link {
+  display: inline-flex; flex-direction: column; align-items: center; gap: 0.2rem;
+  font-size: 0.72rem; font-weight: 600; text-decoration: none;
+  color: var(--color-ink-soft); padding: 0.5rem 0.25rem; border-radius: var(--radius-sm);
+  transition: color 0.15s ease, background 0.15s ease;
+}
+.mobile-nav-contact-link:hover,
+.mobile-nav-contact-link:active { color: var(--color-primary-dark); background: var(--color-surface-alt); }
+.mobile-nav-contact-link:focus-visible { outline: 3px solid var(--color-primary-soft); outline-offset: -3px; }
+
+@media (prefers-reduced-motion: reduce) {
+  body, .theme-icon, .theme-switch, .theme-switch-knob, .mobile-nav-arrow { transition: none; }
+}

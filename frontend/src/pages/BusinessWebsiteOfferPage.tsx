@@ -4,8 +4,12 @@ import type { EnquiryResult } from '../api/enquiry';
 import { trackEvent } from '../analytics';
 import { scrollToSection } from '../utils/scroll';
 import OfferHeader from '../components/OfferHeader';
+import ScrollProgress from '../components/ScrollProgress';
+import LivePreview from '../components/LivePreview';
+import PresenceComparison from '../components/PresenceComparison';
 import HeroSection from '../components/HeroSection';
 import BusinessCategories from '../components/BusinessCategories';
+import BusinessTypeSelector from '../components/BusinessTypeSelector';
 import IncludedServices from '../components/IncludedServices';
 import HowItWorks from '../components/HowItWorks';
 import TrustSection from '../components/TrustSection';
@@ -39,10 +43,14 @@ export default function BusinessWebsiteOfferPage() {
   return (
     <div className="offer-page">
       <a className="skip-link" href="#enquiry">Skip to enquiry form</a>
+      <ScrollProgress />
       <OfferHeader />
       <main>
         <HeroSection />
+        <LivePreview />
         <BusinessCategories />
+        <BusinessTypeSelector />
+        <PresenceComparison />
         <IncludedServices />
         <HowItWorks />
         <TrustSection />

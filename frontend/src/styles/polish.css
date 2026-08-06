@@ -1,0 +1,318 @@
+/* ============================================================
+   Visual polish
+   ------------------------------------------------------------
+   Loaded last. Refines the existing look rather than replacing
+   it: the same blue-to-cyan identity, the same fonts, the same
+   layout — but deeper ink, layered shadows, tighter display
+   typography, a richer gradient and a properly composed hero
+   background.
+   ============================================================ */
+
+:root {
+  /* ---- Typefaces ----
+     Sora for headings: geometric, confident, and distinct enough that the
+     page stops looking like every other default-stack site. Manrope for body:
+     warmer and more open than Inter at small sizes, with a taller x-height
+     that holds up on phones. */
+  --font: "Manrope", "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+  --font-heading: "Sora", var(--font);
+
+  /* ---- Refined neutrals ----
+     Deeper ink reads as more considered than near-black grey, and the page
+     background carries a touch more warmth so white cards separate from it. */
+  --color-ink: #0a1020;
+  --color-ink-soft: #5b6479;
+  --color-bg: #f7f9fd;
+  --color-surface-alt: #eef2f8;
+  --color-line: #e4e9f2;
+  --color-primary-dark: #1e40af;
+
+  /* ---- Richer brand gradient ----
+     An indigo stop between the blue and the cyan stops the sweep looking
+     like a two-colour ramp and gives it far more depth. */
+  --gradient-brand: linear-gradient(135deg, #1e3a8a 0%, #2563eb 40%, #4f46e5 70%, #06b6d4 100%);
+  --gradient-brand-loop: linear-gradient(135deg, #1e3a8a, #2563eb, #4f46e5, #06b6d4, #4f46e5, #2563eb, #1e3a8a);
+
+  /* ---- Layered shadows ----
+     Real objects cast a tight contact shadow and a wide ambient one. A single
+     large blur is the usual giveaway of a flat, template-built page. */
+  --shadow: 0 1px 2px rgba(10, 16, 32, 0.04), 0 6px 16px rgba(10, 16, 32, 0.06);
+  --shadow-lg:
+    0 2px 4px rgba(10, 16, 32, 0.04),
+    0 12px 28px rgba(10, 16, 32, 0.08),
+    0 28px 56px rgba(10, 16, 32, 0.08);
+  --shadow-1: 0 1px 2px rgba(10, 16, 32, 0.04), 0 4px 12px rgba(10, 16, 32, 0.05);
+  --shadow-2: 0 1px 2px rgba(10, 16, 32, 0.04), 0 6px 16px rgba(10, 16, 32, 0.06);
+  --shadow-3:
+    0 2px 4px rgba(10, 16, 32, 0.04),
+    0 10px 24px rgba(10, 16, 32, 0.08),
+    0 20px 40px rgba(10, 16, 32, 0.05);
+}
+
+/* ---------- Typography ----------
+   Large type needs tighter leading and tracking than body copy; the shared
+   1.2 line-height was leaving headline lines looking unrelated. */
+body { text-rendering: optimizeLegibility; }
+
+h1, h2, h3, h4 {
+  /* Evens out the last line instead of leaving one orphaned word. */
+  text-wrap: balance;
+}
+h1 { line-height: 1.06; letter-spacing: -0.032em; }
+h2 { line-height: 1.12; letter-spacing: -0.024em; }
+h3 { line-height: 1.25; letter-spacing: -0.012em; }
+p { text-wrap: pretty; }
+
+.section-head p { max-width: 62ch; line-height: 1.62; }
+.hero-sub { line-height: 1.6; letter-spacing: -0.004em; }
+
+/* The rule above section headings becomes a gradient hairline that draws in. */
+.section-head::before {
+  height: 3px; width: 52px;
+  background: var(--gradient-brand);
+  box-shadow: 0 2px 10px rgba(37, 99, 235, 0.32);
+}
+
+/* ---------- Hero background ---------- */
+.hero { isolation: isolate; }
+
+.hero-aurora {
+  position: absolute; inset: 0; z-index: 0;
+  overflow: hidden; pointer-events: none;
+}
+
+.aurora-field {
+  position: absolute; display: block;
+  border-radius: 50%;
+  /* Large blur radii are the whole effect — these are colour fields, not shapes. */
+  filter: blur(90px);
+  opacity: 0.5;
+  will-change: transform;
+}
+.aurora-1 {
+  width: 46vw; height: 46vw; min-width: 380px; min-height: 380px;
+  top: -14%; left: -8%;
+  background: radial-gradient(circle, rgba(37, 99, 235, 0.85), transparent 68%);
+  animation: aurora-drift-1 26s ease-in-out infinite;
+}
+.aurora-2 {
+  width: 38vw; height: 38vw; min-width: 320px; min-height: 320px;
+  top: 4%; right: -6%;
+  background: radial-gradient(circle, rgba(79, 70, 229, 0.7), transparent 68%);
+  animation: aurora-drift-2 32s ease-in-out infinite;
+}
+.aurora-3 {
+  width: 42vw; height: 42vw; min-width: 340px; min-height: 340px;
+  bottom: -22%; left: 32%;
+  background: radial-gradient(circle, rgba(6, 182, 212, 0.55), transparent 68%);
+  animation: aurora-drift-3 38s ease-in-out infinite;
+}
+
+/* Only transform and opacity are animated, so this stays on the compositor
+   and never triggers layout or paint. */
+@keyframes aurora-drift-1 {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  50%      { transform: translate3d(6%, 8%, 0) scale(1.12); }
+}
+@keyframes aurora-drift-2 {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1.05); }
+  50%      { transform: translate3d(-8%, 6%, 0) scale(0.92); }
+}
+@keyframes aurora-drift-3 {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(0.95); }
+  50%      { transform: translate3d(-5%, -9%, 0) scale(1.1); }
+}
+
+/* Fine grid, masked to fade out before it reaches any edge. Gives the hero
+   a sense of structure without reading as a pattern. */
+.hero-grid {
+  position: absolute; inset: 0; display: block;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  background-size: 58px 58px;
+  -webkit-mask-image: radial-gradient(ellipse 78% 62% at 50% 38%, #000 35%, transparent 100%);
+  mask-image: radial-gradient(ellipse 78% 62% at 50% 38%, #000 35%, transparent 100%);
+}
+
+/* A soft floor gradient blends the hero into the section beneath it instead
+   of ending on a hard horizontal edge. */
+.hero::after { pointer-events: none; }
+.hero-aurora::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 22%;
+  background: linear-gradient(180deg, transparent, rgba(247, 249, 253, 0.16));
+}
+
+/* The offer hero swaps to a photographic background on phones; the aurora
+   would sit on top of it and wash it out. */
+@media (max-width: 900px) {
+  .hero:not(.roadmap-hero) .hero-aurora { display: none; }
+  .aurora-field { filter: blur(70px); opacity: 0.42; }
+}
+
+/* ---------- Buttons ---------- */
+/* A single slow highlight sweep on hover — the detail that separates a
+   considered button from a coloured rectangle. */
+.btn-primary { overflow: hidden; }
+.btn-primary::before {
+  content: ""; position: absolute; top: 0; bottom: 0; left: -60%;
+  width: 45%; transform: skewX(-18deg);
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.28), transparent);
+  opacity: 0; transition: none;
+}
+.btn-primary:hover::before { animation: btn-sheen 0.75s ease forwards; }
+@keyframes btn-sheen {
+  from { left: -60%; opacity: 1; }
+  to   { left: 115%; opacity: 0; }
+}
+
+.btn { letter-spacing: -0.005em; }
+.btn-outline:hover { box-shadow: 0 6px 18px rgba(37, 99, 235, 0.16); }
+
+/* ---------- Cards ----------
+   The previous treatment — white box, hairline border, pastel-gradient icon
+   tile, bold title, grey paragraph — is the default look every generated
+   template lands on. These changes give it an authored feel instead:
+
+   1. The icon loses its tinted tile and is drawn larger, in brand colour, as
+      part of the composition rather than sitting in a little coloured square.
+   2. A hairline of white inside the top edge, which is how a real surface
+      catches light and the main reason a card reads as an object.
+   3. Colour arrives only on interaction, from the corner, rather than every
+      card shouting a gradient bar at rest. */
+
+.info-card,
+.checklist-card,
+.hosting-card,
+.support-card,
+.pricing-card,
+.tech-card,
+.principle-card,
+.ownership-card {
+  position: relative;
+  border-radius: 20px;
+  background: linear-gradient(180deg, #ffffff 0%, #fcfdff 100%);
+  border: 1px solid var(--color-line);
+  box-shadow: var(--shadow-1);
+}
+
+/* The inside-top highlight. */
+.info-card::after,
+.checklist-card::after,
+.hosting-card::after,
+.support-card::after,
+.pricing-card::after,
+.tech-card::after,
+.ownership-card::after {
+  content: "";
+  position: absolute; inset: 0; border-radius: inherit;
+  pointer-events: none;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+/* Icons: no tile, no pastel fill, larger and lighter in weight. */
+.info-card-icon,
+.principle-icon,
+.ownership-icon,
+.tech-icon {
+  width: auto; height: auto;
+  background: none; border: 0; border-radius: 0;
+  color: var(--color-primary);
+  margin-bottom: 1rem;
+  transition: color 0.25s ease, transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.info-card-icon svg,
+.principle-icon svg,
+.ownership-icon svg,
+.tech-icon svg {
+  width: 30px; height: 30px; stroke-width: 1.5;
+}
+.info-card:hover .info-card-icon,
+.principle-card:hover .principle-icon,
+.ownership-card:hover .ownership-icon,
+.tech-card:hover .tech-icon {
+  transform: translateY(-2px);
+  color: var(--color-primary-dark);
+}
+
+/* Colour on interaction only, washing in from the top-right corner. */
+.info-card::before,
+.checklist-card::before,
+.hosting-card::before,
+.support-card::before,
+.tech-card::before {
+  content: "";
+  position: absolute; inset: 0; border-radius: inherit;
+  background: radial-gradient(420px 200px at 100% 0%, rgba(79, 70, 229, 0.09), transparent 70%);
+  opacity: 0; transition: opacity 0.28s ease;
+  transform: none;
+  height: auto;
+  pointer-events: none;
+}
+.info-card:hover::before,
+.checklist-card:hover::before,
+.hosting-card:hover::before,
+.support-card:hover::before,
+.tech-card:hover::before { opacity: 1; }
+
+.info-card:hover,
+.checklist-card:hover,
+.hosting-card:hover,
+.support-card:hover,
+.pricing-card:hover,
+.tech-card:hover,
+.principle-card:hover,
+.ownership-card:hover {
+  border-color: rgba(79, 70, 229, 0.28);
+}
+
+/* Editorial typography inside cards: a larger, tighter title carrying more
+   of the weight, and body copy that is quieter rather than merely smaller. */
+.info-card h3,
+.checklist-card h3,
+.hosting-card h3,
+.support-card h3,
+.pricing-card h3 {
+  font-size: 1.06rem; line-height: 1.25; letter-spacing: -0.018em;
+  margin-bottom: 0.45rem;
+}
+.info-card p { font-size: 0.9rem; line-height: 1.6; }
+
+/* ---------- Cards (shared motion) ---------- */
+/* Slightly faster, slightly shorter lift with a springy curve reads as
+   responsive; the previous long ease felt sluggish under the cursor. */
+.info-card, .tech-card, .hosting-card, .support-card,
+.pricing-card, .checklist-card, .principle-card, .ownership-card {
+  transition:
+    transform 0.22s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.22s ease,
+    border-color 0.22s ease;
+}
+.info-card:hover, .tech-card:hover, .hosting-card:hover, .support-card:hover,
+.pricing-card:hover, .checklist-card:hover, .principle-card:hover, .ownership-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-3);
+}
+
+.status-card, .offer-card, .biz-panel { box-shadow: var(--shadow-2); }
+
+/* ---------- Section separation ---------- */
+/* A hairline that fades at both ends, instead of a full-width border that
+   cuts the page into slabs. */
+.section-alt { border-top: 0; border-bottom: 0; position: relative; }
+.section-alt::before,
+.section-alt::after {
+  content: ""; position: absolute; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--color-line) 18%, var(--color-line) 82%, transparent);
+}
+.section-alt::before { top: 0; }
+.section-alt::after { bottom: 0; }
+
+/* ---------- Focus ---------- */
+/* One consistent, clearly visible focus ring across every interactive element. */
+:focus-visible { outline-color: var(--color-primary); }
+
+@media (prefers-reduced-motion: reduce) {
+  .aurora-field { animation: none; }
+  .btn-primary:hover::before { animation: none; opacity: 0; }
+}
