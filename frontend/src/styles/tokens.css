@@ -75,7 +75,6 @@
 
   /* ---- Layout chrome heights, referenced by sticky offsets ---- */
   --header-h: 58px;
-  --sticky-actions-h: 60px;
 }
 
 @media (max-width: 900px) {

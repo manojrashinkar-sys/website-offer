@@ -6,7 +6,6 @@ import './styles/offer.css';
 import './styles/roadmap.css';
 import './styles/tokens.css';
 import './styles/sections.css';
-import './styles/mobile.css';
 import './styles/polish.css';
 import './styles/interactions.css';
 import './styles/theme.css';
