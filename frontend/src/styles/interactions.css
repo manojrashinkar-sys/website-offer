@@ -48,8 +48,13 @@
   display: flex; align-items: center; gap: 0.9rem; flex-wrap: wrap;
   margin-bottom: 1.6rem;
 }
+/* Two equal columns, not inline-flex. The labels have very different natural
+   widths, so with content sizing the 50% sliding thumb stopped short of the
+   longer label and its white text spilled onto the grey track — which read as
+   the button being cut off. Equal columns make the thumb line up exactly. */
 .cmp-switch {
-  position: relative; display: inline-flex; padding: 4px;
+  position: relative; display: grid; grid-template-columns: 1fr 1fr;
+  padding: 4px;
   background: var(--surface-muted); border: 1px solid var(--border-subtle);
   border-radius: var(--radius-pill);
 }
@@ -66,10 +71,45 @@
 /* Hovering means it has been found; the halo stops competing for attention. */
 .cmp-switch:hover .cmp-switch-btn.nudge { animation-play-state: paused; }
 
+/* Pointing hand sitting under the right-hand option, tapping it on a loop.
+   Positioned inside the switch so it tracks the button at every width. */
+.cmp-hand {
+  position: absolute; z-index: 4; pointer-events: none;
+  left: 75%; bottom: -20px; margin-left: -13px;
+  color: var(--green-deep);
+  filter: drop-shadow(0 3px 5px rgba(22, 163, 74, 0.35));
+  animation: cmp-tap 1.8s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+}
+@keyframes cmp-tap {
+  0%, 100% { transform: translateY(0) rotate(-10deg); }
+  35%      { transform: translateY(-11px) rotate(-2deg); }
+  50%      { transform: translateY(-4px) rotate(-4deg); }
+  70%      { transform: translateY(-7px) rotate(-6deg); }
+}
+
+/* The ring that expands at the moment of contact. */
+.cmp-hand-ripple {
+  position: absolute; top: -6px; left: 50%; margin-left: -9px;
+  width: 18px; height: 18px; border-radius: 50%;
+  border: 2px solid var(--green-bright);
+  opacity: 0;
+  animation: cmp-ripple 1.8s ease-out infinite;
+}
+@keyframes cmp-ripple {
+  0%, 30% { transform: scale(0.4); opacity: 0; }
+  42%     { transform: scale(0.6); opacity: 0.8; }
+  75%     { transform: scale(2.1); opacity: 0; }
+  100%    { opacity: 0; }
+}
+
 .cmp-hint {
   display: inline-flex; align-items: center; gap: 0.4rem; margin: 0;
   font-size: 0.84rem; font-weight: 700; color: var(--green-deep);
-  animation: cmp-hint-in 0.5s ease 0.35s both;
+  animation: cmp-hint-in 0.5s ease 0.35s both, cmp-hint-breathe 1.8s ease-in-out 0.85s infinite;
+}
+@keyframes cmp-hint-breathe {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.55; }
 }
 .cmp-hint-arrow {
   display: inline-block; font-size: 1rem; line-height: 1;
@@ -295,9 +335,11 @@
 }
 
 @media (max-width: 640px) {
-  .cmp-switch-wrap { flex-direction: column; align-items: center; gap: 0.6rem; }
-  .cmp-switch { display: grid; grid-template-columns: 1fr 1fr; width: 100%; }
+  /* Extra bottom gap so the tapping hand clears the hint text below it. */
+  .cmp-switch-wrap { flex-direction: column; align-items: center; gap: 1.5rem; }
+  .cmp-switch { width: 100%; }
   .cmp-switch-btn { font-size: 0.8rem; padding: 0.55rem 0.5rem; }
+  .cmp-hand { bottom: -18px; }
   /* Stacked, so the arrow points up at the switch instead of sideways. */
   .cmp-hint-arrow { transform: rotate(90deg); animation-name: cmp-hint-point-up; }
   .cmp-panel { grid-template-columns: 1fr; gap: 0.6rem; }
@@ -316,6 +358,8 @@
 @media (prefers-reduced-motion: reduce) {
   .cmp-switch-thumb, .stage-progress span, .scroll-progress span { transition: none; }
   .stage-detail { animation: none; }
-  /* The hint text still shows — only its movement is removed. */
-  .cmp-switch-btn.nudge, .cmp-hint-arrow, .cmp-hint { animation: none; }
+  /* The hint text and hand still show — only their movement is removed. */
+  .cmp-switch-btn.nudge, .cmp-hint-arrow, .cmp-hint,
+  .cmp-hand, .cmp-hand-ripple { animation: none; }
+  .cmp-hand-ripple { opacity: 0; }
 }

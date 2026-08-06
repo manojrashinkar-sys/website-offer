@@ -281,6 +281,15 @@ const paths: Record<string, JSX.Element> = {
       <line x1="19" y1="5" x2="5" y2="19" />
     </>
   ),
+  // Pointing hand, used to show where to tap.
+  pointer: (
+    <>
+      <path d="M18 11.5V10a1.7 1.7 0 0 0-3.4 0" />
+      <path d="M14.6 10.5V9a1.7 1.7 0 0 0-3.4 0v1.5" />
+      <path d="M11.2 10.5V4.7a1.7 1.7 0 0 0-3.4 0v9.8" />
+      <path d="M18 11.5a1.7 1.7 0 1 1 3.4 0v3.1a7 7 0 0 1-7 7h-1.6c-2.3 0-3.8-.7-5-1.9l-3-3a1.7 1.7 0 0 1 2.4-2.4l1.6 1.5" />
+    </>
+  ),
 };
 
 interface Props {

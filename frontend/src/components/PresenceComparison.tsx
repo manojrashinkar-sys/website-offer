@@ -54,6 +54,13 @@ export default function PresenceComparison() {
               With a professional website
             </button>
             <span className={`cmp-switch-thumb ${isWith ? 'right' : ''}`} aria-hidden="true" />
+
+            {nudge && (
+              <span className="cmp-hand" aria-hidden="true">
+                <span className="cmp-hand-ripple" />
+                <Icon name="pointer" size={26} />
+              </span>
+            )}
           </div>
 
           {nudge && (
