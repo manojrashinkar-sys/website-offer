@@ -11,10 +11,17 @@ type Side = 'without' | 'with';
 // Tuesday, which is what makes it land.
 export default function PresenceComparison() {
   const [side, setSide] = useState<Side>('without');
+  const [discovered, setDiscovered] = useState(false);
   const isWith = side === 'with';
+
+  // The section is worthless if nobody realises the right half is clickable.
+  // The nudge runs until it has been used once, then never returns — a hint
+  // that keeps pulsing after you have obeyed it is just noise.
+  const nudge = !discovered;
 
   const choose = (next: Side) => {
     setSide(next);
+    if (next === 'with') setDiscovered(true);
     trackEvent('presence_comparison_toggled', { side: next });
   };
 
@@ -28,24 +35,33 @@ export default function PresenceComparison() {
           </p>
         </div>
 
-        <div className="cmp-switch" role="group" aria-label="Compare business presence">
-          <button
-            type="button"
-            className={`cmp-switch-btn ${!isWith ? 'active' : ''}`}
-            aria-pressed={!isWith}
-            onClick={() => choose('without')}
-          >
-            Without a website
-          </button>
-          <button
-            type="button"
-            className={`cmp-switch-btn ${isWith ? 'active' : ''}`}
-            aria-pressed={isWith}
-            onClick={() => choose('with')}
-          >
-            With a professional website
-          </button>
-          <span className={`cmp-switch-thumb ${isWith ? 'right' : ''}`} aria-hidden="true" />
+        <div className="cmp-switch-wrap">
+          <div className="cmp-switch" role="group" aria-label="Compare business presence">
+            <button
+              type="button"
+              className={`cmp-switch-btn ${!isWith ? 'active' : ''}`}
+              aria-pressed={!isWith}
+              onClick={() => choose('without')}
+            >
+              Without a website
+            </button>
+            <button
+              type="button"
+              className={`cmp-switch-btn ${isWith ? 'active' : ''} ${nudge ? 'nudge' : ''}`}
+              aria-pressed={isWith}
+              onClick={() => choose('with')}
+            >
+              With a professional website
+            </button>
+            <span className={`cmp-switch-thumb ${isWith ? 'right' : ''}`} aria-hidden="true" />
+          </div>
+
+          {nudge && (
+            <p className="cmp-hint">
+              <span className="cmp-hint-arrow" aria-hidden="true">←</span>
+              Tap to see the difference
+            </p>
+          )}
         </div>
 
         <div className={`cmp-panel ${isWith ? 'is-with' : 'is-without'}`} aria-live="polite">
