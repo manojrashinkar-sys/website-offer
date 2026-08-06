@@ -6,6 +6,8 @@ import { useDiscussAction } from '../hooks/useDiscussAction';
 import { generalEnquiryMessage, whatsappLink } from '../utils/whatsapp';
 import { scrollToSection } from '../utils/scroll';
 import Logo from './Logo';
+import Icon from './Icon';
+import ThemeToggle from './ThemeToggle';
 
 const offerNavLinks = [
   { id: 'offer', label: 'Offer' },
@@ -181,6 +183,7 @@ export default function OfferHeader() {
           </nav>
 
           <div className="header-actions">
+            <ThemeToggle />
             {config.whatsappNumber && (
               <a
                 className="header-contact-btn"
@@ -233,64 +236,97 @@ export default function OfferHeader() {
         <div className="mobile-nav-head">
           <Logo />
           <button type="button" className="mobile-nav-close" onClick={closeMenu} aria-label="Close menu">
-            ×
+            <Icon name="close" size={18} />
           </button>
         </div>
 
-        <p className="mobile-nav-label">On this page</p>
-        {drawerLinks.map((link) => (
+        <div className="mobile-nav-body">
+          <p className="mobile-nav-label">On this page</p>
+          <div className="mobile-nav-group">
+            {drawerLinks.map((link) => (
+              <button
+                key={link.id}
+                className="mobile-nav-link"
+                onClick={() => goToSection(link.id)}
+              >
+                <span>{link.label}</span>
+                <span className="mobile-nav-arrow" aria-hidden="true">→</span>
+              </button>
+            ))}
+          </div>
+
+          <p className="mobile-nav-label">Pages</p>
+          <div className="mobile-nav-group">
+            <Link
+              className={`mobile-nav-link ${onRoadmap ? '' : 'active'}`}
+              to={config.offerRoute}
+              onClick={() => setMenuOpen(false)}
+            >
+              <span>Website Offer</span>
+              <span className="mobile-nav-arrow" aria-hidden="true">→</span>
+            </Link>
+            <Link
+              className={`mobile-nav-link ${onRoadmap ? 'active' : ''}`}
+              to={config.roadmapRoute}
+              onClick={() => {
+                setMenuOpen(false);
+                trackEvent('roadmap_link_click', { placement: 'mobile_nav' });
+              }}
+            >
+              <span>Development Roadmap</span>
+              <span className="mobile-nav-arrow" aria-hidden="true">→</span>
+            </Link>
+          </div>
+
+          <p className="mobile-nav-label">Appearance</p>
+          <ThemeToggle variant="row" />
+        </div>
+
+        <div className="mobile-nav-foot">
           <button
-            key={link.id}
-            className="mobile-nav-link"
-            onClick={() => goToSection(link.id)}
-          >
-            {link.label}
-          </button>
-        ))}
-
-        <p className="mobile-nav-label">Explore</p>
-        <Link
-          className={`mobile-nav-link ${onRoadmap ? '' : 'active'}`}
-          to={config.offerRoute}
-          onClick={() => setMenuOpen(false)}
-        >
-          Website Offer
-        </Link>
-        <Link
-          className={`mobile-nav-link ${onRoadmap ? 'active' : ''}`}
-          to={config.roadmapRoute}
-          onClick={() => {
-            setMenuOpen(false);
-            trackEvent('roadmap_link_click', { placement: 'mobile_nav' });
-          }}
-        >
-          Development Roadmap
-        </Link>
-
-        {config.whatsappNumber && (
-          <a
-            className="btn btn-whatsapp mobile-nav-wa"
-            href={whatsappLink(generalEnquiryMessage())}
-            target="_blank"
-            rel="noopener noreferrer"
+            className="btn btn-primary"
             onClick={() => {
               setMenuOpen(false);
-              trackEvent('promo_whatsapp_click', { placement: 'mobile_nav' });
+              discuss();
             }}
           >
-            Chat on WhatsApp
-          </a>
-        )}
+            {onRoadmap ? 'Discuss Your Website' : 'Apply Now'}
+          </button>
 
-        <button
-          className="btn btn-primary"
-          onClick={() => {
-            setMenuOpen(false);
-            discuss();
-          }}
-        >
-          {onRoadmap ? 'Discuss Your Website' : 'Apply Now'}
-        </button>
+          <div className="mobile-nav-contact">
+            {config.whatsappNumber && (
+              <a
+                className="mobile-nav-contact-link"
+                href={whatsappLink(generalEnquiryMessage())}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => {
+                  setMenuOpen(false);
+                  trackEvent('promo_whatsapp_click', { placement: 'mobile_nav' });
+                }}
+              >
+                <Icon name="chat" size={16} />
+                WhatsApp
+              </a>
+            )}
+            {config.contactPhone && (
+              <a
+                className="mobile-nav-contact-link"
+                href={`tel:${config.contactPhone}`}
+                onClick={() => trackEvent('phone_click', { placement: 'mobile_nav' })}
+              >
+                <Icon name="phone" size={16} />
+                Call
+              </a>
+            )}
+            {config.contactEmail && (
+              <a className="mobile-nav-contact-link" href={`mailto:${config.contactEmail}`}>
+                <Icon name="mail" size={16} />
+                Email
+              </a>
+            )}
+          </div>
+        </div>
       </div>
     </>
   );

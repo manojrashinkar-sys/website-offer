@@ -8,6 +8,7 @@ import './styles/tokens.css';
 import './styles/sections.css';
 import './styles/mobile.css';
 import './styles/polish.css';
+import './styles/theme.css';
 
 // Record campaign parameters before the router rewrites the URL.
 captureAttribution();
