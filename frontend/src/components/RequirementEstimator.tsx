@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { AnalyticsEvent, trackEvent } from '../analytics';
 import { config } from '../config';
 import { businessTypes } from '../content/businessTypes';
@@ -12,7 +12,6 @@ import { scrollToSection } from '../utils/scroll';
 import Icon from './Icon';
 
 const STORAGE_KEY = 'wo_estimator';
-const STEPS = ['Business', 'Purpose', 'Size', 'Features', 'Domain', 'Timeline'] as const;
 
 interface State {
   business: string;
@@ -39,7 +38,6 @@ const labelOf = (list: readonly Choice[], id: string) =>
 const weightOf = (list: readonly Choice[], id: string) =>
   list.find((choice) => choice.id === id)?.weight ?? 0;
 
-/** Selections are kept for the session so the enquiry form can read them. */
 export function getEstimatorSummary(): string {
   const state = load();
   if (!state.business) return '';
@@ -53,15 +51,14 @@ export function getEstimatorSummary(): string {
   ].join('\n');
 }
 
-// The centrepiece interaction of the page. A visitor who has spent thirty
-// seconds specifying their own requirements is a far warmer lead than one who
-// has only read — and they arrive in WhatsApp with the brief already written.
+// Everything on one screen, with the recommendation resolving live beside the
+// questions. A Next/Back wizard hides the shape of what is being asked, makes
+// people commit before they can see where it leads, and turns a thirty-second
+// task into six page-loads' worth of clicking.
 export default function RequirementEstimator() {
-  const [step, setStep] = useState(0);
-  const [done, setDone] = useState(false);
   const [state, setState] = useState<State>(load);
   const [started, setStarted] = useState(false);
-  const panelRef = useRef<HTMLDivElement>(null);
+  const [completedFired, setCompletedFired] = useState(false);
 
   useEffect(() => {
     try {
@@ -71,19 +68,19 @@ export default function RequirementEstimator() {
     }
   }, [state]);
 
+  const begin = () => {
+    if (started) return;
+    setStarted(true);
+    trackEvent(AnalyticsEvent.estimatorStarted);
+  };
+
   const set = <K extends keyof State>(key: K, value: State[K]) => {
-    if (!started) {
-      setStarted(true);
-      trackEvent(AnalyticsEvent.estimatorStarted);
-    }
+    begin();
     setState((current) => ({ ...current, [key]: value }));
   };
 
   const toggleFeature = (id: string) => {
-    if (!started) {
-      setStarted(true);
-      trackEvent(AnalyticsEvent.estimatorStarted);
-    }
+    begin();
     setState((current) => ({
       ...current,
       features: current.features.includes(id)
@@ -101,25 +98,20 @@ export default function RequirementEstimator() {
     state.features.some((id) => featureChoices.some((choice) => choice.id === id && choice.backend));
   const result = recommend(score, needsBackend);
 
-  const answered = [state.business, state.purpose, state.pages, state.guidance, state.timeline];
-  const canAdvance = step === 3 ? true : Boolean(answered[step > 3 ? step - 1 : step]);
+  const required = [state.business, state.purpose, state.pages, state.guidance, state.timeline];
+  const answeredCount = required.filter(Boolean).length;
+  const complete = answeredCount === required.length;
 
-  const goNext = () => {
-    if (step < STEPS.length - 1) {
-      setStep(step + 1);
-      // Move focus to the new question so keyboard and screen-reader users
-      // are not left behind at the button they just pressed.
-      requestAnimationFrame(() => panelRef.current?.focus());
-      return;
+  useEffect(() => {
+    if (complete && !completedFired) {
+      setCompletedFired(true);
+      trackEvent(AnalyticsEvent.estimatorCompleted, {
+        tier: result.tier,
+        business_type: state.business,
+        feature_count: state.features.length,
+      });
     }
-    setDone(true);
-    trackEvent(AnalyticsEvent.estimatorCompleted, {
-      tier: result.tier,
-      business_type: state.business,
-      feature_count: state.features.length,
-    });
-    requestAnimationFrame(() => panelRef.current?.focus());
-  };
+  }, [complete, completedFired, result.tier, state.business, state.features.length]);
 
   const message = () => {
     const lines = [
@@ -140,268 +132,210 @@ export default function RequirementEstimator() {
     return lines.join('\n');
   };
 
-  const restart = () => {
-    setState(EMPTY);
-    setStep(0);
-    setDone(false);
-    setStarted(false);
-  };
-
   return (
     <section className="section" id="estimator">
       <div className="container">
         <div className="section-head">
           <h2>Build Your Website Requirement</h2>
           <p>
-            Six quick questions. You will get a recommended solution category and can send
-            the whole brief to us in one tap — no price guesswork, no obligation.
+            Answer what you can — the recommendation updates as you go. Nothing is
+            submitted until you choose to send it.
           </p>
         </div>
 
-        <div className="est-card">
-          {!done && (
-            <div className="est-progress">
-              <ol className="est-steps">
-                {STEPS.map((name, index) => (
-                  <li
-                    key={name}
-                    className={`est-step ${index === step ? 'current' : ''} ${index < step ? 'complete' : ''}`}
-                  >
-                    <span className="est-step-dot" aria-hidden="true">
-                      {index < step ? '✓' : index + 1}
-                    </span>
-                    <span className="est-step-label">{name}</span>
-                  </li>
-                ))}
-              </ol>
-              <div className="est-bar" aria-hidden="true">
-                <span style={{ width: `${((step + 1) / STEPS.length) * 100}%` }} />
-              </div>
-              <p className="sr-only" aria-live="polite">
-                Step {step + 1} of {STEPS.length}: {STEPS[step]}
-              </p>
-            </div>
-          )}
+        <div className="est-layout">
+          <div className="est-questions">
+            <Field index={1} legend="What kind of business is this for?" done={Boolean(state.business)}>
+              {businessTypes.map((type) => (
+                <Chip
+                  key={type.id}
+                  label={type.label}
+                  checked={state.business === type.label}
+                  onSelect={() => set('business', type.label)}
+                />
+              ))}
+            </Field>
 
-          <div className="est-panel" ref={panelRef} tabIndex={-1}>
-            {!done && step === 0 && (
-              <Question legend="What kind of business is this for?">
-                {businessTypes.map((type) => (
-                  <Option
-                    key={type.id}
-                    name="est-business"
-                    label={type.label}
-                    icon={type.icon}
-                    checked={state.business === type.label}
-                    onChange={() => set('business', type.label)}
-                  />
-                ))}
-              </Question>
-            )}
+            <Field index={2} legend="What should it mainly do?" done={Boolean(state.purpose)}>
+              {purposes.map((choice) => (
+                <Chip
+                  key={choice.id}
+                  label={choice.label}
+                  checked={state.purpose === choice.id}
+                  onSelect={() => set('purpose', choice.id)}
+                />
+              ))}
+            </Field>
 
-            {!done && step === 1 && (
-              <Question legend="What should the website mainly do?">
-                {purposes.map((choice) => (
-                  <Option
-                    key={choice.id}
-                    name="est-purpose"
-                    label={choice.label}
-                    icon={choice.icon}
-                    checked={state.purpose === choice.id}
-                    onChange={() => set('purpose', choice.id)}
-                  />
-                ))}
-              </Question>
-            )}
+            <Field index={3} legend="Roughly how many pages?" done={Boolean(state.pages)}>
+              {pageCounts.map((choice) => (
+                <Chip
+                  key={choice.id}
+                  label={choice.label}
+                  checked={state.pages === choice.id}
+                  onSelect={() => set('pages', choice.id)}
+                />
+              ))}
+            </Field>
 
-            {!done && step === 2 && (
-              <Question legend="Roughly how many pages?">
-                {pageCounts.map((choice) => (
-                  <Option
-                    key={choice.id}
-                    name="est-pages"
-                    label={choice.label}
-                    hint={choice.hint}
-                    checked={state.pages === choice.id}
-                    onChange={() => set('pages', choice.id)}
-                  />
-                ))}
-              </Question>
-            )}
+            <Field
+              index={4}
+              legend="Which features do you need?"
+              hint="Optional — choose any that apply."
+              done={state.features.length > 0}
+            >
+              {featureChoices.map((choice) => (
+                <Chip
+                  key={choice.id}
+                  type="checkbox"
+                  label={choice.label}
+                  icon={choice.icon}
+                  checked={state.features.includes(choice.id)}
+                  onSelect={() => toggleFeature(choice.id)}
+                />
+              ))}
+            </Field>
 
-            {!done && step === 3 && (
-              <Question legend="Which features do you need?" hint="Select any that apply.">
-                {featureChoices.map((choice) => (
-                  <Option
-                    key={choice.id}
-                    type="checkbox"
-                    name={`est-feature-${choice.id}`}
-                    label={choice.label}
-                    icon={choice.icon}
-                    checked={state.features.includes(choice.id)}
-                    onChange={() => toggleFeature(choice.id)}
-                  />
-                ))}
-              </Question>
-            )}
+            <Field index={5} legend="Need help with domain and hosting?" done={Boolean(state.guidance)}>
+              {guidanceChoices.map((choice) => (
+                <Chip
+                  key={choice.id}
+                  label={choice.label}
+                  checked={state.guidance === choice.id}
+                  onSelect={() => set('guidance', choice.id)}
+                />
+              ))}
+            </Field>
 
-            {!done && step === 4 && (
-              <Question legend="Do you need help with domain and hosting?">
-                {guidanceChoices.map((choice) => (
-                  <Option
-                    key={choice.id}
-                    name="est-guidance"
-                    label={choice.label}
-                    checked={state.guidance === choice.id}
-                    onChange={() => set('guidance', choice.id)}
-                  />
-                ))}
-              </Question>
-            )}
-
-            {!done && step === 5 && (
-              <Question legend="When would you like to launch?">
-                {timelines.map((choice) => (
-                  <Option
-                    key={choice.id}
-                    name="est-timeline"
-                    label={choice.label}
-                    checked={state.timeline === choice.id}
-                    onChange={() => set('timeline', choice.id)}
-                  />
-                ))}
-              </Question>
-            )}
-
-            {done && (
-              <div className="est-result">
-                <span className={`est-tier est-tier-${result.tier.toLowerCase()}`}>
-                  {result.tier}
-                </span>
-                <h3>{result.category}</h3>
-                <p className="est-summary">{result.summary}</p>
-
-                <dl className="est-recap">
-                  <div><dt>Business</dt><dd>{state.business}</dd></div>
-                  <div><dt>Purpose</dt><dd>{labelOf(purposes, state.purpose)}</dd></div>
-                  <div><dt>Pages</dt><dd>{labelOf(pageCounts, state.pages)}</dd></div>
-                  <div><dt>Timeline</dt><dd>{labelOf(timelines, state.timeline)}</dd></div>
-                </dl>
-
-                {state.features.length > 0 && (
-                  <>
-                    <h4>Features included</h4>
-                    <ul className="tag-list tag-brand">
-                      {state.features.map((id) => (
-                        <li className="tag" key={id}>{labelOf(featureChoices, id)}</li>
-                      ))}
-                    </ul>
-                  </>
-                )}
-
-                <h4>Recommended approach</h4>
-                <p className="est-approach">{result.approach}</p>
-
-                <p className="est-note">
-                  This is a requirement summary, not a quotation. The final scope and cost
-                  are confirmed in writing after we discuss your project.
-                </p>
-
-                <div className="est-actions">
-                  {config.whatsappNumber && (
-                    <a
-                      className="btn btn-primary btn-glow"
-                      href={whatsappLink(message())}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      onClick={() =>
-                        trackEvent(AnalyticsEvent.whatsappClick, { placement: 'estimator', tier: result.tier })
-                      }
-                    >
-                      Get Exact Quote on WhatsApp
-                    </a>
-                  )}
-                  <button
-                    className="btn btn-outline"
-                    type="button"
-                    onClick={() => {
-                      trackEvent(AnalyticsEvent.applyClick, { placement: 'estimator', tier: result.tier });
-                      scrollToSection('enquiry');
-                    }}
-                  >
-                    Send by Form Instead
-                  </button>
-                  <button className="btn-link" type="button" onClick={restart}>
-                    Start again
-                  </button>
-                </div>
-              </div>
-            )}
+            <Field index={6} legend="When would you like to launch?" done={Boolean(state.timeline)}>
+              {timelines.map((choice) => (
+                <Chip
+                  key={choice.id}
+                  label={choice.label}
+                  checked={state.timeline === choice.id}
+                  onSelect={() => set('timeline', choice.id)}
+                />
+              ))}
+            </Field>
           </div>
 
-          {!done && (
-            <div className="est-nav">
-              <button
-                className="btn btn-outline btn-sm"
-                type="button"
-                onClick={() => setStep(Math.max(0, step - 1))}
-                disabled={step === 0}
-              >
-                Back
-              </button>
-              <span className="est-count">Step {step + 1} of {STEPS.length}</span>
-              <button
-                className="btn btn-primary btn-sm"
-                type="button"
-                onClick={goNext}
-                disabled={!canAdvance}
-              >
-                {step === STEPS.length - 1 ? 'See Recommendation' : 'Next'}
-              </button>
+          <aside className="est-result-panel" aria-label="Your recommendation">
+            <div className="est-result-inner">
+              <p className="est-result-eyebrow">Your recommendation</p>
+
+              <div className="est-readout" aria-live="polite">
+                {started ? (
+                  <>
+                    <span className={`est-tier est-tier-${result.tier.toLowerCase()}`}>{result.tier}</span>
+                    <h3>{result.category}</h3>
+                    <p className="est-summary">{result.summary}</p>
+                  </>
+                ) : (
+                  <>
+                    <h3 className="est-idle">Start choosing</h3>
+                    <p className="est-summary">
+                      Your recommended category will appear here and update with every choice.
+                    </p>
+                  </>
+                )}
+              </div>
+
+              <div className="est-meter" aria-hidden="true">
+                <span style={{ width: `${(answeredCount / required.length) * 100}%` }} />
+              </div>
+              <p className="est-meter-label">
+                {complete ? 'All answered' : `${answeredCount} of ${required.length} answered`}
+              </p>
+
+              {started && (
+                <dl className="est-recap">
+                  {state.business && <Recap term="Business" value={state.business} />}
+                  {state.pages && <Recap term="Pages" value={labelOf(pageCounts, state.pages)} />}
+                  {state.features.length > 0 && (
+                    <Recap term="Features" value={`${state.features.length} selected`} />
+                  )}
+                  {state.timeline && <Recap term="Timeline" value={labelOf(timelines, state.timeline)} />}
+                </dl>
+              )}
+
+              <div className="est-actions">
+                {config.whatsappNumber && (
+                  <a
+                    className={`btn btn-primary ${complete ? 'btn-glow' : ''}`}
+                    href={whatsappLink(message())}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() =>
+                      trackEvent(AnalyticsEvent.whatsappClick, { placement: 'estimator', tier: result.tier })
+                    }
+                  >
+                    Send This Brief on WhatsApp
+                  </a>
+                )}
+                <button
+                  className="btn btn-outline"
+                  type="button"
+                  onClick={() => {
+                    trackEvent(AnalyticsEvent.applyClick, { placement: 'estimator', tier: result.tier });
+                    scrollToSection('enquiry');
+                  }}
+                >
+                  Use the Form Instead
+                </button>
+              </div>
+
+              <p className="est-note">
+                A requirement summary, not a quotation. Final scope and cost are confirmed
+                in writing after we talk.
+              </p>
             </div>
-          )}
+          </aside>
         </div>
       </div>
     </section>
   );
 }
 
-function Question({
-  legend, hint, children,
-}: { legend: string; hint?: string; children: React.ReactNode }) {
+function Recap({ term, value }: { term: string; value: string }) {
   return (
-    <fieldset className="est-question">
-      <legend>{legend}</legend>
+    <div>
+      <dt>{term}</dt>
+      <dd>{value}</dd>
+    </div>
+  );
+}
+
+function Field({
+  index, legend, hint, done, children,
+}: {
+  index: number; legend: string; hint?: string; done: boolean; children: React.ReactNode;
+}) {
+  return (
+    <fieldset className={`est-field ${done ? 'done' : ''}`}>
+      <legend>
+        <span className="est-field-num" aria-hidden="true">{done ? '✓' : index}</span>
+        <span className="est-field-legend">{legend}</span>
+      </legend>
       {hint && <p className="est-hint">{hint}</p>}
-      <div className="est-options">{children}</div>
+      <div className="est-chips">{children}</div>
     </fieldset>
   );
 }
 
-function Option({
-  type = 'radio', name, label, hint, icon, checked, onChange,
+function Chip({
+  type = 'radio', label, icon, checked, onSelect,
 }: {
   type?: 'radio' | 'checkbox';
-  name: string;
   label: string;
-  hint?: string;
   icon?: string;
   checked: boolean;
-  onChange: () => void;
+  onSelect: () => void;
 }) {
   return (
-    <label className={`est-option ${checked ? 'checked' : ''}`}>
-      <input type={type} name={name} checked={checked} onChange={onChange} />
-      {icon && (
-        <span className="est-option-icon" aria-hidden="true">
-          <Icon name={icon} size={18} />
-        </span>
-      )}
-      <span className="est-option-text">
-        <strong>{label}</strong>
-        {hint && <small>{hint}</small>}
-      </span>
-      <span className="est-option-tick" aria-hidden="true">✓</span>
+    <label className={`est-chip ${checked ? 'checked' : ''}`}>
+      <input type={type} checked={checked} onChange={onSelect} />
+      {icon && <Icon name={icon} size={15} />}
+      <span>{label}</span>
     </label>
   );
 }

@@ -9,6 +9,14 @@
    ============================================================ */
 
 :root {
+  /* ---- Typefaces ----
+     Sora for headings: geometric, confident, and distinct enough that the
+     page stops looking like every other default-stack site. Manrope for body:
+     warmer and more open than Inter at small sizes, with a taller x-height
+     that holds up on phones. */
+  --font: "Manrope", "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+  --font-heading: "Sora", var(--font);
+
   /* ---- Refined neutrals ----
      Deeper ink reads as more considered than near-black grey, and the page
      background carries a touch more warmth so white cards separate from it. */
@@ -161,7 +169,116 @@ p { text-wrap: pretty; }
 .btn { letter-spacing: -0.005em; }
 .btn-outline:hover { box-shadow: 0 6px 18px rgba(37, 99, 235, 0.16); }
 
-/* ---------- Cards ---------- */
+/* ---------- Cards ----------
+   The previous treatment — white box, hairline border, pastel-gradient icon
+   tile, bold title, grey paragraph — is the default look every generated
+   template lands on. These changes give it an authored feel instead:
+
+   1. The icon loses its tinted tile and is drawn larger, in brand colour, as
+      part of the composition rather than sitting in a little coloured square.
+   2. A hairline of white inside the top edge, which is how a real surface
+      catches light and the main reason a card reads as an object.
+   3. Colour arrives only on interaction, from the corner, rather than every
+      card shouting a gradient bar at rest. */
+
+.info-card,
+.checklist-card,
+.hosting-card,
+.support-card,
+.pricing-card,
+.tech-card,
+.principle-card,
+.ownership-card {
+  position: relative;
+  border-radius: 20px;
+  background: linear-gradient(180deg, #ffffff 0%, #fcfdff 100%);
+  border: 1px solid var(--color-line);
+  box-shadow: var(--shadow-1);
+}
+
+/* The inside-top highlight. */
+.info-card::after,
+.checklist-card::after,
+.hosting-card::after,
+.support-card::after,
+.pricing-card::after,
+.tech-card::after,
+.ownership-card::after {
+  content: "";
+  position: absolute; inset: 0; border-radius: inherit;
+  pointer-events: none;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+/* Icons: no tile, no pastel fill, larger and lighter in weight. */
+.info-card-icon,
+.principle-icon,
+.ownership-icon,
+.tech-icon {
+  width: auto; height: auto;
+  background: none; border: 0; border-radius: 0;
+  color: var(--color-primary);
+  margin-bottom: 1rem;
+  transition: color 0.25s ease, transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.info-card-icon svg,
+.principle-icon svg,
+.ownership-icon svg,
+.tech-icon svg {
+  width: 30px; height: 30px; stroke-width: 1.5;
+}
+.info-card:hover .info-card-icon,
+.principle-card:hover .principle-icon,
+.ownership-card:hover .ownership-icon,
+.tech-card:hover .tech-icon {
+  transform: translateY(-2px);
+  color: var(--color-primary-dark);
+}
+
+/* Colour on interaction only, washing in from the top-right corner. */
+.info-card::before,
+.checklist-card::before,
+.hosting-card::before,
+.support-card::before,
+.tech-card::before {
+  content: "";
+  position: absolute; inset: 0; border-radius: inherit;
+  background: radial-gradient(420px 200px at 100% 0%, rgba(79, 70, 229, 0.09), transparent 70%);
+  opacity: 0; transition: opacity 0.28s ease;
+  transform: none;
+  height: auto;
+  pointer-events: none;
+}
+.info-card:hover::before,
+.checklist-card:hover::before,
+.hosting-card:hover::before,
+.support-card:hover::before,
+.tech-card:hover::before { opacity: 1; }
+
+.info-card:hover,
+.checklist-card:hover,
+.hosting-card:hover,
+.support-card:hover,
+.pricing-card:hover,
+.tech-card:hover,
+.principle-card:hover,
+.ownership-card:hover {
+  border-color: rgba(79, 70, 229, 0.28);
+}
+
+/* Editorial typography inside cards: a larger, tighter title carrying more
+   of the weight, and body copy that is quieter rather than merely smaller. */
+.info-card h3,
+.checklist-card h3,
+.hosting-card h3,
+.support-card h3,
+.pricing-card h3 {
+  font-size: 1.06rem; line-height: 1.25; letter-spacing: -0.018em;
+  margin-bottom: 0.45rem;
+}
+.info-card p { font-size: 0.9rem; line-height: 1.6; }
+
+/* ---------- Cards (shared motion) ---------- */
 /* Slightly faster, slightly shorter lift with a springy curve reads as
    responsive; the previous long ease felt sluggish under the cursor. */
 .info-card, .tech-card, .hosting-card, .support-card,
