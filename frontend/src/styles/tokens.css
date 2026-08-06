@@ -1,0 +1,87 @@
+/* ============================================================
+   Design tokens
+   ------------------------------------------------------------
+   The :root block in offer.css stays the source of truth for the
+   colours already painting the live site. These tokens sit beside
+   it as a named vocabulary for new sections, so nothing currently
+   rendered changes appearance while new work stops inventing
+   one-off values.
+
+   Deliberately NOT redefined here: --radius, --radius-sm,
+   --shadow, --shadow-lg, --font, --font-heading and every
+   --color-* token. Redefining those would silently restyle the
+   existing page from a later stylesheet.
+   ============================================================ */
+
+:root {
+  /* ---- Brand ---- */
+  --brand-primary: var(--color-primary);
+  --brand-primary-dark: var(--color-primary-dark);
+  --brand-primary-soft: var(--color-primary-soft);
+  --brand-secondary: var(--color-accent);
+  --brand-accent: var(--color-accent-2);
+
+  /* ---- Surfaces ---- */
+  --surface-page: var(--color-bg);
+  --surface-card: var(--color-surface);
+  --surface-muted: var(--color-surface-alt);
+  --surface-inverse: var(--hero-bg-1);
+
+  /* ---- Text ---- */
+  --text-heading: var(--color-ink);
+  --text-body: var(--color-ink-soft);
+  --text-inverse: var(--hero-ink);
+  --text-inverse-soft: var(--hero-ink-soft);
+
+  /* ---- Borders ---- */
+  --border-subtle: var(--color-line);
+  --border-strong: rgba(37, 99, 235, 0.24);
+  --border-focus: var(--color-primary);
+
+  /* ---- States ---- */
+  --state-success: #15803d;
+  --state-success-soft: #dcfce7;
+  --state-warning: var(--color-warn);
+  --state-warning-soft: var(--color-warn-soft);
+  --state-danger: var(--color-danger);
+  --state-danger-soft: var(--color-danger-soft);
+
+  /* ---- Elevation ---- */
+  --shadow-1: 0 4px 18px rgba(13, 20, 36, 0.055);
+  --shadow-2: 0 8px 28px rgba(13, 20, 36, 0.07);
+  --shadow-3: 0 18px 42px rgba(13, 20, 36, 0.12);
+  --shadow-4: 0 24px 60px rgba(13, 20, 36, 0.15);
+
+  /* ---- Radii (additions only) ---- */
+  --radius-xs: 8px;
+  --radius-lg: 26px;
+  --radius-pill: 999px;
+
+  /* ---- Spacing scale ---- */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4rem;
+
+  /* ---- Section rhythm (mirrors the existing .section clamp) ---- */
+  --section-y: clamp(3.75rem, 7vw, 5.75rem);
+  --section-y-tight: clamp(2.5rem, 5vw, 3.5rem);
+  --content-max: 1160px;
+  --content-narrow: 860px;
+
+  /* ---- Layout chrome heights, referenced by sticky offsets ---- */
+  --header-h: 58px;
+  --sticky-actions-h: 60px;
+}
+
+@media (max-width: 900px) {
+  :root { --header-h: 52px; }
+}
+
+@media (max-width: 480px) {
+  :root { --header-h: 48px; }
+}

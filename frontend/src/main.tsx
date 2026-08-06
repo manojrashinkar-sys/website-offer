@@ -1,8 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
+import { captureAttribution } from './utils/attribution';
 import './styles/offer.css';
 import './styles/roadmap.css';
+import './styles/tokens.css';
+import './styles/mobile.css';
+
+// Record campaign parameters before the router rewrites the URL.
+captureAttribution();
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>

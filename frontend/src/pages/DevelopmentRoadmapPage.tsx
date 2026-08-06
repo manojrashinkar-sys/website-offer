@@ -6,6 +6,7 @@ import { useDocumentMeta, type StructuredData } from '../hooks/useDocumentMeta';
 import OfferHeader from '../components/OfferHeader';
 import OfferFooter from '../components/OfferFooter';
 import WhatsAppButton from '../components/WhatsAppButton';
+import MobileStickyActions from '../components/MobileStickyActions';
 import RoadmapHero from '../components/roadmap/RoadmapHero';
 import RoadmapSectionNav from '../components/roadmap/RoadmapSectionNav';
 import ArchitectureIntro from '../components/roadmap/ArchitectureIntro';
@@ -110,6 +111,7 @@ export default function DevelopmentRoadmapPage() {
       </main>
       <OfferFooter />
       <WhatsAppButton />
+      <MobileStickyActions />
       <BackToTop />
     </div>
   );

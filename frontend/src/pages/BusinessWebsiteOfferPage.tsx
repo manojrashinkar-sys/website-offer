@@ -6,6 +6,7 @@ import { scrollToSection } from '../utils/scroll';
 import OfferHeader from '../components/OfferHeader';
 import HeroSection from '../components/HeroSection';
 import BusinessCategories from '../components/BusinessCategories';
+import BusinessTypeSelector from '../components/BusinessTypeSelector';
 import IncludedServices from '../components/IncludedServices';
 import HowItWorks from '../components/HowItWorks';
 import TrustSection from '../components/TrustSection';
@@ -14,6 +15,7 @@ import EnquiryForm from '../components/EnquiryForm';
 import FAQSection from '../components/FAQSection';
 import ClosingCta from '../components/ClosingCta';
 import WhatsAppButton from '../components/WhatsAppButton';
+import MobileStickyActions from '../components/MobileStickyActions';
 import SuccessModal from '../components/SuccessModal';
 import OfferFooter from '../components/OfferFooter';
 
@@ -43,6 +45,7 @@ export default function BusinessWebsiteOfferPage() {
       <main>
         <HeroSection />
         <BusinessCategories />
+        <BusinessTypeSelector />
         <IncludedServices />
         <HowItWorks />
         <TrustSection />
@@ -59,6 +62,7 @@ export default function BusinessWebsiteOfferPage() {
       </main>
       <OfferFooter />
       <WhatsAppButton />
+      <MobileStickyActions />
       <SuccessModal
         open={modalOpen}
         onClose={() => setModalOpen(false)}
