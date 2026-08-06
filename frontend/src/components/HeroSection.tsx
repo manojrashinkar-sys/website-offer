@@ -8,7 +8,9 @@ import HeroAurora from './HeroAurora';
 const heroSlides = [
   {
     eyebrow: 'Limited Introductory Programme',
-    lead: 'Build a ',
+    // "Build a…" on its own read like a DIY site builder, which is the
+    // opposite of a done-for-you service. "We Build" makes the offer explicit.
+    lead: 'We Build a ',
     highlight: 'Professional Website',
     tail: ' for Your Business',
     description: 'A clean, mobile-friendly website built around your business — designed to help customers find you, trust you, and get in touch.',
