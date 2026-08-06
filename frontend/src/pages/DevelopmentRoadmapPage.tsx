@@ -4,6 +4,7 @@ import { config } from '../config';
 import { roadmapFaqItems } from '../content/roadmapContent';
 import { useDocumentMeta, type StructuredData } from '../hooks/useDocumentMeta';
 import OfferHeader from '../components/OfferHeader';
+import ScrollProgress from '../components/ScrollProgress';
 import OfferFooter from '../components/OfferFooter';
 import WhatsAppButton from '../components/WhatsAppButton';
 import MobileStickyActions from '../components/MobileStickyActions';
@@ -88,6 +89,7 @@ export default function DevelopmentRoadmapPage() {
   return (
     <div className="offer-page roadmap-page">
       <a className="skip-link" href="#overview">Skip to roadmap content</a>
+      <ScrollProgress />
       <OfferHeader />
       <RoadmapHero />
       <RoadmapSectionNav />

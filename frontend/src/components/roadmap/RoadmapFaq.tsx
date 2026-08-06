@@ -9,7 +9,7 @@ export default function RoadmapFaq() {
           <h2>Common Questions Before Starting</h2>
           <p>Short, direct answers to the questions that come up on almost every project.</p>
         </div>
-        <FaqAccordion items={roadmapFaqItems} idPrefix="roadmap-faq" defaultOpenIndex={null} />
+        <FaqAccordion items={roadmapFaqItems} idPrefix="roadmap-faq" defaultOpenIndex={null} searchable />
       </div>
     </section>
   );

@@ -5,6 +5,8 @@ export interface CardItem {
   icon: string;
   title: string;
   description: string;
+  /** Optional detail revealed when the card is expanded. */
+  details?: string[];
 }
 
 export const trustPoints: CardItem[] = [
@@ -15,15 +17,15 @@ export const trustPoints: CardItem[] = [
 ];
 
 export const includedServices: CardItem[] = [
-  { icon: 'monitor', title: 'Professional Business Website', description: 'A clean, credible website designed around your business and customers.' },
-  { icon: 'phone', title: 'Mobile-Friendly Design', description: 'Looks sharp and works smoothly on every phone, tablet and desktop.' },
-  { icon: 'document', title: 'Home, About, Services & Contact Pages', description: 'The complete standard structure a business profile website needs.' },
-  { icon: 'chat', title: 'WhatsApp Enquiry Button', description: 'Visitors reach you on WhatsApp in a single tap.' },
-  { icon: 'edit', title: 'Contact Form', description: 'Capture enquiries directly from your website, any time of day.' },
-  { icon: 'map-pin', title: 'Google Maps Integration', description: 'Help customers find your shop, clinic or office easily.' },
-  { icon: 'link', title: 'Social-Media Links', description: 'Connect your Facebook, Instagram and LinkedIn profiles.' },
-  { icon: 'search', title: 'Basic SEO', description: 'Titles, descriptions and page structure set up for search engines.' },
-  { icon: 'lock', title: 'SSL & Deployment Support', description: 'Secure https:// setup and full support until your site is live.' },
+  { icon: 'monitor', title: 'Professional Business Website', description: 'A clean, credible website designed around your business and customers.', details: ["Home, About, Services and Contact structure", "Layout built around how customers actually decide", "Consistent branding across every page", "Ready to add more sections as you grow"] },
+  { icon: 'phone', title: 'Mobile-Friendly Design', description: 'Looks sharp and works smoothly on every phone, tablet and desktop.', details: ["Tested on real phone, tablet and desktop sizes", "Tap targets sized for thumbs, not cursors", "Images scaled so pages stay fast on mobile data", "Menus that work one-handed"] },
+  { icon: 'document', title: 'Home, About, Services & Contact Pages', description: 'The complete standard structure a business profile website needs.', details: ["Home page that states what you do in seconds", "About page that builds credibility", "Services or products explained clearly", "Contact page with every way to reach you"] },
+  { icon: 'chat', title: 'WhatsApp Enquiry Button', description: 'Visitors reach you on WhatsApp in a single tap.', details: ["One tap opens a chat with your number", "Message pre-filled so the customer need not type", "Floating button available on every page", "Works on both Android and iPhone"] },
+  { icon: 'edit', title: 'Contact Form', description: 'Capture enquiries directly from your website, any time of day.', details: ["Enquiries reach you even when you are unavailable", "Required fields validated before sending", "Spam protection built in", "Confirmation shown to the visitor"] },
+  { icon: 'map-pin', title: 'Google Maps Integration', description: 'Help customers find your shop, clinic or office easily.', details: ["Embedded map on your contact page", "One tap for directions from wherever they are", "Useful for shops, clinics and offices", "Kept in step with your Google listing"] },
+  { icon: 'link', title: 'Social-Media Links', description: 'Connect your Facebook, Instagram and LinkedIn profiles.', details: ["Facebook, Instagram and LinkedIn linked properly", "Opens in a new tab so visitors keep your site", "Only the profiles you actually maintain", "Consistent icons across the site"] },
+  { icon: 'search', title: 'Basic SEO', description: 'Titles, descriptions and page structure set up for search engines.', details: ["Page titles and descriptions written for search", "Proper heading structure on every page", "Sitemap and robots file generated", "Descriptive image alternative text"] },
+  { icon: 'lock', title: 'SSL & Deployment Support', description: 'Secure https:// setup and full support until your site is live.', details: ["The https padlock on your domain", "Certificate renews automatically", "Domain connected and verified", "Support until the site is confirmed live"] },
 ];
 
 export const businessCategories: CardItem[] = [
