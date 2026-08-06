@@ -63,7 +63,12 @@
   border-radius: var(--radius-pill); background: var(--text-body);
   transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1), background 0.28s ease;
 }
-.cmp-switch-thumb.right { transform: translateX(100%); background: var(--gradient-brand); }
+/* Green rather than brand blue on the right: the switch itself should signal
+   that this is the better of the two states. */
+.cmp-switch-thumb.right {
+  transform: translateX(100%);
+  background: linear-gradient(135deg, var(--green-deep), var(--green-bright));
+}
 
 .cmp-panel { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 0.85rem; }
 .cmp-item {
@@ -73,11 +78,14 @@
   border-radius: var(--radius-sm); padding: 1rem 1.15rem;
   transition: border-color 0.28s ease, transform 0.22s ease;
 }
-.cmp-panel.is-with .cmp-item { border-left-color: var(--state-success); }
+.cmp-panel.is-with .cmp-item {
+  border-left-color: var(--green-bright);
+  background: linear-gradient(90deg, var(--green-tint), transparent 55%), var(--card-bg);
+}
 .cmp-item:hover { transform: translateX(2px); }
 .cmp-item p { margin: 0; font-size: 0.92rem; line-height: 1.55; color: var(--text-body); }
 .cmp-item-icon { flex: 0 0 auto; color: var(--text-body); margin-top: 0.1rem; display: inline-flex; }
-.cmp-panel.is-with .cmp-item-icon { color: var(--state-success); }
+.cmp-panel.is-with .cmp-item-icon { color: var(--green-icon); }
 
 /* ---------- Live preview ---------- */
 .preview-grid {
@@ -99,7 +107,15 @@
 }
 .preview-actions { margin-top: 1.35rem; }
 
-.preview-stage { position: relative; padding: 0 0 2.5rem 0; }
+.preview-stage { position: relative; padding: 2.1rem 0 2.5rem 0; }
+.preview-badge {
+  position: absolute; top: 0; left: 0; z-index: 3;
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  font-size: 0.7rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase;
+  color: var(--text-body); background: var(--surface-muted);
+  border: 1px dashed var(--border-subtle); border-radius: var(--radius-pill);
+  padding: 0.3rem 0.8rem;
+}
 .mock-topbar {
   display: flex; align-items: center; justify-content: space-between;
   padding-bottom: 0.85rem; margin-bottom: 0.95rem;

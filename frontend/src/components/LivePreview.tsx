@@ -5,7 +5,10 @@ import { attributionSummary } from '../utils/attribution';
 import { whatsappLink } from '../utils/whatsapp';
 import Reveal from './Reveal';
 
-const PLACEHOLDER = 'Your Business';
+// Shown in the mockup before anything is typed. Deliberately reads as an
+// instruction rather than a plausible company name, so nobody mistakes the
+// starting state for a real example.
+const PLACEHOLDER = 'Your Business Name';
 
 /** "Sharma Traders" → "sharmatraders.in". Trimmed so long names stay readable. */
 function toDomain(name: string): string {
@@ -58,23 +61,25 @@ export default function LivePreview() {
             <div className="section-head">
               <h2>See Your Business Online</h2>
               <p>
-                Type your business name and watch it appear. This is a simplified
-                impression, not a finished design — but it is how your customers would
-                first meet you.
+                Type your business name below and the sample screen will update instantly.
+                It is a rough demonstration of layout and structure — your real website is
+                designed properly around your services, photographs and customers.
               </p>
             </div>
 
             <div className="preview-field">
-              <label htmlFor={inputId}>Your business name</label>
+              <label htmlFor={inputId}>Try it — enter your business name</label>
               <input
                 id={inputId}
                 type="text"
                 value={name}
                 autoComplete="organization"
-                placeholder="e.g. Sharma Traders"
+                placeholder="For example: Sharma Traders"
                 onChange={(event) => onChange(event.target.value)}
               />
-              <p className="field-hint">Nothing is sent anywhere until you choose to contact us.</p>
+              <p className="field-hint">
+                Just a demonstration. Nothing is saved or sent until you contact us yourself.
+              </p>
             </div>
 
             <div className="preview-actions">
@@ -95,6 +100,9 @@ export default function LivePreview() {
           </div>
 
           <Reveal className="preview-stage">
+            {/* Labelled on the mockup itself, so the demonstration can never be
+                mistaken for a design being offered. */}
+            <span className="preview-badge">Sample layout — for demonstration</span>
             <div className="browser-frame">
               <div className="browser-bar">
                 <span className="dot" /><span className="dot" /><span className="dot" />

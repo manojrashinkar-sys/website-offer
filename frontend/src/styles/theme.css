@@ -24,6 +24,18 @@
   --icon-tile-bg: linear-gradient(145deg, #eaf1ff, #f0fbff);
   --drawer-bg: #ffffff;
   --scrim: rgba(6, 10, 23, 0.55);
+
+  /* A brighter, more optimistic green for the "with a website" side.
+     Two values, because they are held to different standards:
+       --green-bright  borders and fills, purely decorative, free to be vivid
+       --green-icon    icons, which are interface elements and must clear
+                       3:1 against the surface behind them
+     #22c55e measures only 2.28:1 on white, so icons use green-600 instead
+     while the vivid tone stays where contrast is not a requirement. */
+  --green-bright: #22c55e;
+  --green-icon: #16a34a;
+  --green-deep: #16a34a;
+  --green-tint: rgba(34, 197, 94, 0.08);
 }
 
 [data-theme="dark"] {
@@ -57,6 +69,12 @@
 
   --state-success: #4ade80;
   --state-success-soft: rgba(74, 222, 128, 0.16);
+  /* On dark surfaces the vivid green already measures 10.5:1, so icons can
+     use the bright tone directly. */
+  --green-bright: #4ade80;
+  --green-icon: #4ade80;
+  --green-deep: #22c55e;
+  --green-tint: rgba(74, 222, 128, 0.09);
   --state-warning: #fbbf24;
   --state-warning-soft: rgba(251, 191, 36, 0.14);
 
