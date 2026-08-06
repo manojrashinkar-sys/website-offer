@@ -31,8 +31,6 @@ export const AnalyticsEvent = {
   phoneClick: 'phone_click',
   portfolioProjectClick: 'portfolio_project_click',
   businessTypeSelected: 'business_type_selected',
-  estimatorStarted: 'estimator_started',
-  estimatorCompleted: 'estimator_completed',
   formStarted: 'form_started',
   formSubmitted: 'promo_enquiry_submitted',
   roadmapCtaClick: 'roadmap_cta_click',

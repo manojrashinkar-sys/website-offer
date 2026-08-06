@@ -294,7 +294,7 @@ p { text-wrap: pretty; }
   box-shadow: var(--shadow-3);
 }
 
-.status-card, .offer-card, .est-card, .biz-panel { box-shadow: var(--shadow-2); }
+.status-card, .offer-card, .biz-panel { box-shadow: var(--shadow-2); }
 
 /* ---------- Section separation ---------- */
 /* A hairline that fades at both ends, instead of a full-width border that
