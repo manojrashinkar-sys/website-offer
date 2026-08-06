@@ -3,6 +3,7 @@ import { trackEvent } from '../analytics';
 import { config } from '../config';
 import { generalEnquiryMessage, whatsappLink } from '../utils/whatsapp';
 import { scrollToSection } from './OfferHeader';
+import HeroAurora from './HeroAurora';
 
 const heroSlides = [
   {
@@ -102,6 +103,7 @@ export default function HeroSection() {
       onPointerUp={finishDrag}
       onPointerCancel={finishDrag}
     >
+      <HeroAurora />
       <div className="container hero-inner">
         <div className="hero-copy">
           <div className="hero-slider-window">

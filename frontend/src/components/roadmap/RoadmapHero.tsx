@@ -4,6 +4,7 @@ import { heroFlow } from '../../content/roadmapContent';
 import { useDiscussAction } from '../../hooks/useDiscussAction';
 import { generalEnquiryMessage, whatsappLink } from '../../utils/whatsapp';
 import { scrollToSection } from '../OfferHeader';
+import HeroAurora from '../HeroAurora';
 import FlowChain from './FlowChain';
 
 export default function RoadmapHero() {
@@ -11,6 +12,7 @@ export default function RoadmapHero() {
 
   return (
     <section className="hero roadmap-hero" id="top">
+      <HeroAurora />
       <div className="container hero-inner roadmap-hero-inner">
         <div className="hero-copy">
           <p className="hero-eyebrow">
