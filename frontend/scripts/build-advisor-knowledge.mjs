@@ -1,24 +1,31 @@
-// Generates api/_lib/knowledge.generated.ts from the JSON knowledge files.
+// Injects the knowledge from src/data/*.json into the serverless function.
 //
-// Why this exists: the serverless function previously imported the JSON
-// directly from ../../src/data. Vercel builds the api directory with its own
-// bundler, and imports that reach outside that directory are not reliably
-// followed — the deployed function crashed on every request because the data
-// was not there at runtime.
+// Why injection rather than an import: Vercel does not include underscore-
+// prefixed directories in a function bundle, and imports reaching outside the
+// api directory are not reliably followed either. A diagnostic route proved
+// it — a handler with no imports returned 200, and the identical handler
+// failed the moment it imported anything from _lib, large module or small.
+// The function therefore has to be a single self-contained file, so the data
+// is written into it.
 //
-// src/data/*.json stays the single source of truth; this copies it into a
-// plain TypeScript module beside the function, so the function imports only
-// from its own directory. The output is committed, so a deploy still works
-// even if this script never runs.
+// The payload is emitted as a plain object literal. JSON is already valid
+// TypeScript syntax, so nothing needs escaping — which removes the whole class
+// of quoting bugs that a string-embedded version invites. It is deliberately
+// not `as const`: on a literal this size that makes the compiler do an
+// enormous amount of work for literal types nothing here uses.
 //
-// Run automatically by `npm run build` (see the prebuild script).
+// src/data/*.json remains the single source of truth. Nothing between the
+// markers in chat.ts should ever be edited by hand.
+//
+// Runs automatically via the prebuild script.
 
-import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
+import { readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const here = dirname(fileURLToPath(import.meta.url));
 const root = join(here, '..');
+const target = join(root, 'api', 'advisor', 'chat.ts');
 
 const FILES = {
   faqs: 'faq.json',
@@ -29,36 +36,32 @@ const FILES = {
   businessRules: 'business-rules.json',
 };
 
-const parts = [
-  '// GENERATED FILE — do not edit.',
-  '// Source: src/data/*.json. Regenerate with `npm run build`',
-  '// (or `node scripts/build-advisor-knowledge.mjs`).',
-  '//',
-  '// This exists so the serverless function imports only from its own',
-  '// directory; see scripts/build-advisor-knowledge.mjs for why.',
-  '',
-];
-
-for (const [name, file] of Object.entries(FILES)) {
-  const raw = readFileSync(join(root, 'src', 'data', file), 'utf8');
-  // Parsed and re-serialised so a malformed file fails here, loudly, at build
-  // time rather than silently at runtime in production.
-  const data = JSON.parse(raw);
-  // Deliberately not `as const`: on a literal this size it makes the
-  // TypeScript compiler do an enormous amount of needless work, and nothing
-  // here benefits from literal types.
-  parts.push(`export const ${name}: ${Array.isArray(data) ? 'ReadonlyArray<Record<string, unknown>>' : 'Record<string, unknown>'} = ${JSON.stringify(data)};`);
-  parts.push('');
+const knowledge = {};
+for (const [key, file] of Object.entries(FILES)) {
+  // Parsed so a malformed file fails here, loudly, at build time rather than
+  // silently at runtime in production.
+  knowledge[key] = JSON.parse(readFileSync(join(root, 'src', 'data', file), 'utf8'));
 }
 
-const outDir = join(root, 'api', '_lib');
-mkdirSync(outDir, { recursive: true });
-writeFileSync(join(outDir, 'knowledge.generated.ts'), parts.join('\n'), 'utf8');
+const START = '/* KNOWLEDGE_START */';
+const END = '/* KNOWLEDGE_END */';
 
-const counts = Object.entries(FILES)
-  .map(([name, file]) => {
-    const data = JSON.parse(readFileSync(join(root, 'src', 'data', file), 'utf8'));
-    return `${name}=${Array.isArray(data) ? data.length : 'object'}`;
-  })
+const source = readFileSync(target, 'utf8');
+const from = source.indexOf(START);
+const to = source.indexOf(END);
+if (from === -1 || to === -1) {
+  throw new Error(`Knowledge markers not found in ${target}. Restore ${START} and ${END}.`);
+}
+
+const literal = JSON.stringify(knowledge, null, 2);
+const next =
+  source.slice(0, from + START.length) +
+  `\nconst K: Knowledge = ${literal};\n` +
+  source.slice(to);
+
+writeFileSync(target, next, 'utf8');
+
+const summary = Object.entries(knowledge)
+  .map(([key, value]) => `${key}=${Array.isArray(value) ? value.length : 'object'}`)
   .join(' ');
-console.log(`advisor knowledge generated: ${counts}`);
+console.log(`advisor knowledge injected (${(literal.length / 1024).toFixed(1)}KB): ${summary}`);
