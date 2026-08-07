@@ -2045,11 +2045,25 @@ async function probeModel(): Promise<unknown> {
       contents: [{ role: 'user', parts: [{ text: 'Say OK.' }] }],
       generationConfig: { temperature: 0.3, maxOutputTokens: 1200, topP: 0.9 },
     }],
+    ['REAL systemInstruction', {
+      systemInstruction: { parts: [{ text: systemInstruction() }] },
+      contents: [{ role: 'user', parts: [{ text: 'Say OK.' }] }],
+      generationConfig: { temperature: 0.3, maxOutputTokens: 1200, topP: 0.9 },
+    }],
+    ['REAL everything', {
+      systemInstruction: { parts: [{ text: systemInstruction() }] },
+      contents: [{ role: 'user', parts: [{ text: `APPROVED BUSINESS KNOWLEDGE:
+${buildContext('do I need a server')}
+
+VISITOR QUESTION:
+do I need a server` }] }],
+      generationConfig: { temperature: 0.3, maxOutputTokens: 1200, topP: 0.9 },
+    }],
   ];
 
   const results: Array<Record<string, unknown>> = [];
   for (const [label, body] of bodies) {
-    for (const version of ['v1beta', 'v1']) {
+    for (const version of ['v1beta']) {
       try {
         const r = await fetch(
           `https://generativelanguage.googleapis.com/${version}/models/${encodeURIComponent(model)}:generateContent`,
@@ -2068,7 +2082,13 @@ async function probeModel(): Promise<unknown> {
       }
     }
   }
-  return { model, results };
+  return {
+    model,
+    systemInstructionLength: systemInstruction().length,
+    contextLength: buildContext('do I need a server').length,
+    faqCount: K.faqs.length,
+    results,
+  };
 }
 
 /* ---------------- handler ---------------- */
