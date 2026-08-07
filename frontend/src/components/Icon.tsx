@@ -275,6 +275,12 @@ const paths: Record<string, JSX.Element> = {
     </>
   ),
   moon: <path d="M20.5 14.2A8.6 8.6 0 0 1 9.8 3.5a8.6 8.6 0 1 0 10.7 10.7z" />,
+  'arrow-right': (
+    <>
+      <line x1="4" y1="12" x2="19" y2="12" />
+      <polyline points="13 6 19 12 13 18" />
+    </>
+  ),
   close: (
     <>
       <line x1="5" y1="5" x2="19" y2="19" />

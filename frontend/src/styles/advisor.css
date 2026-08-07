@@ -1,49 +1,63 @@
 /* ============================================================
    Website Advisor
-   Desktop: docked panel, bottom-right.
-   Mobile:  bottom sheet.
-   Built from the existing tokens — no new palette or type scale.
+   ------------------------------------------------------------
+   Ink and neutral surfaces. The brand gradient appears exactly
+   once — on the send button — so the panel reads as a calm
+   consulting surface rather than another blue widget bolted to
+   a blue page.
    ============================================================ */
+
+:root {
+  --advisor-ink: #10151f;
+  --advisor-ink-hover: #1c2433;
+}
+[data-theme="dark"] {
+  --advisor-ink: #e9eef8;
+  --advisor-ink-hover: #ffffff;
+}
 
 /* ---------- Launcher ---------- */
 .advisor-launcher {
   position: fixed; right: 1.25rem; z-index: 96;
   bottom: calc(5.5rem + env(safe-area-inset-bottom, 0px));
   display: inline-flex; align-items: center; gap: 0.5rem;
-  font: inherit; font-weight: 700; font-size: 0.88rem; cursor: pointer;
-  padding: 0.7rem 1.1rem; border-radius: var(--radius-pill);
-  background: var(--gradient-brand); color: #fff; border: 0;
-  box-shadow: 0 10px 26px rgba(37, 99, 235, 0.4);
-  transition: transform 0.18s ease, box-shadow 0.18s ease;
+  font: inherit; font-weight: 600; font-size: 0.86rem; cursor: pointer;
+  padding: 0.7rem 1.15rem; border-radius: var(--radius-pill);
+  background: var(--advisor-ink); color: var(--color-surface);
+  border: 1px solid transparent;
+  box-shadow: 0 6px 20px rgba(10, 16, 32, 0.28);
+  transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
 }
-.advisor-launcher:hover { transform: translateY(-2px); box-shadow: 0 14px 32px rgba(37, 99, 235, 0.5); }
-.advisor-launcher:focus-visible { outline: 3px solid var(--color-primary-soft); outline-offset: 3px; }
-.advisor-launcher.is-open { background: var(--color-surface-alt); color: var(--color-ink); box-shadow: var(--shadow-2); }
+.advisor-launcher:hover { background: var(--advisor-ink-hover); transform: translateY(-2px); }
+.advisor-launcher:focus-visible { outline: 2px solid var(--advisor-ink); outline-offset: 3px; }
+.advisor-launcher.is-open { background: var(--color-surface); color: var(--color-ink); border-color: var(--border-subtle); }
+[data-theme="dark"] .advisor-launcher { color: #0a1020; }
+[data-theme="dark"] .advisor-launcher.is-open { color: var(--color-ink); background: var(--color-surface); }
 
 /* ---------- Discovery nudge ---------- */
 .advisor-nudge {
   position: fixed; right: 1.25rem; z-index: 95;
-  bottom: calc(9.5rem + env(safe-area-inset-bottom, 0px));
-  width: min(280px, calc(100vw - 2.5rem));
+  bottom: calc(9.4rem + env(safe-area-inset-bottom, 0px));
+  width: min(272px, calc(100vw - 2.5rem));
   background: var(--color-surface); border: 1px solid var(--border-subtle);
-  border-radius: var(--radius); padding: 0.9rem 1rem;
-  box-shadow: var(--shadow-3);
+  border-radius: 14px; padding: 0.85rem 0.95rem; box-shadow: var(--shadow-3);
   animation: advisor-in 0.35s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
-.advisor-nudge p { margin: 0 0 0.6rem; font-size: 0.88rem; font-weight: 600; line-height: 1.45; }
+.advisor-nudge p { margin: 0 0 0.6rem; font-size: 0.86rem; line-height: 1.45; color: var(--color-ink); }
 .advisor-nudge-actions { display: flex; align-items: center; gap: 0.5rem; }
 .advisor-nudge-cta {
-  flex: 1 1 auto; font: inherit; font-weight: 700; font-size: 0.82rem; cursor: pointer;
-  padding: 0.5rem 0.75rem; border-radius: var(--radius-sm); border: 0;
-  background: var(--gradient-brand); color: #fff;
+  flex: 1 1 auto; font: inherit; font-weight: 600; font-size: 0.8rem; cursor: pointer;
+  padding: 0.45rem 0.7rem; border-radius: 9px; border: 1px solid var(--border-subtle);
+  background: var(--color-surface); color: var(--color-ink);
 }
+.advisor-nudge-cta:hover { border-color: var(--advisor-ink); }
 .advisor-nudge-dismiss {
-  flex: 0 0 auto; width: 30px; height: 30px; border-radius: 50%; cursor: pointer;
+  flex: 0 0 auto; width: 28px; height: 28px; border-radius: 50%; cursor: pointer;
   display: inline-flex; align-items: center; justify-content: center;
-  background: var(--color-surface-alt); border: 1px solid var(--border-subtle); color: var(--text-body);
+  background: none; border: 0; color: var(--text-body);
 }
 .advisor-nudge-cta:focus-visible, .advisor-nudge-dismiss:focus-visible {
-  outline: 3px solid var(--color-primary-soft); outline-offset: 2px;
+  outline: 2px solid var(--advisor-ink); outline-offset: 2px;
 }
 
 /* ---------- Panel ---------- */
@@ -51,169 +65,177 @@
 .advisor-panel {
   position: fixed; right: 1.25rem; z-index: 97;
   bottom: calc(9.2rem + env(safe-area-inset-bottom, 0px));
-  width: 400px; max-width: calc(100vw - 2.5rem);
-  max-height: min(660px, calc(100vh - 12rem));
+  width: 396px; max-width: calc(100vw - 2.5rem);
+  max-height: min(640px, calc(100vh - 12rem));
   display: flex; flex-direction: column; overflow: hidden;
   background: var(--color-surface); border: 1px solid var(--border-subtle);
-  border-radius: 20px; box-shadow: var(--shadow-4);
-  opacity: 0; visibility: hidden; transform: translateY(12px) scale(0.98);
-  transition: opacity 0.22s ease, transform 0.26s cubic-bezier(0.22, 1, 0.36, 1), visibility 0.26s;
+  border-radius: 18px; box-shadow: 0 24px 64px rgba(10, 16, 32, 0.22);
+  opacity: 0; visibility: hidden; transform: translateY(10px) scale(0.985);
+  transition: opacity 0.2s ease, transform 0.24s cubic-bezier(0.22, 1, 0.36, 1), visibility 0.24s;
 }
 .advisor-panel.open { opacity: 1; visibility: visible; transform: none; }
 
 .advisor-head {
   flex: 0 0 auto; display: flex; align-items: center; gap: 0.7rem;
   padding: 0.9rem 1rem; border-bottom: 1px solid var(--border-subtle);
-  background: var(--card-bg);
-}
-.advisor-head-mark {
-  flex: 0 0 auto; width: 34px; height: 34px; border-radius: 11px;
-  display: inline-flex; align-items: center; justify-content: center;
-  background: var(--gradient-brand); color: #fff;
 }
 .advisor-head-text { display: flex; flex-direction: column; min-width: 0; }
-.advisor-head-text strong { font-family: var(--font-heading); font-size: 0.95rem; letter-spacing: -0.015em; }
-.advisor-head-text small { font-size: 0.74rem; color: var(--text-body); }
-.advisor-close {
-  margin-left: auto; flex: 0 0 auto; width: 32px; height: 32px; border-radius: 50%; cursor: pointer;
-  display: inline-flex; align-items: center; justify-content: center;
-  background: var(--color-surface-alt); border: 1px solid var(--border-subtle); color: var(--color-ink);
+.advisor-head-text strong {
+  font-family: var(--font-heading); font-size: 0.94rem; letter-spacing: -0.015em; color: var(--color-ink);
 }
-.advisor-close:focus-visible { outline: 3px solid var(--color-primary-soft); outline-offset: 2px; }
+.advisor-head-text small { font-size: 0.73rem; color: var(--text-body); }
+.advisor-close {
+  margin-left: auto; flex: 0 0 auto; width: 30px; height: 30px; border-radius: 50%; cursor: pointer;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: none; border: 0; color: var(--text-body);
+}
+.advisor-close:hover { background: var(--color-surface-alt); color: var(--color-ink); }
+.advisor-close:focus-visible { outline: 2px solid var(--advisor-ink); outline-offset: 1px; }
 
-/* ---------- Stream ---------- */
+/* ---------- Conversation ---------- */
 .advisor-stream {
   flex: 1 1 auto; overflow-y: auto; overscroll-behavior: contain;
-  padding: 1rem; display: flex; flex-direction: column; gap: 0.7rem;
+  padding: 1rem; display: flex; flex-direction: column; gap: 0.75rem;
 }
-.advisor-msg { margin: 0; font-size: 0.88rem; line-height: 1.6; border-radius: 14px; padding: 0.7rem 0.9rem; }
-.advisor-msg p { margin: 0 0 0.55rem; }
+.advisor-msg { margin: 0; font-size: 0.885rem; line-height: 1.62; }
+.advisor-msg p { margin: 0 0 0.6rem; }
 .advisor-msg p:last-child { margin: 0; }
-.advisor-msg-bot { background: var(--color-surface-alt); color: var(--color-ink); border-bottom-left-radius: 5px; }
+.advisor-msg-bot {
+  color: var(--color-ink); background: var(--color-surface-alt);
+  border-radius: 4px 14px 14px 14px; padding: 0.75rem 0.95rem; max-width: 94%;
+}
+/* Ink fill rather than a saturated brand colour — it reads as "you said this"
+   without turning every message into a block of blue. */
 .advisor-msg-visitor {
-  align-self: flex-end; max-width: 85%;
-  background: var(--gradient-brand); color: #fff; border-bottom-right-radius: 5px; font-weight: 600;
+  align-self: flex-end; max-width: 84%;
+  background: var(--advisor-ink); color: var(--color-surface);
+  border-radius: 14px 4px 14px 14px; padding: 0.65rem 0.9rem; font-weight: 500;
 }
+[data-theme="dark"] .advisor-msg-visitor { color: #0a1020; }
 
-.advisor-suggestions { display: flex; flex-wrap: wrap; gap: 0.4rem; }
-.advisor-chip {
-  display: inline-flex; align-items: center; gap: 0.35rem; text-align: left;
-  font: inherit; font-weight: 600; font-size: 0.79rem; line-height: 1.35; cursor: pointer;
-  color: var(--text-body); background: var(--color-surface);
-  border: 1.5px solid var(--border-subtle); border-radius: var(--radius-pill);
-  padding: 0.4rem 0.75rem; text-decoration: none;
-  transition: border-color 0.16s ease, color 0.16s ease, transform 0.16s ease;
+/* Related questions read as links, not another row of buttons. */
+.advisor-related { display: flex; flex-direction: column; gap: 0.1rem; padding-left: 0.2rem; }
+.advisor-related-link {
+  text-align: left; font: inherit; font-size: 0.82rem; line-height: 1.45; cursor: pointer;
+  background: none; border: 0; color: var(--text-body); padding: 0.32rem 0;
+  border-bottom: 1px dotted var(--border-subtle);
 }
-.advisor-chip:hover { border-color: var(--border-strong); color: var(--color-ink); transform: translateY(-1px); }
-.advisor-chip:focus-visible { outline: 3px solid var(--color-primary-soft); outline-offset: 2px; }
-.advisor-chip.selected { background: var(--gradient-brand); border-color: transparent; color: #fff; }
-.advisor-chip-wa { color: var(--color-whatsapp); border-color: rgba(34, 197, 94, 0.4); }
+.advisor-related-link::before { content: "→ "; opacity: 0.5; }
+.advisor-related-link:hover { color: var(--color-ink); }
+.advisor-related-link:focus-visible { outline: 2px solid var(--advisor-ink); outline-offset: 2px; }
 
-/* ---------- Cards ---------- */
-.advisor-card {
-  background: var(--card-bg); border: 1px solid var(--border-subtle);
-  border-radius: 16px; padding: 1rem;
+/* ---------- Recommendation note ---------- */
+.advisor-note {
+  background: var(--color-surface); border: 1px solid var(--border-subtle);
+  border-left: 2px solid var(--advisor-ink);
+  border-radius: 4px 12px 12px 4px; padding: 0.95rem 1rem;
 }
-.advisor-card-tag {
-  display: inline-flex; font-size: 0.68rem; font-weight: 800; letter-spacing: 0.06em;
-  text-transform: uppercase; color: var(--brand-primary-dark);
-  background: var(--brand-primary-soft); border-radius: var(--radius-pill); padding: 0.24rem 0.7rem;
+.advisor-note-label {
+  font-size: 0.64rem; font-weight: 700; letter-spacing: 0.11em; text-transform: uppercase;
+  color: var(--text-body); margin: 0 0 0.4rem;
 }
-.advisor-card h4 { font-size: 1.02rem; margin: 0.55rem 0 0.4rem; letter-spacing: -0.018em; }
-.advisor-card h5 {
-  font-size: 0.7rem; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase;
-  color: var(--text-body); margin: 0.9rem 0 0.35rem;
+.advisor-note h4 { font-size: 1rem; margin: 0 0 0.4rem; letter-spacing: -0.018em; }
+.advisor-note-reason { font-size: 0.84rem; line-height: 1.6; color: var(--text-body); margin: 0; }
+.advisor-note-spec { margin: 0.85rem 0 0; display: flex; flex-direction: column; gap: 0.5rem; }
+.advisor-note-spec > div { display: flex; flex-direction: column; gap: 0.08rem; }
+.advisor-note-spec dt {
+  font-size: 0.64rem; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: var(--text-body);
 }
-.advisor-card-reason { font-size: 0.85rem; line-height: 1.55; color: var(--text-body); margin: 0; }
-.advisor-card-list { font-size: 0.82rem; color: var(--text-body); margin: 0; }
-.advisor-card-note { font-size: 0.78rem; color: var(--text-body); margin: 0.8rem 0 0; }
-.advisor-card-spec { margin: 0.85rem 0 0; display: flex; flex-direction: column; gap: 0.5rem; }
-.advisor-card-spec > div { display: flex; flex-direction: column; gap: 0.1rem; }
-.advisor-card-spec dt {
-  font-size: 0.66rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-body);
+.advisor-note-spec dd { margin: 0; font-size: 0.82rem; line-height: 1.45; color: var(--color-ink); }
+.advisor-note-action {
+  margin-top: 0.9rem; font: inherit; font-weight: 600; font-size: 0.81rem; cursor: pointer;
+  background: none; border: 0; padding: 0; color: var(--color-ink);
+  border-bottom: 1px solid var(--border-subtle);
 }
-.advisor-card-spec dd { margin: 0; font-size: 0.83rem; line-height: 1.45; }
-.advisor-card-actions { display: flex; flex-wrap: wrap; gap: 0.45rem; margin-top: 1rem; }
+.advisor-note-action:hover { border-bottom-color: var(--advisor-ink); }
+.advisor-note-action:focus-visible { outline: 2px solid var(--advisor-ink); outline-offset: 2px; }
 
-.advisor-btn {
-  font: inherit; font-weight: 700; font-size: 0.82rem; cursor: pointer; text-decoration: none;
-  padding: 0.55rem 1rem; border-radius: var(--radius-sm); border: 0;
-  display: inline-flex; align-items: center; justify-content: center;
+.advisor-send-wa {
+  display: inline-flex; align-items: center; gap: 0.4rem; margin-top: 0.95rem;
+  font: inherit; font-weight: 600; font-size: 0.82rem; text-decoration: none;
+  padding: 0.5rem 0.9rem; border-radius: 9px;
+  background: var(--color-whatsapp); color: #fff;
 }
-.advisor-btn:focus-visible { outline: 3px solid var(--color-primary-soft); outline-offset: 2px; }
-.advisor-btn:disabled { opacity: 0.5; cursor: not-allowed; }
-.advisor-btn-primary { background: var(--gradient-brand); color: #fff; }
-.advisor-btn-wa { background: var(--color-whatsapp); color: #fff; }
+.advisor-send-wa:focus-visible { outline: 2px solid var(--color-whatsapp); outline-offset: 2px; }
 
-/* ---------- Typing indicator ---------- */
-.advisor-typing { display: inline-flex; gap: 4px; margin: 0; padding: 0.6rem 0.9rem; }
+/* ---------- Typing ---------- */
+.advisor-typing { display: inline-flex; gap: 4px; margin: 0; padding: 0.5rem 0.2rem; }
 .advisor-typing span {
-  width: 6px; height: 6px; border-radius: 50%; background: var(--text-body);
+  width: 5px; height: 5px; border-radius: 50%; background: var(--text-body);
   animation: advisor-dot 1.2s ease-in-out infinite;
 }
 .advisor-typing span:nth-child(2) { animation-delay: 0.15s; }
 .advisor-typing span:nth-child(3) { animation-delay: 0.3s; }
 @keyframes advisor-dot { 0%, 60%, 100% { opacity: 0.25; } 30% { opacity: 1; } }
-@keyframes advisor-in { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+@keyframes advisor-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
 
-/* ---------- Footer ---------- */
-.advisor-foot {
+/* ---------- Compose ---------- */
+.advisor-compose {
   flex: 0 0 auto; border-top: 1px solid var(--border-subtle);
-  padding: 0.85rem 1rem calc(0.85rem + env(safe-area-inset-bottom, 0px));
-  background: var(--card-bg); max-height: 46%; overflow-y: auto;
+  padding: 0.7rem 0.85rem calc(0.7rem + env(safe-area-inset-bottom, 0px));
 }
-.advisor-actions { display: flex; flex-wrap: wrap; gap: 0.4rem; }
-.advisor-disclaimer { width: 100%; font-size: 0.72rem; color: var(--text-body); margin: 0.5rem 0 0; }
+/* Quiet prompts, deliberately not styled as buttons — they are examples of
+   what to type, not a menu to choose from. */
+.advisor-hints { display: flex; flex-wrap: wrap; gap: 0.3rem; margin-bottom: 0.6rem; }
+.advisor-hint {
+  font: inherit; font-size: 0.75rem; font-weight: 500; cursor: pointer;
+  background: none; border: 1px solid var(--border-subtle); border-radius: var(--radius-pill);
+  color: var(--text-body); padding: 0.26rem 0.65rem;
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+.advisor-hint:hover { border-color: var(--advisor-ink); color: var(--color-ink); }
+.advisor-hint:focus-visible { outline: 2px solid var(--advisor-ink); outline-offset: 2px; }
 
-.advisor-all-faq { width: 100%; margin-top: 0.35rem; }
-.advisor-all-faq summary {
-  cursor: pointer; font-size: 0.79rem; font-weight: 700; color: var(--brand-primary-dark);
-  padding: 0.35rem 0; list-style: none;
-}
-.advisor-all-faq summary::-webkit-details-marker { display: none; }
-.advisor-all-faq summary:focus-visible { outline: 3px solid var(--color-primary-soft); outline-offset: 2px; }
+.advisor-faq-browser { max-height: 210px; overflow-y: auto; margin-bottom: 0.6rem; }
 .advisor-faq-group { margin-top: 0.6rem; }
 .advisor-faq-group > p {
-  font-size: 0.66rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase;
-  color: var(--text-body); margin: 0 0 0.25rem;
+  font-size: 0.62rem; font-weight: 700; letter-spacing: 0.09em; text-transform: uppercase;
+  color: var(--text-body); margin: 0 0 0.2rem;
 }
 .advisor-faq-link {
-  display: block; width: 100%; text-align: left; font: inherit; font-size: 0.8rem;
+  display: block; width: 100%; text-align: left; font: inherit; font-size: 0.79rem;
   cursor: pointer; background: none; border: 0; color: var(--color-ink);
-  padding: 0.4rem 0.3rem; border-radius: 8px; line-height: 1.4;
+  padding: 0.32rem 0.25rem; border-radius: 6px; line-height: 1.4;
 }
-.advisor-faq-link:hover { background: var(--color-surface-alt); color: var(--brand-primary-dark); }
-.advisor-faq-link:focus-visible { outline: 3px solid var(--color-primary-soft); outline-offset: -2px; }
+.advisor-faq-link:hover { background: var(--color-surface-alt); }
+.advisor-faq-link:focus-visible { outline: 2px solid var(--advisor-ink); outline-offset: -1px; }
 
-.advisor-quiz-prompt { font-weight: 700; font-size: 0.88rem; margin: 0 0 0.6rem; }
-.advisor-quiz-options { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-bottom: 0.8rem; }
+.advisor-input-row {
+  display: flex; align-items: flex-end; gap: 0.45rem;
+  background: var(--color-surface-alt); border: 1px solid var(--border-subtle);
+  border-radius: 13px; padding: 0.35rem 0.35rem 0.35rem 0.7rem;
+  transition: border-color 0.15s ease;
+}
+.advisor-input-row:focus-within { border-color: var(--advisor-ink); }
+.advisor-input-row textarea {
+  flex: 1 1 auto; font: inherit; font-size: 0.86rem; line-height: 1.5;
+  resize: none; max-height: 96px; padding: 0.4rem 0; min-width: 0;
+  background: none; border: 0; color: var(--color-ink);
+}
+.advisor-input-row textarea:focus { outline: none; }
+.advisor-input-row textarea::placeholder { color: var(--text-body); }
 
-.advisor-compose textarea {
-  width: 100%; font: inherit; font-size: 0.86rem; resize: none;
-  color: var(--color-ink); background: var(--color-surface);
-  border: 1.5px solid var(--border-subtle); border-radius: var(--radius-sm);
-  padding: 0.6rem 0.75rem;
+/* The single point of brand colour in the whole panel. */
+.advisor-send {
+  flex: 0 0 auto; width: 34px; height: 34px; border-radius: 9px; cursor: pointer;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: var(--gradient-brand); color: #fff; border: 0;
+  transition: filter 0.15s ease, opacity 0.15s ease;
 }
-.advisor-compose textarea:focus {
-  outline: none; border-color: var(--brand-primary); box-shadow: 0 0 0 4px var(--brand-primary-soft);
-}
-.advisor-compose-row {
-  display: flex; align-items: center; justify-content: space-between; gap: 0.6rem; margin-top: 0.55rem;
-}
-.advisor-remaining { font-size: 0.74rem; color: var(--text-body); font-weight: 600; }
-.advisor-limit p { font-size: 0.84rem; line-height: 1.55; color: var(--text-body); margin: 0 0 0.65rem; }
-.advisor-limit-actions { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.advisor-send:hover:not(:disabled) { filter: brightness(1.1); }
+.advisor-send:disabled { opacity: 0.32; cursor: not-allowed; }
+.advisor-send:focus-visible { outline: 2px solid var(--brand-primary); outline-offset: 2px; }
+
+.advisor-foot-note { font-size: 0.68rem; color: var(--text-body); margin: 0.5rem 0 0; text-align: center; }
 
 /* ---------- Mobile: bottom sheet ---------- */
 @media (max-width: 640px) {
   .advisor-launcher {
     bottom: calc(5.5rem + env(safe-area-inset-bottom, 0px)); right: 1rem;
-    padding: 0.65rem 0.9rem; font-size: 0.82rem;
+    width: 50px; height: 50px; padding: 0; justify-content: center; border-radius: 50%;
   }
   .advisor-launcher-label { display: none; }
-  .advisor-launcher { width: 52px; height: 52px; padding: 0; justify-content: center; border-radius: 50%; }
-
-  .advisor-nudge { bottom: calc(9rem + env(safe-area-inset-bottom, 0px)); left: 1rem; right: 1rem; width: auto; }
+  .advisor-nudge { bottom: calc(8.8rem + env(safe-area-inset-bottom, 0px)); left: 1rem; right: 1rem; width: auto; }
 
   .advisor-scrim {
     display: block; position: fixed; inset: 0; z-index: 96;
@@ -223,24 +245,23 @@
 
   .advisor-panel {
     left: 0; right: 0; bottom: 0; width: 100%; max-width: none;
-    height: 88vh; max-height: 88vh;
-    border-radius: 22px 22px 0 0; border-bottom: 0;
-    transform: translateY(100%); transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), visibility 0.3s;
-    opacity: 1;
+    height: 86vh; max-height: 86vh;
+    border-radius: 20px 20px 0 0; border-bottom: 0;
+    transform: translateY(100%); opacity: 1;
+    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), visibility 0.3s;
   }
   .advisor-panel.open { transform: translateY(0); }
-  /* Drag handle — visual affordance that this sheet can be dismissed. */
-  .advisor-head::before {
-    content: ""; position: absolute; top: 7px; left: 50%; margin-left: -18px;
-    width: 36px; height: 4px; border-radius: 999px; background: var(--border-subtle);
-  }
   .advisor-head { position: relative; padding-top: 1.15rem; }
-  .advisor-foot { max-height: 50%; }
-  .advisor-chip { font-size: 0.82rem; padding: 0.5rem 0.8rem; }
+  .advisor-head::before {
+    content: ""; position: absolute; top: 7px; left: 50%; margin-left: -17px;
+    width: 34px; height: 4px; border-radius: 999px; background: var(--border-subtle);
+  }
   .advisor-msg { font-size: 0.9rem; }
+  .advisor-hint { font-size: 0.78rem; padding: 0.3rem 0.7rem; }
+  .advisor-input-row textarea { font-size: 16px; } /* stops iOS zooming on focus */
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .advisor-panel, .advisor-launcher, .advisor-nudge, .advisor-chip { transition: none; animation: none; }
+  .advisor-panel, .advisor-launcher, .advisor-nudge, .advisor-hint { transition: none; animation: none; }
   .advisor-typing span { animation: none; opacity: 0.6; }
 }

@@ -163,3 +163,73 @@ export function recommend(answers: RecommendationAnswers): Recommendation {
     scalingPath: String(websiteType.scalingPath ?? ''),
   };
 }
+
+/* ---------------- Understanding a typed description ---------------- */
+
+// Lets a visitor describe their business in their own words instead of
+// answering a multiple-choice quiz. Everything here is local keyword matching —
+// no AI call — so describing your business costs none of the five custom
+// questions and answers instantly.
+
+const BUSINESS_HINTS: Record<string, string[]> = {
+  manufacturer: ['manufactur', 'factory', 'industrial', 'production', 'exporter', 'supplier', 'fabricat', 'engineering works'],
+  service: ['service', 'contractor', 'repair', 'maintenance', 'agency', 'plumb', 'electric', 'cleaning', 'transport', 'logistics'],
+  consultant: ['consultant', 'consulting', 'advisor', 'coach', 'freelance', 'lawyer', 'chartered accountant', 'trainer', 'tutor'],
+  retailer: ['shop', 'store', 'retail', 'showroom', 'boutique', 'dealer', 'distribut', 'wholesale'],
+  restaurant: ['restaurant', 'cafe', 'café', 'food', 'bakery', 'catering', 'cloud kitchen', 'hotel'],
+  construction: ['construction', 'builder', 'real estate', 'property', 'interior', 'architect', 'civil'],
+  healthcare: ['clinic', 'doctor', 'dental', 'hospital', 'healthcare', 'physio', 'medical', 'ayurved', 'pharma'],
+  startup: ['startup', 'start-up', 'saas', 'app idea', 'new venture'],
+};
+
+const GOAL_HINTS: Record<string, string[]> = {
+  products: ['product', 'catalogue', 'catalog', 'range', 'items', 'stock', 'menu'],
+  enquiries: ['enquir', 'inquir', 'lead', 'customer', 'more business', 'client'],
+  content: ['blog', 'news', 'article', 'update regularly', 'publish'],
+  platform: ['login', 'log in', 'account', 'sign up', 'signup', 'portal', 'dashboard', 'member'],
+  present: ['profile', 'present', 'about us', 'credibility', 'trust', 'online presence'],
+};
+
+const FEATURE_HINTS: Record<string, string[]> = {
+  whatsapp: ['whatsapp'],
+  form: ['contact form', 'enquiry form', 'form'],
+  gallery: ['gallery', 'photo', 'image', 'picture'],
+  maps: ['map', 'location', 'direction', 'address'],
+  blog: ['blog', 'news', 'article'],
+  admin: ['admin', 'edit myself', 'update myself', 'manage content', 'cms', 'dashboard'],
+  login: ['login', 'log in', 'sign in', 'account', 'register', 'member'],
+  payments: ['payment', 'pay online', 'checkout', 'razorpay', 'stripe', 'ecommerce', 'e-commerce', 'sell online', 'order online'],
+  multilingual: ['language', 'marathi', 'hindi', 'multilingual', 'bilingual'],
+};
+
+function firstHit(text: string, hints: Record<string, string[]>): string | undefined {
+  return Object.keys(hints).find((key) => hints[key].some((hint) => text.includes(hint)));
+}
+
+export interface InferredBrief {
+  answers: RecommendationAnswers;
+  /** True once there is enough to give a recommendation worth reading. */
+  sufficient: boolean;
+  missing: 'businessType' | 'goal' | null;
+}
+
+export function inferBrief(input: string): InferredBrief {
+  const text = ` ${input.toLowerCase()} `;
+  const businessType = firstHit(text, BUSINESS_HINTS);
+  const goal = firstHit(text, GOAL_HINTS);
+  const features = Object.keys(FEATURE_HINTS).filter((key) =>
+    FEATURE_HINTS[key].some((hint) => text.includes(hint)),
+  );
+
+  // A backend-forcing feature is decisive on its own — someone who says
+  // "customers need to log in" has told us the architecture regardless of
+  // whether they mentioned their industry.
+  const decisiveFeature = features.some((feature) => ['login', 'payments', 'admin'].includes(feature));
+  const sufficient = Boolean((businessType && goal) || decisiveFeature || (businessType && features.length > 0));
+
+  return {
+    answers: { businessType, goal, features },
+    sufficient,
+    missing: sufficient ? null : (!businessType ? 'businessType' : 'goal'),
+  };
+}
