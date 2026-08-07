@@ -1,0 +1,116 @@
+{
+  "questions": [
+    {
+      "id": "businessType",
+      "prompt": "What kind of business is this for?",
+      "options": [
+        { "value": "manufacturer", "label": "Manufacturer" },
+        { "value": "service", "label": "Service provider" },
+        { "value": "consultant", "label": "Consultant or professional" },
+        { "value": "retailer", "label": "Retailer or showroom" },
+        { "value": "restaurant", "label": "Restaurant or café" },
+        { "value": "construction", "label": "Construction or real estate" },
+        { "value": "healthcare", "label": "Healthcare" },
+        { "value": "startup", "label": "Startup" },
+        { "value": "other", "label": "Something else" }
+      ]
+    },
+    {
+      "id": "goal",
+      "prompt": "What should the website mainly do?",
+      "options": [
+        { "value": "present", "label": "Present the business properly" },
+        { "value": "enquiries", "label": "Bring in enquiries" },
+        { "value": "products", "label": "Show products or a catalogue" },
+        { "value": "content", "label": "Publish updates or articles regularly" },
+        { "value": "platform", "label": "Run a platform customers log into" }
+      ]
+    },
+    {
+      "id": "features",
+      "prompt": "Do you need any of these?",
+      "multi": true,
+      "options": [
+        { "value": "whatsapp", "label": "WhatsApp button" },
+        { "value": "form", "label": "Enquiry form" },
+        { "value": "gallery", "label": "Photo or product gallery" },
+        { "value": "maps", "label": "Google Maps" },
+        { "value": "blog", "label": "Blog or news" },
+        { "value": "admin", "label": "Admin panel to edit content myself", "backend": true },
+        { "value": "login", "label": "Customer login", "backend": true },
+        { "value": "payments", "label": "Online payments", "backend": true },
+        { "value": "multilingual", "label": "More than one language" },
+        { "value": "none", "label": "None of these yet" }
+      ]
+    }
+  ],
+  "rules": [
+    {
+      "id": "custom-platform",
+      "when": { "anyFeature": ["payments", "login"], "orGoal": ["platform"] },
+      "websiteTypeId": "web-app",
+      "tier": "Custom Web Application",
+      "architecture": "Next.js or React frontend, a backend API, authentication and a database, on infrastructure sized to the workload",
+      "backendRequired": true,
+      "databaseRequired": true,
+      "reason": "Because customers will sign in or pay, the site has to store and protect real records. That needs a backend and a database — a static website genuinely cannot do it safely.",
+      "priority": 100
+    },
+    {
+      "id": "admin-managed",
+      "when": { "anyFeature": ["admin"] },
+      "websiteTypeId": "content",
+      "tier": "Managed Content Website",
+      "architecture": "Next.js or React on Vercel with a content management workflow",
+      "backendRequired": true,
+      "databaseRequired": false,
+      "reason": "Because you want to edit content yourself without a developer, the site needs a content system behind it. That is lighter than a full custom backend and keeps day-to-day updates in your hands.",
+      "priority": 80
+    },
+    {
+      "id": "content-heavy",
+      "when": { "orGoal": ["content"], "anyFeature": ["blog"] },
+      "websiteTypeId": "content",
+      "tier": "Content Website",
+      "architecture": "Next.js or React on Vercel, with a publishing workflow for articles",
+      "backendRequired": false,
+      "databaseRequired": false,
+      "reason": "Publishing regularly needs a tidy way to add articles, but it does not by itself need a server or database. Articles can live as structured content and still be fast and searchable.",
+      "priority": 60
+    },
+    {
+      "id": "catalogue",
+      "when": { "orGoal": ["products"] },
+      "websiteTypeId": "catalogue",
+      "tier": "Product Catalogue Website",
+      "architecture": "Next.js or React on Vercel, products held as structured content, enquiries by form and WhatsApp",
+      "backendRequired": false,
+      "databaseRequired": false,
+      "reason": "Showing a catalogue and taking enquiries does not require a server. Products can be structured content, which keeps the site fast and the running cost low. A backend is only needed once customers start buying online.",
+      "priority": 50
+    },
+    {
+      "id": "profile",
+      "when": {},
+      "websiteTypeId": "business-profile",
+      "tier": "Business Profile Website",
+      "architecture": "Next.js or React on Vercel, connected to your own domain",
+      "backendRequired": false,
+      "databaseRequired": false,
+      "reason": "Your site is mainly informational and does not need customer accounts or changing database content, so a managed setup keeps the architecture simple and avoids paying for a server you would not use.",
+      "priority": 10
+    }
+  ],
+  "byBusinessType": {
+    "manufacturer": "catalogue",
+    "retailer": "catalogue",
+    "consultant": "portfolio",
+    "healthcare": "business-profile",
+    "restaurant": "business-profile",
+    "construction": "portfolio",
+    "service": "service",
+    "startup": "business-profile",
+    "other": "business-profile"
+  },
+  "status": "verified"
+}

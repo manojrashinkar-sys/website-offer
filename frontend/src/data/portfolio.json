@@ -1,0 +1,9 @@
+{
+  "publicPortfolioStatus": "under_development",
+  "communityPageUrl": null,
+  "verifiedPublicProjectCount": null,
+  "publicProjects": [],
+  "portfolioMessage": "Our detailed public project showcase is currently being prepared. It will include verified projects and live website URLs where client permission allows. You can contact us directly if you would like to discuss relevant examples for your business.",
+  "status": "planned",
+  "maintenanceNote": "When the showcase goes live: set publicPortfolioStatus to 'live', set communityPageUrl to the real route, set verifiedPublicProjectCount to the approved number, and add entries to publicProjects. Add a project only when the client has given permission to publish it. Leave verifiedPublicProjectCount as null rather than guessing — the Advisor will say the figure is not published, which is accurate, instead of stating a number that is not."
+}

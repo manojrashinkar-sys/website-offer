@@ -1,0 +1,110 @@
+[
+  {
+    "id": "business-profile",
+    "name": "Business Profile Website",
+    "suitableBusinesses": ["Local businesses", "Consultants", "Service providers", "Clinics", "Traders", "Small businesses"],
+    "typicalPages": ["Home", "About", "Services", "Gallery", "Contact"],
+    "typicalFeatures": ["WhatsApp button", "Contact form", "Google Maps", "Social links", "Basic SEO"],
+    "recommendedArchitecture": "Next.js or React, deployed to Vercel, connected to a client-owned domain",
+    "backendRequirement": "Not required",
+    "databaseRequirement": "Not required",
+    "scalingPath": "Add managed services later if accounts, an admin panel or stored data become necessary.",
+    "status": "verified"
+  },
+  {
+    "id": "corporate",
+    "name": "Corporate Website",
+    "suitableBusinesses": ["Established companies", "Multi-division firms", "B2B organisations"],
+    "typicalPages": ["Home", "About", "Divisions", "Services", "Leadership", "Careers", "Contact"],
+    "typicalFeatures": ["Enquiry routing", "Document downloads", "Basic SEO", "Multi-section navigation"],
+    "recommendedArchitecture": "Next.js or React on Vercel; a content workflow only if pages change often",
+    "backendRequirement": "Usually not required",
+    "databaseRequirement": "Usually not required",
+    "scalingPath": "Introduce a CMS when non-technical staff need to publish regularly.",
+    "status": "verified"
+  },
+  {
+    "id": "manufacturer",
+    "name": "Manufacturer Website",
+    "suitableBusinesses": ["Manufacturers", "Industrial suppliers", "Exporters"],
+    "typicalPages": ["Home", "Company profile", "Product catalogue", "Industries served", "Certifications", "Infrastructure", "Enquiry"],
+    "typicalFeatures": ["Product catalogue", "Downloadable brochure", "Dealer enquiry form", "WhatsApp", "Google Maps"],
+    "recommendedArchitecture": "Next.js or React on Vercel; catalogue held as structured content",
+    "backendRequirement": "Not required unless the catalogue must be edited by staff or supports ordering",
+    "databaseRequirement": "Not required initially",
+    "scalingPath": "Add a managed database and admin panel when the catalogue needs frequent in-house updates.",
+    "status": "verified"
+  },
+  {
+    "id": "service",
+    "name": "Service Website",
+    "suitableBusinesses": ["Service providers", "Contractors", "Agencies", "Maintenance firms"],
+    "typicalPages": ["Home", "Services", "How we work", "Service areas", "Gallery", "Contact"],
+    "typicalFeatures": ["WhatsApp", "Click-to-call", "Enquiry form", "Google Maps", "Basic SEO"],
+    "recommendedArchitecture": "Next.js or React on Vercel",
+    "backendRequirement": "Not required",
+    "databaseRequirement": "Not required",
+    "scalingPath": "Add booking or scheduling later if appointments need managing online.",
+    "status": "verified"
+  },
+  {
+    "id": "portfolio",
+    "name": "Portfolio Website",
+    "suitableBusinesses": ["Consultants", "Designers", "Photographers", "Independent professionals"],
+    "typicalPages": ["Home", "Work", "About", "Contact"],
+    "typicalFeatures": ["Project gallery", "Case studies", "Enquiry form", "Social links"],
+    "recommendedArchitecture": "Next.js or React on Vercel",
+    "backendRequirement": "Not required",
+    "databaseRequirement": "Not required",
+    "scalingPath": "Add a content workflow if work is published very frequently.",
+    "status": "verified"
+  },
+  {
+    "id": "catalogue",
+    "name": "Product Catalogue Website",
+    "suitableBusinesses": ["Retailers", "Distributors", "Wholesalers", "Showrooms"],
+    "typicalPages": ["Home", "Product range", "Categories", "Offers", "Store location", "Contact"],
+    "typicalFeatures": ["Product gallery", "Filtering", "WhatsApp enquiry", "Google Maps"],
+    "recommendedArchitecture": "Next.js or React on Vercel; products as structured content",
+    "backendRequirement": "Not required while browsing only — required if customers buy online",
+    "databaseRequirement": "Not required initially",
+    "scalingPath": "Add checkout, payments and order records when selling online begins.",
+    "status": "verified"
+  },
+  {
+    "id": "landing",
+    "name": "Landing Page",
+    "suitableBusinesses": ["Campaign-driven businesses", "New product launches", "Event promotion"],
+    "typicalPages": ["Single focused page"],
+    "typicalFeatures": ["One clear call to action", "Enquiry form", "WhatsApp", "Analytics-ready"],
+    "recommendedArchitecture": "Next.js or React on Vercel",
+    "backendRequirement": "Not required",
+    "databaseRequirement": "Not required",
+    "scalingPath": "Grow into a full website when the campaign proves itself.",
+    "status": "verified"
+  },
+  {
+    "id": "content",
+    "name": "Content / News Website",
+    "suitableBusinesses": ["Publishers", "Institutions", "Businesses posting regular updates"],
+    "typicalPages": ["Home", "Articles", "Categories", "Article detail", "About", "Contact"],
+    "typicalFeatures": ["Article publishing", "Categories", "Search", "SEO structure"],
+    "recommendedArchitecture": "Next.js or React with a content management workflow so non-technical staff can publish",
+    "backendRequirement": "A content system is required; a full custom backend usually is not",
+    "databaseRequirement": "Depends on the content system chosen",
+    "scalingPath": "Add subscriptions or member areas only if the business model needs them.",
+    "status": "verified"
+  },
+  {
+    "id": "web-app",
+    "name": "Custom Web Application",
+    "suitableBusinesses": ["Platforms with user accounts", "Internal business systems", "Marketplaces", "Dashboards"],
+    "typicalPages": ["Public pages", "Sign in", "Dashboard", "Admin panel"],
+    "typicalFeatures": ["Authentication", "Admin panel", "Stored records", "APIs", "Payments", "Reporting"],
+    "recommendedArchitecture": "Next.js or React frontend, a backend API, authentication and a database; infrastructure sized to the workload",
+    "backendRequirement": "Required",
+    "databaseRequirement": "Required",
+    "scalingPath": "Infrastructure, monitoring and backups are designed against the actual load and security requirement.",
+    "status": "verified"
+  }
+]

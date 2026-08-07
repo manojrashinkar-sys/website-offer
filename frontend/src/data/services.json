@@ -1,0 +1,80 @@
+[
+  {
+    "id": "business-profile-website",
+    "name": "Business Profile Website",
+    "shortDescription": "A clear, credible website that presents your business and brings in enquiries.",
+    "detailedDescription": "An informational website covering who you are, what you offer and how to reach you. No server administration, no database, nothing to maintain day to day.",
+    "idealCustomers": ["Local businesses", "Consultants", "Service providers", "Clinics", "Traders", "Small businesses"],
+    "typicalFeatures": ["Home, About, Services and Contact", "WhatsApp button", "Enquiry form", "Google Maps", "Gallery", "Basic SEO", "SSL"],
+    "businessBenefits": ["Customers can verify you are a real business", "Services explained once, properly", "One link replaces sending brochures", "Enquiries arrive outside working hours"],
+    "recommendedArchitecture": "Next.js or React on managed hosting, connected to your own domain",
+    "requiresBackend": false,
+    "futureUpgradePath": "Add a content system, accounts or a backend later if a real requirement appears.",
+    "status": "verified"
+  },
+  {
+    "id": "professional-business-website",
+    "name": "Professional Business Website",
+    "shortDescription": "A larger site with more pages, richer product or service detail and stronger SEO structure.",
+    "detailedDescription": "For businesses that need to explain more — a catalogue, several service lines, certifications or industries served — while keeping the low-maintenance managed setup.",
+    "idealCustomers": ["Manufacturers", "Corporates", "Multi-service firms", "Exporters", "Showrooms"],
+    "typicalFeatures": ["Product or service catalogue", "Industries served", "Certifications", "Downloadable brochure", "Advanced enquiry forms", "Stronger SEO structure"],
+    "businessBenefits": ["Better-qualified enquiries", "Buyers can verify capability before calling", "Presents at least as well as larger competitors"],
+    "recommendedArchitecture": "Next.js or React on managed hosting, catalogue held as structured content",
+    "requiresBackend": false,
+    "futureUpgradePath": "Add an admin panel when the catalogue needs frequent in-house updates.",
+    "status": "verified"
+  },
+  {
+    "id": "advanced-web-application",
+    "name": "Advanced Web Application",
+    "shortDescription": "A platform your business runs on — accounts, admin panels, stored data and workflows.",
+    "detailedDescription": "Built when a website alone cannot do the job: customer logins, an admin panel, payments, reporting or multi-user workflows. Infrastructure is sized to the actual workload.",
+    "idealCustomers": ["Customer portals", "Internal business systems", "Marketplaces", "Subscription platforms", "Dashboards"],
+    "typicalFeatures": ["Authentication", "Admin dashboard", "Database", "Payment integration", "APIs", "Monitoring and backups"],
+    "businessBenefits": ["Operations move from spreadsheets into a real system", "Customers self-serve", "Records are structured and reportable"],
+    "recommendedArchitecture": "Frontend, backend API, authentication and database; hosting chosen against load and security requirements",
+    "requiresBackend": true,
+    "futureUpgradePath": "Scale infrastructure, add monitoring and harden security as usage grows.",
+    "status": "verified"
+  },
+  {
+    "id": "website-redesign",
+    "name": "Website Redesign",
+    "shortDescription": "Rebuilding an existing website on a modern, maintainable, mobile-first foundation.",
+    "detailedDescription": "For businesses whose current site is dated, slow, hard to update or poor on phones. Existing content is reused where it still works.",
+    "idealCustomers": ["Businesses with an old site", "Sites that fail on mobile", "Sites nobody can update"],
+    "typicalFeatures": ["Content migration", "Responsive rebuild", "Performance work", "SEO structure preserved", "Domain kept in place"],
+    "businessBenefits": ["Modern first impression", "Works properly on phones", "Cheaper to run and easier to change"],
+    "recommendedArchitecture": "Same as the equivalent new build; the existing domain is reconnected",
+    "requiresBackend": false,
+    "futureUpgradePath": "Same growth path as a new build.",
+    "status": "verified"
+  },
+  {
+    "id": "domain-hosting-support",
+    "name": "Domain, DNS and Deployment Support",
+    "shortDescription": "Getting your domain, hosting and SSL connected correctly, with ownership staying yours.",
+    "detailedDescription": "Guidance on choosing and registering a domain in your own name, configuring DNS, connecting hosting, verifying SSL and deploying to production.",
+    "idealCustomers": ["Anyone launching a new site", "Businesses moving hosting", "Businesses unsure who owns their domain"],
+    "typicalFeatures": ["Domain guidance", "DNS configuration", "SSL verification", "Production deployment", "Technical handover"],
+    "businessBenefits": ["You own and control your own web address", "No dependence on one provider", "Nothing breaks quietly at renewal"],
+    "recommendedArchitecture": "Client-owned domain, DNS pointed at managed hosting",
+    "requiresBackend": false,
+    "futureUpgradePath": "Move hosting later with a DNS change rather than a rebuild.",
+    "status": "verified"
+  },
+  {
+    "id": "maintenance",
+    "name": "Maintenance and Support",
+    "shortDescription": "Optional ongoing help after launch, at the level your site actually needs.",
+    "detailedDescription": "Three levels: essential support for small text and image changes; business website management for regular content, new sections and SEO work; advanced application maintenance covering server, backend, database backups, security and monitoring.",
+    "idealCustomers": ["Businesses without in-house technical staff", "Sites that change regularly", "Applications with a server or database"],
+    "typicalFeatures": ["Text and contact updates", "Image replacement", "New sections", "Performance checks", "Security updates", "Backups"],
+    "businessBenefits": ["Someone accountable when something breaks", "Site stays current", "No scrambling for help later"],
+    "recommendedArchitecture": "Not applicable — a service, not an architecture",
+    "requiresBackend": false,
+    "futureUpgradePath": "Move up a level as the site grows.",
+    "status": "verified"
+  }
+]

@@ -1,0 +1,17 @@
+{
+  "knowledgeVersion": "1.0.0",
+  "lastUpdated": "2026-08-07",
+  "masterSource": "knowledge/website-knowledge.md",
+  "publicInformationOnly": true,
+  "sourcePages": [
+    "https://website-offer.manojrashinkar.com/",
+    "https://website-offer.manojrashinkar.com/development-roadmap",
+    "https://manojrashinkar.com/"
+  ],
+  "statusLegend": {
+    "verified": "Confirmed and approved for public use.",
+    "planned": "Intended but not yet available. Never present as available.",
+    "estimated": "An approximation. Always label it as such, never as a commitment.",
+    "unknown": "Not established. Say so plainly; never guess a value."
+  }
+}

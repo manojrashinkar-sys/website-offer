@@ -1,0 +1,27 @@
+{
+  "name": "Manoj Rashinkar",
+  "publicTitle": "Full Stack Developer & FinTech Engineer",
+  "professionalSummary": "Builds business websites alongside real-time trading platforms, analytics dashboards and high-performance financial applications. Publicly focused on trading technology, real-time market data systems and financial analytics platforms.",
+  "whyItMattersToAWebsiteClient": "The same engineer who builds real-time financial systems also builds these business websites. A simple brochure site is kept simple — but if the project later needs a backend, a database, authentication or custom infrastructure, that capability already exists in-house rather than being outsourced.",
+  "skills": {
+    "backend": ["Python", "FastAPI", "Flask", "REST APIs", "WebSocket development", "Async programming"],
+    "frontend": ["React.js", "JavaScript", "HTML5", "CSS3", "Tailwind CSS", "Highcharts"],
+    "databases": ["ClickHouse", "PostgreSQL", "SQLite"],
+    "devopsAndCloud": ["Linux", "Ubuntu Server", "Docker", "Nginx", "Git", "GitHub", "AWS EC2", "CI/CD"],
+    "tradingTechnology": ["Zerodha Kite API", "Fyers API", "Market data systems", "Options analytics", "OMS development", "Real-time dashboards", "Risk and margin analytics"]
+  },
+  "publicLinks": [
+    { "label": "GitHub", "url": "https://github.com/manojrashinkar" },
+    { "label": "LinkedIn", "url": "https://linkedin.com/in/manoj-rashinkar-82a4841b0" },
+    { "label": "Professional profile", "url": "https://manojrashinkar.com/" }
+  ],
+  "privacyRules": [
+    "Only the information in this file is approved for public use.",
+    "Do not state years of experience — it is not published.",
+    "Do not name employers, clients or past projects.",
+    "Do not infer seniority, team size, project counts or client outcomes.",
+    "Contact details come from the site's own configuration, not from this file."
+  ],
+  "status": "verified",
+  "source": "https://manojrashinkar.com/"
+}

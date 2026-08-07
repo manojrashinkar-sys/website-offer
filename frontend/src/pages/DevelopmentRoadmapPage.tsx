@@ -7,6 +7,7 @@ import OfferHeader from '../components/OfferHeader';
 import ScrollProgress from '../components/ScrollProgress';
 import OfferFooter from '../components/OfferFooter';
 import WhatsAppButton from '../components/WhatsAppButton';
+import WebsiteAdvisor from '../components/website-advisor/WebsiteAdvisor';
 import MobileStickyActions from '../components/MobileStickyActions';
 import RoadmapHero from '../components/roadmap/RoadmapHero';
 import RoadmapSectionNav from '../components/roadmap/RoadmapSectionNav';
@@ -113,6 +114,7 @@ export default function DevelopmentRoadmapPage() {
       </main>
       <OfferFooter />
       <WhatsAppButton />
+      <WebsiteAdvisor />
       <MobileStickyActions />
       <BackToTop />
     </div>

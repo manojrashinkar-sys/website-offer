@@ -1,0 +1,47 @@
+{
+  "quickActions": [
+    { "id": "find-website", "label": "Find the Right Website", "kind": "recommendation", "icon": "compass" },
+    { "id": "cost", "label": "Website Cost", "kind": "faq", "faqId": "price-how", "icon": "credit-card" },
+    { "id": "process", "label": "Development Process", "kind": "roadmap", "icon": "clipboard-check" },
+    { "id": "domain-hosting", "label": "Domain & Hosting", "kind": "faq", "faqId": "hosting-what", "icon": "globe" },
+    { "id": "technology", "label": "Technology Guide", "kind": "technology", "icon": "code" },
+    { "id": "timeline", "label": "Project Timeline", "kind": "faq", "faqId": "dev-how-long", "icon": "clock" },
+    { "id": "ownership", "label": "Website Ownership", "kind": "faq", "faqId": "own-website", "icon": "key" },
+    { "id": "grow", "label": "Can My Website Grow Later?", "kind": "faq", "faqId": "scale-later", "icon": "trending-up" },
+    { "id": "custom", "label": "Custom Question", "kind": "custom", "icon": "chat" }
+  ],
+  "leadFields": [
+    { "id": "name", "label": "Your name", "askWhen": "summary" },
+    { "id": "businessName", "label": "Business name", "askWhen": "summary" },
+    { "id": "businessType", "label": "Business type", "askWhen": "recommendation" },
+    { "id": "goal", "label": "Main objective", "askWhen": "recommendation" },
+    { "id": "features", "label": "Required features", "askWhen": "recommendation" },
+    { "id": "existingWebsite", "label": "Existing website", "askWhen": "summary" },
+    { "id": "timeline", "label": "Timeline", "askWhen": "summary" },
+    { "id": "notes", "label": "Anything else", "askWhen": "summary" }
+  ],
+  "contextualCtas": {
+    "domain": [
+      { "label": "Hosting options", "kind": "faq", "faqId": "hosting-what" },
+      { "label": "Development process", "kind": "roadmap" }
+    ],
+    "pricing": [
+      { "label": "Find the right website", "kind": "recommendation" },
+      { "label": "Discuss on WhatsApp", "kind": "whatsapp" }
+    ],
+    "recommendation": [
+      { "label": "Build my requirement summary", "kind": "summary" },
+      { "label": "Discuss this on WhatsApp", "kind": "whatsapp" }
+    ],
+    "default": [
+      { "label": "Browse common questions", "kind": "faq-list" },
+      { "label": "Find the right website", "kind": "recommendation" }
+    ]
+  },
+  "limits": {
+    "customQuestionsPerSession": 5,
+    "maxQuestionLength": 400,
+    "cooldownSeconds": 5
+  },
+  "status": "verified"
+}

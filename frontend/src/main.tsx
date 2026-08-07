@@ -10,6 +10,7 @@ import './styles/mobile.css';
 import './styles/polish.css';
 import './styles/interactions.css';
 import './styles/theme.css';
+import './styles/advisor.css';
 
 // Record campaign parameters before the router rewrites the URL.
 captureAttribution();
