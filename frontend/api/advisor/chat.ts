@@ -2028,6 +2028,49 @@ async function askModel(question: string, context: string): Promise<string | nul
   }
 }
 
+/** Sends increasingly complete request bodies until one is rejected. */
+async function probeModel(): Promise<unknown> {
+  const apiKey = env('GEMINI_API_KEY');
+  const model = env('GEMINI_MODEL') || DEFAULT_MODEL;
+  if (!apiKey) return { error: 'no_api_key' };
+
+  const bodies: Array<[string, Record<string, unknown>]> = [
+    ['contents only', { contents: [{ role: 'user', parts: [{ text: 'Say OK.' }] }] }],
+    ['+ generationConfig', {
+      contents: [{ role: 'user', parts: [{ text: 'Say OK.' }] }],
+      generationConfig: { temperature: 0.3, maxOutputTokens: 1200, topP: 0.9 },
+    }],
+    ['+ systemInstruction', {
+      systemInstruction: { parts: [{ text: 'You are helpful.' }] },
+      contents: [{ role: 'user', parts: [{ text: 'Say OK.' }] }],
+      generationConfig: { temperature: 0.3, maxOutputTokens: 1200, topP: 0.9 },
+    }],
+  ];
+
+  const results: Array<Record<string, unknown>> = [];
+  for (const [label, body] of bodies) {
+    for (const version of ['v1beta', 'v1']) {
+      try {
+        const r = await fetch(
+          `https://generativelanguage.googleapis.com/${version}/models/${encodeURIComponent(model)}:generateContent`,
+          {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'x-goog-api-key': apiKey },
+            body: JSON.stringify(body),
+          },
+        );
+        results.push({
+          label, version, status: r.status,
+          detail: r.ok ? 'ok' : (await r.text()).slice(0, 200),
+        });
+      } catch {
+        results.push({ label, version, status: 'network_error' });
+      }
+    }
+  }
+  return { model, results };
+}
+
 /* ---------------- handler ---------------- */
 
 interface Req { method?: string; body?: unknown; headers: Record<string, string | string[] | undefined> }
@@ -2049,6 +2092,14 @@ export default async function handler(req: Req, res: Res) {
 
 async function route(req: Req, res: Res) {
   res.setHeader('Cache-Control', 'no-store');
+
+  // Probe mode: sends progressively richer bodies to the model and reports
+  // which one the API first rejects. Header-gated, returns no secrets, and
+  // exists only to diagnose a deployment.
+  if (req.headers['x-advisor-debug'] === 'probe') {
+    res.status(200).json({ probe: await probeModel() });
+    return;
+  }
 
   if (req.method !== 'POST') {
     res.status(405).json({ error: 'method_not_allowed' });
