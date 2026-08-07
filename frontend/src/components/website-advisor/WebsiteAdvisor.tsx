@@ -4,20 +4,24 @@ import { dismissNudge, nudgeDismissed } from '../../lib/advisor/session';
 import Icon from '../Icon';
 
 // The panel holds the whole knowledge base and conversation engine. Loading it
-// only when the launcher is first pressed keeps it out of the initial bundle,
-// so a visitor who never opens the Advisor pays nothing for it.
+// only when first needed keeps it out of the initial bundle, so a visitor who
+// never opens it pays nothing for it.
 const AdvisorPanel = lazy(() => import('./AdvisorPanel'));
+
+/** Long enough that the page has settled and been looked at, short enough to
+ *  still feel like an offer of help rather than an interruption. */
+const GREETING_DELAY_MS = 2500;
 
 export default function WebsiteAdvisor() {
   const [open, setOpen] = useState(false);
   const [loaded, setLoaded] = useState(false);
-  const [nudge, setNudge] = useState(false);
+  const [greeting, setGreeting] = useState(false);
   const launcherRef = useRef<HTMLButtonElement>(null);
 
   const openAdvisor = useCallback((placement: string) => {
     setLoaded(true);
     setOpen(true);
-    setNudge(false);
+    setGreeting(false);
     dismissNudge();
     trackEvent('advisor_opened', { placement });
   }, []);
@@ -28,52 +32,62 @@ export default function WebsiteAdvisor() {
     launcherRef.current?.focus();
   }, []);
 
-  // A single, dismissible suggestion after the visitor has read a little —
-  // never on load, and never twice in a session.
+  // Appears once, on a timer, and never again in the session once dismissed.
+  // The panel itself is never opened automatically — arriving to find a dialog
+  // already covering the page is the fastest way to get one closed unread.
   useEffect(() => {
     if (nudgeDismissed()) return;
-    const onScroll = () => {
-      if (window.scrollY > window.innerHeight * 1.2) {
-        setNudge(true);
-        window.removeEventListener('scroll', onScroll);
-      }
-    };
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
+    const timer = window.setTimeout(() => {
+      setGreeting(true);
+      // Warm the chunk while the greeting is on screen, so opening it is instant.
+      setLoaded(true);
+      trackEvent('advisor_greeting_shown');
+    }, GREETING_DELAY_MS);
+    return () => window.clearTimeout(timer);
   }, []);
+
+  const dismissGreeting = () => {
+    setGreeting(false);
+    dismissNudge();
+    trackEvent('advisor_greeting_dismissed');
+  };
 
   return (
     <>
-      {nudge && !open && (
-        <div className="advisor-nudge" role="status">
-          <p>Not sure what website your business needs?</p>
-          <div className="advisor-nudge-actions">
-            <button type="button" className="advisor-nudge-cta" onClick={() => openAdvisor('nudge')}>
-              Ask Website Advisor
-            </button>
-            <button
-              type="button"
-              className="advisor-nudge-dismiss"
-              onClick={() => { setNudge(false); dismissNudge(); }}
-              aria-label="Dismiss suggestion"
-            >
-              <Icon name="close" size={15} />
-            </button>
-          </div>
+      {greeting && !open && (
+        <div className="advisor-greeting" role="status">
+          <button
+            type="button"
+            className="advisor-greeting-body"
+            onClick={() => openAdvisor('greeting')}
+          >
+            <span className="advisor-greeting-title">Hi — need a hand?</span>
+            <span className="advisor-greeting-text">
+              Tell me about your business and I&rsquo;ll suggest the right website for it.
+            </span>
+          </button>
+          <button
+            type="button"
+            className="advisor-greeting-dismiss"
+            onClick={dismissGreeting}
+            aria-label="Dismiss"
+          >
+            <Icon name="close" size={14} />
+          </button>
         </div>
       )}
 
       <button
         ref={launcherRef}
         type="button"
-        className={`advisor-launcher ${open ? 'is-open' : ''}`}
+        className={`advisor-launcher ${open ? 'is-open' : ''} ${greeting && !open ? 'is-calling' : ''}`}
         onClick={() => (open ? closeAdvisor() : openAdvisor('launcher'))}
         aria-expanded={open}
         aria-haspopup="dialog"
-        aria-label={open ? 'Close Website Advisor' : 'Open Website Advisor'}
+        aria-label={open ? 'Close Website Assistant' : 'Open Website Assistant'}
       >
-        <Icon name={open ? 'close' : 'compass'} size={21} />
-        <span className="advisor-launcher-label">Website Advisor</span>
+        <Icon name={open ? 'close' : 'chat'} size={20} />
+        <span className="advisor-launcher-label">Website Assistant</span>
       </button>
 
       {loaded && (

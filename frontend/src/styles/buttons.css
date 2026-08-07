@@ -1,0 +1,105 @@
+/* ============================================================
+   Button palette — ink
+   ------------------------------------------------------------
+   Loaded last so it overrides the blue defined in offer.css.
+   Primary actions are near-black. The brand gradient is kept in
+   the two places where colour genuinely sells — the hero calls
+   to action — and removed everywhere else, so the page reads
+   calm and the colour that remains actually means something.
+
+   WhatsApp stays green: it is a recognised product signal, not
+   a decorative choice.
+   ============================================================ */
+
+:root {
+  --btn-ink: #10151f;
+  --btn-ink-hover: #232c3d;
+  --btn-ink-text: #ffffff;
+  --focus-ring: rgba(16, 21, 31, 0.2);
+}
+
+[data-theme="dark"] {
+  --btn-ink: #eef2fa;
+  --btn-ink-hover: #ffffff;
+  --btn-ink-text: #0a1020;
+  --focus-ring: rgba(238, 242, 250, 0.28);
+}
+
+/* ---------- Primary ---------- */
+.btn-primary {
+  background: var(--btn-ink);
+  background-size: auto;
+  animation: none;
+  color: var(--btn-ink-text);
+  box-shadow: 0 1px 2px rgba(10, 16, 32, 0.1), 0 6px 18px rgba(10, 16, 32, 0.16);
+}
+.btn-primary:hover {
+  background: var(--btn-ink-hover);
+  filter: none;
+  box-shadow: 0 2px 4px rgba(10, 16, 32, 0.12), 0 10px 24px rgba(10, 16, 32, 0.2);
+}
+/* The breathing glow was tuned for a blue button; behind near-black it just
+   looks like a smudge. */
+.btn-glow::after { display: none; }
+
+/* ---------- Secondary ---------- */
+.btn-outline { color: var(--btn-ink); border-color: rgba(16, 21, 31, 0.28); background: transparent; }
+.btn-outline:hover { background: var(--btn-ink); border-color: var(--btn-ink); color: var(--btn-ink-text); }
+[data-theme="dark"] .btn-outline { color: var(--color-ink); border-color: rgba(238, 242, 250, 0.3); }
+[data-theme="dark"] .btn-outline:hover { background: var(--btn-ink); color: var(--btn-ink-text); }
+
+/* ---------- Where colour is kept ----------
+   The hero CTAs, and the outline buttons that sit on the dark hero and the
+   gradient closing band, which need their existing glass treatment. */
+.hero-actions .btn-primary {
+  background: var(--gradient-brand-loop);
+  background-size: 300% 300%;
+  animation: gradient-shift 7s ease infinite;
+  color: #fff;
+  box-shadow: 0 10px 24px rgba(37, 99, 235, 0.32);
+}
+.hero-actions .btn-outline {
+  color: #fff; border-color: rgba(255, 255, 255, 0.32); background: rgba(255, 255, 255, 0.06);
+}
+.hero-actions .btn-outline:hover { background: rgba(255, 255, 255, 0.14); border-color: rgba(255, 255, 255, 0.5); color: #fff; }
+.closing-cta-actions .btn-primary { background: #fff; color: var(--btn-ink); }
+.closing-cta-actions .btn-primary:hover { background: #f1f5ff; }
+.closing-cta-actions .btn-outline { color: #fff; border-color: rgba(255, 255, 255, 0.5); background: rgba(255, 255, 255, 0.08); }
+.closing-cta-actions .btn-outline:hover { background: rgba(255, 255, 255, 0.18); border-color: #fff; color: #fff; }
+
+/* ---------- Button-like fills elsewhere ---------- */
+.biz-tab.active { background: var(--btn-ink); color: var(--btn-ink-text); box-shadow: 0 6px 16px rgba(10, 16, 32, 0.22); }
+.step-number { background: var(--btn-ink); box-shadow: 0 6px 14px rgba(10, 16, 32, 0.22); }
+.phase-icon { background: var(--btn-ink); box-shadow: 0 8px 18px rgba(10, 16, 32, 0.2); }
+.stage-item.active .stage-dot { background: var(--btn-ink); box-shadow: 0 6px 14px rgba(10, 16, 32, 0.22); }
+.stage-item.active { background: var(--color-surface-alt); color: var(--color-ink); }
+.stage-item.passed .stage-dot { border-color: var(--btn-ink); color: var(--btn-ink); }
+.stage-item.passed .stage-rail, .stage-item.active .stage-rail { background: var(--btn-ink); }
+.faq-item.open .faq-chevron { background: var(--btn-ink); color: var(--btn-ink-text); }
+.solution-tab.active { border-color: var(--btn-ink); box-shadow: 0 8px 22px rgba(10, 16, 32, 0.12); }
+.modal-icon { background: var(--btn-ink); }
+.est-tier, .advisor-send { /* placeholder so the send button keeps its gradient */ }
+.header-cta { background: var(--btn-ink); color: var(--btn-ink-text); animation: none; }
+.header-cta:hover { background: var(--btn-ink-hover); }
+.mobile-nav .btn-primary { background: var(--btn-ink); color: var(--btn-ink-text); }
+.sticky-action-cta { background: var(--btn-ink); color: var(--btn-ink-text); }
+.sticky-action-cta:active { background: var(--btn-ink-hover); color: var(--btn-ink-text); }
+.cmp-switch-btn.active { color: #fff; }
+.cmp-switch-thumb { background: var(--btn-ink); }
+
+/* ---------- Focus ----------
+   One neutral ring everywhere, so focus no longer reads as a blue glow. */
+.btn:focus-visible,
+.nav-link:focus-visible,
+.faq-question:focus-visible,
+.biz-tab:focus-visible,
+.card-toggle:focus-visible,
+.section-nav-link:focus-visible,
+.stage-item:focus-visible {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+/* ---------- Links ---------- */
+.nav-link.active { color: var(--color-ink); }
+.btn-link:hover, .link-toggle { color: var(--color-ink); }

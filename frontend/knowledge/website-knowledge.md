@@ -8,7 +8,7 @@
   - https://manojrashinkar.com/
 - publicInformationOnly: true
 
-This file is the **master human-editable source of truth** for the Website Advisor.
+This file is the **master human-editable source of truth** for the Website Assistant.
 The JSON files under `src/data/` are derived from it. When you change a fact here,
 update the matching JSON file — see `KNOWLEDGE_MAINTENANCE.md`.
 

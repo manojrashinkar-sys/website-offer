@@ -1,4 +1,4 @@
-# Keeping the Website Advisor accurate
+# Keeping the Website Assistant accurate
 
 The Advisor answers from files in this repository. It does not learn, and it
 cannot look anything up. If a fact changes here and nowhere else, the Advisor

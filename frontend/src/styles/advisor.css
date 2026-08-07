@@ -1,5 +1,5 @@
 /* ============================================================
-   Website Advisor
+   Website Assistant
    ------------------------------------------------------------
    Ink and neutral surfaces. The brand gradient appears exactly
    once — on the send button — so the panel reads as a calm
@@ -34,30 +34,49 @@
 [data-theme="dark"] .advisor-launcher { color: #0a1020; }
 [data-theme="dark"] .advisor-launcher.is-open { color: var(--color-ink); background: var(--color-surface); }
 
-/* ---------- Discovery nudge ---------- */
-.advisor-nudge {
+/* ---------- Greeting bubble ----------
+   Appears on a timer, bounces once to catch the eye, then settles. The panel
+   itself never opens on its own. */
+.advisor-greeting {
   position: fixed; right: 1.25rem; z-index: 95;
   bottom: calc(9.4rem + env(safe-area-inset-bottom, 0px));
-  width: min(272px, calc(100vw - 2.5rem));
+  width: min(286px, calc(100vw - 2.5rem));
+  display: flex; align-items: flex-start; gap: 0.35rem;
   background: var(--color-surface); border: 1px solid var(--border-subtle);
-  border-radius: 14px; padding: 0.85rem 0.95rem; box-shadow: var(--shadow-3);
-  animation: advisor-in 0.35s cubic-bezier(0.22, 1, 0.36, 1) both;
+  border-radius: 16px 16px 4px 16px; padding: 0.5rem 0.5rem 0.5rem 0.85rem;
+  box-shadow: 0 14px 40px rgba(10, 16, 32, 0.2);
+  transform-origin: bottom right;
+  animation: advisor-pop 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) both;
 }
-.advisor-nudge p { margin: 0 0 0.6rem; font-size: 0.86rem; line-height: 1.45; color: var(--color-ink); }
-.advisor-nudge-actions { display: flex; align-items: center; gap: 0.5rem; }
-.advisor-nudge-cta {
-  flex: 1 1 auto; font: inherit; font-weight: 600; font-size: 0.8rem; cursor: pointer;
-  padding: 0.45rem 0.7rem; border-radius: 9px; border: 1px solid var(--border-subtle);
-  background: var(--color-surface); color: var(--color-ink);
+.advisor-greeting-body {
+  flex: 1 1 auto; display: flex; flex-direction: column; gap: 0.15rem;
+  font: inherit; text-align: left; cursor: pointer;
+  background: none; border: 0; padding: 0.3rem 0;
 }
-.advisor-nudge-cta:hover { border-color: var(--advisor-ink); }
-.advisor-nudge-dismiss {
-  flex: 0 0 auto; width: 28px; height: 28px; border-radius: 50%; cursor: pointer;
+.advisor-greeting-title { font-weight: 700; font-size: 0.88rem; color: var(--color-ink); }
+.advisor-greeting-text { font-size: 0.79rem; line-height: 1.45; color: var(--text-body); }
+.advisor-greeting-body:focus-visible { outline: 2px solid var(--advisor-ink); outline-offset: 2px; border-radius: 6px; }
+.advisor-greeting-dismiss {
+  flex: 0 0 auto; width: 24px; height: 24px; border-radius: 50%; cursor: pointer;
   display: inline-flex; align-items: center; justify-content: center;
   background: none; border: 0; color: var(--text-body);
 }
-.advisor-nudge-cta:focus-visible, .advisor-nudge-dismiss:focus-visible {
-  outline: 2px solid var(--advisor-ink); outline-offset: 2px;
+.advisor-greeting-dismiss:hover { background: var(--color-surface-alt); color: var(--color-ink); }
+.advisor-greeting-dismiss:focus-visible { outline: 2px solid var(--advisor-ink); outline-offset: 1px; }
+
+@keyframes advisor-pop {
+  from { opacity: 0; transform: scale(0.7) translateY(14px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+/* The launcher bobs gently while the greeting is unanswered, then stops. */
+.advisor-launcher.is-calling { animation: advisor-bob 1.9s ease-in-out 3; }
+@keyframes advisor-bob {
+  0%, 100% { transform: translateY(0); }
+  12%      { transform: translateY(-7px); }
+  24%      { transform: translateY(0); }
+  34%      { transform: translateY(-3px); }
+  44%      { transform: translateY(0); }
 }
 
 /* ---------- Panel ---------- */
@@ -235,7 +254,7 @@
     width: 50px; height: 50px; padding: 0; justify-content: center; border-radius: 50%;
   }
   .advisor-launcher-label { display: none; }
-  .advisor-nudge { bottom: calc(8.8rem + env(safe-area-inset-bottom, 0px)); left: 1rem; right: 1rem; width: auto; }
+  .advisor-greeting { bottom: calc(8.8rem + env(safe-area-inset-bottom, 0px)); left: 1rem; right: 1rem; width: auto; }
 
   .advisor-scrim {
     display: block; position: fixed; inset: 0; z-index: 96;
@@ -262,6 +281,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .advisor-panel, .advisor-launcher, .advisor-nudge, .advisor-hint { transition: none; animation: none; }
+  .advisor-panel, .advisor-launcher, .advisor-greeting, .advisor-hint { transition: none; animation: none; }
+  .advisor-launcher.is-calling { animation: none; }
   .advisor-typing span { animation: none; opacity: 0.6; }
 }

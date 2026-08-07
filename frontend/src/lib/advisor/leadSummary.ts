@@ -37,7 +37,7 @@ export function buildSummary(
 export function summaryMessage(summary: LeadSummary): string {
   const { recommendation } = summary;
   const lines = [
-    'Hello, I used the Website Advisor and would like to discuss my project.',
+    'Hello, I used the Website Assistant and would like to discuss my project.',
     '',
     `Business type: ${summary.businessType}`,
     `Main goal: ${summary.goal}`,

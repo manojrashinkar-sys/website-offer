@@ -11,6 +11,7 @@ import './styles/polish.css';
 import './styles/interactions.css';
 import './styles/theme.css';
 import './styles/advisor.css';
+import './styles/buttons.css';
 
 // Record campaign parameters before the router rewrites the URL.
 captureAttribution();
