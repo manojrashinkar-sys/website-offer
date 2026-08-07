@@ -1943,14 +1943,25 @@ const DEFAULT_MODEL = 'gemini-3.5-flash-lite';
 const TIMEOUT_MS = 15_000;
 
 /**
- * Gemini models from 2.5 onward reason before answering, and those tokens are
- * charged against maxOutputTokens — a tight cap risks the budget being spent
- * on thinking with no answer produced. These questions are answered from
- * supplied facts, so there is nothing to reason about. The 2.0 family predates
- * the field and rejects it.
+ * Reasoning control is deliberately not sent.
+ *
+ * It was, briefly: models from 2.5 onward reason before answering and charge
+ * those tokens against maxOutputTokens, so switching it off looked like a
+ * saving. The Gemini 3.x line rejects thinkingBudget outright and returned
+ * 400 INVALID_ARGUMENT for every request, which surfaced to visitors as the
+ * assistant being unavailable.
+ *
+ * The field is also not portable — its name and accepted values differ across
+ * model generations — so guessing per model would break again on the next one.
+ * The output budget below is generous enough to absorb reasoning instead, and
+ * GEMINI_THINKING_BUDGET is available if a future model needs it set.
  */
-const thinkingConfigFor = (model: string) =>
-  model.startsWith('gemini-2.0') ? {} : { thinkingConfig: { thinkingBudget: 0 } };
+function thinkingConfigFor(): Record<string, unknown> {
+  const budget = env('GEMINI_THINKING_BUDGET');
+  if (budget === undefined || budget === '') return {};
+  const parsed = Number.parseInt(budget, 10);
+  return Number.isFinite(parsed) ? { thinkingConfig: { thinkingBudget: parsed } } : {};
+}
 
 /**
  * Coarse reason for the last failure, for the debug header below. Never holds
@@ -1985,7 +1996,13 @@ async function askModel(question: string, context: string): Promise<string | nul
             }],
           }],
           generationConfig: {
-            temperature: 0.3, maxOutputTokens: 800, topP: 0.9, ...thinkingConfigFor(model),
+            temperature: 0.3,
+            // Generous, because reasoning tokens are charged against this on
+            // newer models and a tight cap can consume the whole budget
+            // before any answer is written.
+            maxOutputTokens: 1200,
+            topP: 0.9,
+            ...thinkingConfigFor(),
           },
         }),
       },
