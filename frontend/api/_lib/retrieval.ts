@@ -11,7 +11,20 @@ import rules from '../../src/data/business-rules.json';
 
 interface Faq { id: string; category: string; question: string; answer: string; keywords: string[]; status: string }
 
-const faqs = faqData as Faq[];
+// Vercel compiles this directory with its own module settings, and a JSON
+// default import can arrive as undefined under some interop combinations.
+// Normalising here means a resolution problem degrades to a thinner prompt
+// rather than a crashed function.
+function asArray<T>(value: unknown): T[] {
+  if (Array.isArray(value)) return value as T[];
+  const inner = (value as { default?: unknown })?.default;
+  return Array.isArray(inner) ? (inner as T[]) : [];
+}
+
+const faqs = asArray<Faq>(faqData);
+const techList = asArray<Record<string, unknown>>(technologies);
+const typeList = asArray<Record<string, unknown>>(websiteTypes);
+const serviceList = asArray<Record<string, unknown>>(services);
 
 const STOP = new Set(['the','a','an','is','are','do','does','i','my','me','you','your','we','it','to','of','for','and','or','in','on','can','will','be','what','how','why','when','need','have','has','with','this','that']);
 
@@ -42,7 +55,7 @@ export function buildContext(question: string): string {
     );
   }
 
-  const topTech = (technologies as Array<Record<string, unknown>>)
+  const topTech = techList
     .map((tech) => ({ tech, n: hits(tokens, [String(tech.name), String(tech.simpleExplanation)]) }))
     .filter((entry) => entry.n > 0)
     .sort((a, b) => b.n - a.n)
@@ -59,7 +72,7 @@ export function buildContext(question: string): string {
     );
   }
 
-  const topTypes = (websiteTypes as Array<Record<string, unknown>>)
+  const topTypes = typeList
     .map((type) => ({ type, n: hits(tokens, [String(type.name), (type.suitableBusinesses as string[]).join(' ')]) }))
     .filter((entry) => entry.n > 0)
     .sort((a, b) => b.n - a.n)
@@ -74,7 +87,7 @@ export function buildContext(question: string): string {
     );
   }
 
-  const topServices = (services as Array<Record<string, unknown>>)
+  const topServices = serviceList
     .map((service) => ({ service, n: hits(tokens, [String(service.name), String(service.shortDescription)]) }))
     .filter((entry) => entry.n > 0)
     .slice(0, 2);
@@ -88,7 +101,7 @@ export function buildContext(question: string): string {
 
   // Always included: these govern how the model must behave regardless of topic.
   blocks.push(`INFRASTRUCTURE POLICY:\n${rules.infrastructurePhilosophy}`);
-  blocks.push(
+  if (portfolio?.publicPortfolioStatus) blocks.push(
     `PORTFOLIO STATUS: ${portfolio.publicPortfolioStatus}. ` +
       `Verified public project count: ${portfolio.verifiedPublicProjectCount ?? 'not published'}. ` +
       `Approved wording: ${portfolio.portfolioMessage}`,
@@ -103,8 +116,8 @@ export function systemInstruction(): string {
     'You help potential business clients understand website options, technology, architecture, hosting, the development process and project requirements.',
     '',
     'RULES:',
-    ...rules.neverDo.map((rule: string) => `- Never ${rule.charAt(0).toLowerCase()}${rule.slice(1)}`),
-    ...rules.alwaysDo.map((rule: string) => `- Always ${rule.charAt(0).toLowerCase()}${rule.slice(1)}`),
+    ...asArray<string>(rules?.neverDo).map((rule: string) => `- Never ${rule.charAt(0).toLowerCase()}${rule.slice(1)}`),
+    ...asArray<string>(rules?.alwaysDo).map((rule: string) => `- Always ${rule.charAt(0).toLowerCase()}${rule.slice(1)}`),
     '',
     'Use only the approved business knowledge supplied with the question. If the knowledge does not cover it, say the information is not currently published and suggest discussing it directly. Never fill a gap with a plausible guess.',
     '',

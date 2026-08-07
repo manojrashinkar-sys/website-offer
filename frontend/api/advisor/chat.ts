@@ -19,6 +19,17 @@ interface Res {
 }
 
 export default async function handler(req: Req, res: Res) {
+  try {
+    await route(req, res);
+  } catch {
+    // Anything unhandled becomes the same graceful unavailable response the
+    // assistant already knows how to recover from. A raw platform error page
+    // is never something a visitor should meet.
+    res.status(503).json({ error: 'unavailable' });
+  }
+}
+
+async function route(req: Req, res: Res) {
   res.setHeader('Cache-Control', 'no-store');
 
   if (req.method !== 'POST') {
@@ -46,7 +57,11 @@ export default async function handler(req: Req, res: Res) {
   // Handled here rather than sent onward: there is no benefit to spending a
   // model call on a request whose only purpose is to break the rules.
   if (looksLikeInjection(validation.question)) {
-    res.status(200).json({ answer: rules.refusals.systemPrompt, source: 'guard' });
+    res.status(200).json({
+      answer: rules?.refusals?.systemPrompt
+        ?? 'I can only help with website and web development questions.',
+      source: 'guard',
+    });
     return;
   }
 
