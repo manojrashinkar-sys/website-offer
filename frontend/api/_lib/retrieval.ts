@@ -1,9 +1,11 @@
-import faqData from '../../src/data/faq.json';
-import technologies from '../../src/data/technologies.json';
-import websiteTypes from '../../src/data/website-types.json';
-import services from '../../src/data/services.json';
-import portfolio from '../../src/data/portfolio.json';
-import rules from '../../src/data/business-rules.json';
+import {
+  faqs as faqData,
+  technologies,
+  websiteTypes,
+  services,
+  portfolio,
+  businessRules as rules,
+} from './knowledge.generated';
 
 // The whole knowledge base is never sent to the model. Only the handful of
 // entries that actually relate to the question are selected, which keeps the

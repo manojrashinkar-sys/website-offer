@@ -3,7 +3,7 @@ import { buildContext, systemInstruction } from '../_lib/retrieval';
 import {
   clientKey, looksLikeInjection, rateLimit, sanitiseAnswer, validateQuestion,
 } from '../_lib/guard';
-import rules from '../../src/data/business-rules.json';
+import { businessRules as rules } from '../_lib/knowledge.generated';
 
 // Minimal request/response shapes. Typed locally rather than pulling in
 // @vercel/node purely for two interfaces.
