@@ -1963,17 +1963,10 @@ function thinkingConfigFor(): Record<string, unknown> {
   return Number.isFinite(parsed) ? { thinkingConfig: { thinkingBudget: parsed } } : {};
 }
 
-/**
- * Coarse reason for the last failure, for the debug header below. Never holds
- * anything sensitive — a boolean, a model name and an upstream status code.
- */
-let lastFailure: Record<string, unknown> = {};
-
 async function askModel(question: string, context: string): Promise<string | null> {
   const apiKey = env('GEMINI_API_KEY');
   const model = env('GEMINI_MODEL') || DEFAULT_MODEL;
-  lastFailure = { hasKey: Boolean(apiKey), model };
-  if (!apiKey) { lastFailure.reason = 'no_api_key'; return null; }
+  if (!apiKey) return null;
 
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), TIMEOUT_MS);
@@ -2007,88 +2000,17 @@ async function askModel(question: string, context: string): Promise<string | nul
         }),
       },
     );
-    if (!response.ok) {
-      lastFailure.reason = 'upstream_error';
-      lastFailure.status = response.status;
-      // Body text only, never headers or the key. Truncated.
-      lastFailure.detail = (await response.text()).slice(0, 300);
-      return null;
-    }
+    if (!response.ok) return null;
     const data = (await response.json()) as {
       candidates?: Array<{ content?: { parts?: Array<{ text?: string }> } }>;
     };
     const answer = data.candidates?.[0]?.content?.parts?.map((p) => p.text ?? '').join('').trim();
-    if (!answer) lastFailure.reason = 'empty_answer';
     return answer || null;
-  } catch (error) {
-    lastFailure.reason = error instanceof Error && error.name === 'AbortError' ? 'timeout' : 'network_error';
+  } catch {
     return null;
   } finally {
     clearTimeout(timer);
   }
-}
-
-/** Sends increasingly complete request bodies until one is rejected. */
-async function probeModel(): Promise<unknown> {
-  const apiKey = env('GEMINI_API_KEY');
-  const model = env('GEMINI_MODEL') || DEFAULT_MODEL;
-  if (!apiKey) return { error: 'no_api_key' };
-
-  const bodies: Array<[string, Record<string, unknown>]> = [
-    ['contents only', { contents: [{ role: 'user', parts: [{ text: 'Say OK.' }] }] }],
-    ['+ generationConfig', {
-      contents: [{ role: 'user', parts: [{ text: 'Say OK.' }] }],
-      generationConfig: { temperature: 0.3, maxOutputTokens: 1200, topP: 0.9 },
-    }],
-    ['+ systemInstruction', {
-      systemInstruction: { parts: [{ text: 'You are helpful.' }] },
-      contents: [{ role: 'user', parts: [{ text: 'Say OK.' }] }],
-      generationConfig: { temperature: 0.3, maxOutputTokens: 1200, topP: 0.9 },
-    }],
-    ['REAL systemInstruction', {
-      systemInstruction: { parts: [{ text: systemInstruction() }] },
-      contents: [{ role: 'user', parts: [{ text: 'Say OK.' }] }],
-      generationConfig: { temperature: 0.3, maxOutputTokens: 1200, topP: 0.9 },
-    }],
-    ['REAL everything', {
-      systemInstruction: { parts: [{ text: systemInstruction() }] },
-      contents: [{ role: 'user', parts: [{ text: `APPROVED BUSINESS KNOWLEDGE:
-${buildContext('do I need a server')}
-
-VISITOR QUESTION:
-do I need a server` }] }],
-      generationConfig: { temperature: 0.3, maxOutputTokens: 1200, topP: 0.9 },
-    }],
-  ];
-
-  const results: Array<Record<string, unknown>> = [];
-  for (const [label, body] of bodies) {
-    for (const version of ['v1beta']) {
-      try {
-        const r = await fetch(
-          `https://generativelanguage.googleapis.com/${version}/models/${encodeURIComponent(model)}:generateContent`,
-          {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'x-goog-api-key': apiKey },
-            body: JSON.stringify(body),
-          },
-        );
-        results.push({
-          label, version, status: r.status,
-          detail: r.ok ? 'ok' : (await r.text()).slice(0, 200),
-        });
-      } catch {
-        results.push({ label, version, status: 'network_error' });
-      }
-    }
-  }
-  return {
-    model,
-    systemInstructionLength: systemInstruction().length,
-    contextLength: buildContext('do I need a server').length,
-    faqCount: K.faqs.length,
-    results,
-  };
 }
 
 /* ---------------- handler ---------------- */
@@ -2112,14 +2034,6 @@ export default async function handler(req: Req, res: Res) {
 
 async function route(req: Req, res: Res) {
   res.setHeader('Cache-Control', 'no-store');
-
-  // Probe mode: sends progressively richer bodies to the model and reports
-  // which one the API first rejects. Header-gated, returns no secrets, and
-  // exists only to diagnose a deployment.
-  if (req.headers['x-advisor-debug'] === 'probe') {
-    res.status(200).json({ probe: await probeModel() });
-    return;
-  }
 
   if (req.method !== 'POST') {
     res.status(405).json({ error: 'method_not_allowed' });
@@ -2164,11 +2078,9 @@ async function route(req: Req, res: Res) {
 
   const answer = await askModel(question, buildContext(question));
   if (!answer) {
-    // Deliberately generic for visitors. A coarse reason is returned only when
-    // the caller sends the debug header, which lets a deployment be diagnosed
-    // without ever putting internals in front of a real visitor.
-    const debug = req.headers['x-advisor-debug'] === '1' ? { debug: lastFailure } : {};
-    res.status(503).json({ error: 'unavailable', ...debug });
+    // Deliberately generic. The assistant shows a useful fallback and the
+    // reason is never exposed to a visitor.
+    res.status(503).json({ error: 'unavailable' });
     return;
   }
   res.status(200).json({ answer: sanitise(answer), source: 'ai' });

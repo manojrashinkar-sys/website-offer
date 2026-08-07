@@ -146,10 +146,9 @@
     ]
   },
   "limits": {
-    "customQuestionsPerSession": 50,
+    "customQuestionsPerSession": 5,
     "maxQuestionLength": 400,
-    "cooldownSeconds": 0,
-    "_testingNote": "customQuestionsPerSession raised to 50 and cooldown removed for testing. Restore to 5 and 5 before going live. The server-side cap in api/_lib/guard.ts (MAX_PER_WINDOW) applies regardless."
+    "cooldownSeconds": 5
   },
   "status": "verified"
 }
