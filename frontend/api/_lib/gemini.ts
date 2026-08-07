@@ -4,8 +4,23 @@ import type { AdvisorRequest, AdvisorResult, AiProvider } from './provider';
 // fewer, a smaller function bundle, and nothing that could accidentally be
 // imported into browser code.
 
-const DEFAULT_MODEL = 'gemini-2.0-flash-lite';
+const DEFAULT_MODEL = 'gemini-3.5-flash-lite';
 const TIMEOUT_MS = 15_000;
+
+/**
+ * Every Gemini model from 2.5 onward reasons before answering, and those
+ * reasoning tokens are billed against maxOutputTokens. For a grounded
+ * question answered from supplied facts there is nothing to reason about,
+ * so thinking is switched off: it would only add latency, cost, and the risk
+ * of the budget being consumed before a single word of the answer is written.
+ *
+ * The 2.0 family predates the feature and rejects the field, so it is omitted
+ * there rather than sent and hoped for.
+ */
+function thinkingConfigFor(model: string) {
+  if (model.startsWith('gemini-2.0')) return {};
+  return { thinkingConfig: { thinkingBudget: 0 } };
+}
 
 export const geminiProvider: AiProvider = {
   name: 'gemini',
@@ -50,8 +65,12 @@ export const geminiProvider: AiProvider = {
           ],
           generationConfig: {
             temperature: 0.3,
-            maxOutputTokens: 500,
+            // Raised from 500. Reasoning tokens are charged against this
+            // budget, so a tight cap risks the model spending the lot on
+            // thinking and returning nothing at all.
+            maxOutputTokens: 800,
             topP: 0.9,
+            ...thinkingConfigFor(model),
           },
           safetySettings: [],
         }),
