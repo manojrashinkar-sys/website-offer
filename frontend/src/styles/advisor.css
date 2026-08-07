@@ -315,32 +315,51 @@
   .advisor-greeting { animation: none; }
 }
 
-/* ---------- Launcher ring (mobile) ----------
-   Borrows the pulse the WhatsApp button used before the action bar took over
-   its job. On a phone the launcher is a bare 50px circle with no label, so it
-   needs something to say "this is live" — on desktop the wordmark does that
-   and a pulsing ring would just be noise. */
+/* ---------- Launcher ripple (mobile) ----------
+   A halo in the launcher's own ink, expanding from behind it, rather than a
+   hard bordered ring in a separate colour.
+
+   Green was wrong here: on this site green means WhatsApp — it is the sticky
+   bar's WhatsApp action and the "with a website" side of the comparison — so a
+   green ring around the assistant told people it was a WhatsApp button.
+
+   Using the element's own tint is the convention iOS and most native pickers
+   follow, and it costs no new colour. It is theme-aware for free: ink is dark
+   on a light page and light on a dark one, so the ripple is visible in both
+   without a second value to keep in step.
+
+   Sits at z-index -1, so the button's own fill masks the centre and only the
+   expanding edge shows — which is what makes it read as a ripple rather than
+   a target. The button is position:fixed with a z-index, so it forms its own
+   stacking context and the negative index cannot fall behind the page. */
 @media (max-width: 640px) {
   .advisor-launcher::after {
-    content: ""; position: absolute; inset: -5px; border-radius: 50%;
-    /* Explicitly green, not currentColor. The launcher's text colour is the
-       page surface — white on a light page — so an inherited ring was drawing
-       white on near-white and could not be seen at all. Green also reads as
-       "live" and carries over from the WhatsApp pulse this replaced. --green-icon is
-       theme-aware: deeper on a light page where a vivid green washes out,
-       bright on a dark one where it does not. */
-    border: 2px solid var(--green-icon, #16a34a); opacity: 0.75;
-    animation: advisor-ping 2.4s ease-out infinite;
+    content: ""; position: absolute; inset: 0; z-index: -1;
+    border-radius: 50%;
+    background: var(--advisor-ink);
+    opacity: 0.3;
+    animation: advisor-ripple 2.6s cubic-bezier(0, 0, 0.2, 1) infinite;
     pointer-events: none;
   }
-  /* Once it is open the ring has nothing left to announce. */
-  .advisor-launcher.is-open::after { content: none; }
+  /* A second, offset ripple gives the pulse depth instead of one flat ring. */
+  .advisor-launcher::before {
+    content: ""; position: absolute; inset: 0; z-index: -1;
+    border-radius: 50%;
+    background: var(--advisor-ink);
+    opacity: 0.18;
+    animation: advisor-ripple 2.6s cubic-bezier(0, 0, 0.2, 1) 0.9s infinite;
+    pointer-events: none;
+  }
+  /* Once it is open there is nothing left to announce. */
+  .advisor-launcher.is-open::after,
+  .advisor-launcher.is-open::before { content: none; }
 }
-@keyframes advisor-ping {
-  0%   { transform: scale(0.92); opacity: 0.7; }
-  100% { transform: scale(1.75); opacity: 0; }
+@keyframes advisor-ripple {
+  0%        { transform: scale(1); opacity: 0.3; }
+  70%, 100% { transform: scale(2.1); opacity: 0; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .advisor-launcher::after { animation: none; opacity: 0; }
+  .advisor-launcher::after,
+  .advisor-launcher::before { animation: none; opacity: 0; }
 }
