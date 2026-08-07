@@ -103,3 +103,47 @@
 /* ---------- Links ---------- */
 .nav-link.active { color: var(--color-ink); }
 .btn-link:hover, .link-toggle { color: var(--color-ink); }
+
+/* ============================================================
+   Click feel
+   ------------------------------------------------------------
+   Two things were making buttons flash a square corner on press:
+
+   1. polish.css put `overflow: hidden` on .btn-primary to clip a
+      highlight sweep. The sweep pseudo-element carried no radius
+      of its own, and a skewed, animating child inside a rounded,
+      clipped box gets promoted to its own compositing layer —
+      at which point the browser applies the clip as a plain
+      rectangle for a frame or two. That is the square edge.
+
+   2. .btn:active scaled the button to 0.98. Scaling a box that
+      also carries a shadow and a clip forces a full repaint of
+      both, which reads as the shape reshaping rather than
+      depressing.
+
+   The sweep is removed outright — it was designed for the blue
+   gradient and does nothing behind near-black — and the press
+   becomes a straight downward nudge.
+   ============================================================ */
+
+.btn-primary { overflow: visible; }
+.btn-primary::before { content: none; }
+.btn-primary:hover::before { animation: none; }
+
+.btn:active { transform: translateY(1px); }
+
+/* Radius and colour settle quickly; movement stays snappier still, so the
+   press feels mechanical rather than springy. */
+.btn {
+  transition:
+    background 0.18s ease,
+    color 0.18s ease,
+    border-color 0.18s ease,
+    box-shadow 0.18s ease,
+    transform 0.09s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Any pseudo-element inside a rounded control inherits the radius, so a
+   future overlay cannot reintroduce the same square-corner artefact. */
+.btn::before, .btn::after { border-radius: inherit; }

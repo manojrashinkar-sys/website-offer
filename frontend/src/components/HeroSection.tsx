@@ -38,6 +38,18 @@ const heroSlides = [
     preview: 'launchonline.com',
     image: '/images/hero/fast-launch.jpg',
   },
+  {
+    eyebrow: 'Build Lasting Credibility',
+    lead: 'Grow Your ',
+    highlight: 'Brand Value',
+    tail: ' and Trust',
+    description: 'A professional website makes your business easier to trust. Clear information, consistent branding and a presence customers can verify before they ever contact you.',
+    theme: 'blue',
+    preview: 'trustedbrand.com',
+    // Reuses an existing asset rather than shipping a fourth image the page
+    // would have to download; swap in a dedicated photograph when one exists.
+    image: '/images/hero/website-design.jpg',
+  },
 ] as const;
 
 export default function HeroSection() {

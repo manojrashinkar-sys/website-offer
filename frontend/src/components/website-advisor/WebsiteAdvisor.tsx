@@ -2,15 +2,16 @@ import { lazy, Suspense, useCallback, useEffect, useRef, useState } from 'react'
 import { trackEvent } from '../../analytics';
 import { dismissNudge, nudgeDismissed } from '../../lib/advisor/session';
 import Icon from '../Icon';
+import AssistantMark from './AssistantMark';
 
 // The panel holds the whole knowledge base and conversation engine. Loading it
 // only when first needed keeps it out of the initial bundle, so a visitor who
 // never opens it pays nothing for it.
 const AdvisorPanel = lazy(() => import('./AdvisorPanel'));
 
-/** Long enough that the page has settled and been looked at, short enough to
- *  still feel like an offer of help rather than an interruption. */
-const GREETING_DELAY_MS = 2500;
+/** Three seconds: long enough that the page has settled and been looked at,
+ *  short enough to still read as an offer of help rather than an interruption. */
+const GREETING_DELAY_MS = 3000;
 
 export default function WebsiteAdvisor() {
   const [open, setOpen] = useState(false);
@@ -61,9 +62,9 @@ export default function WebsiteAdvisor() {
             className="advisor-greeting-body"
             onClick={() => openAdvisor('greeting')}
           >
-            <span className="advisor-greeting-title">Hi — need a hand?</span>
+            <span className="advisor-greeting-title">Hi, how can I help you?</span>
             <span className="advisor-greeting-text">
-              Tell me about your business and I&rsquo;ll suggest the right website for it.
+              Tell me about your business and I&rsquo;ll suggest the right website for it — free, and in about a minute.
             </span>
           </button>
           <button
@@ -84,10 +85,10 @@ export default function WebsiteAdvisor() {
         onClick={() => (open ? closeAdvisor() : openAdvisor('launcher'))}
         aria-expanded={open}
         aria-haspopup="dialog"
-        aria-label={open ? 'Close Website Assistant' : 'Open Website Assistant'}
+        aria-label={open ? 'Close Website Assistant AI' : 'Open Website Assistant AI'}
       >
-        <Icon name={open ? 'close' : 'chat'} size={20} />
-        <span className="advisor-launcher-label">Website Assistant</span>
+        {open ? <Icon name="close" size={20} /> : <AssistantMark size={21} />}
+        <span className="advisor-launcher-label">Website Assistant AI</span>
       </button>
 
       {loaded && (

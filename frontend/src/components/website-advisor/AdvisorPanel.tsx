@@ -223,15 +223,15 @@ export default function AdvisorPanel({ open, onClose }: { open: boolean; onClose
         ref={panelRef}
         role="dialog"
         aria-modal="true"
-        aria-label="Website Assistant"
+        aria-label="Website Assistant AI"
         aria-hidden={!open}
       >
         <header className="advisor-head">
           <span className="advisor-head-text">
-            <strong>Website Assistant</strong>
+            <strong>Website Assistant AI</strong>
             <small>Instant guidance for your website project</small>
           </span>
-          <button type="button" className="advisor-close" onClick={onClose} aria-label="Close Website Assistant">
+          <button type="button" className="advisor-close" onClick={onClose} aria-label="Close Website Assistant AI">
             <Icon name="close" size={16} />
           </button>
         </header>
