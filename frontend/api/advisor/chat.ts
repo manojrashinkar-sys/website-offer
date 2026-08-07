@@ -1952,10 +1952,17 @@ const TIMEOUT_MS = 15_000;
 const thinkingConfigFor = (model: string) =>
   model.startsWith('gemini-2.0') ? {} : { thinkingConfig: { thinkingBudget: 0 } };
 
+/**
+ * Coarse reason for the last failure, for the debug header below. Never holds
+ * anything sensitive — a boolean, a model name and an upstream status code.
+ */
+let lastFailure: Record<string, unknown> = {};
+
 async function askModel(question: string, context: string): Promise<string | null> {
   const apiKey = env('GEMINI_API_KEY');
-  if (!apiKey) return null;
   const model = env('GEMINI_MODEL') || DEFAULT_MODEL;
+  lastFailure = { hasKey: Boolean(apiKey), model };
+  if (!apiKey) { lastFailure.reason = 'no_api_key'; return null; }
 
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), TIMEOUT_MS);
@@ -1983,13 +1990,21 @@ async function askModel(question: string, context: string): Promise<string | nul
         }),
       },
     );
-    if (!response.ok) return null;
+    if (!response.ok) {
+      lastFailure.reason = 'upstream_error';
+      lastFailure.status = response.status;
+      // Body text only, never headers or the key. Truncated.
+      lastFailure.detail = (await response.text()).slice(0, 300);
+      return null;
+    }
     const data = (await response.json()) as {
       candidates?: Array<{ content?: { parts?: Array<{ text?: string }> } }>;
     };
     const answer = data.candidates?.[0]?.content?.parts?.map((p) => p.text ?? '').join('').trim();
+    if (!answer) lastFailure.reason = 'empty_answer';
     return answer || null;
-  } catch {
+  } catch (error) {
+    lastFailure.reason = error instanceof Error && error.name === 'AbortError' ? 'timeout' : 'network_error';
     return null;
   } finally {
     clearTimeout(timer);
@@ -2061,9 +2076,11 @@ async function route(req: Req, res: Res) {
 
   const answer = await askModel(question, buildContext(question));
   if (!answer) {
-    // Deliberately generic: the assistant shows a useful fallback and the
-    // reason for the failure is never exposed.
-    res.status(503).json({ error: 'unavailable' });
+    // Deliberately generic for visitors. A coarse reason is returned only when
+    // the caller sends the debug header, which lets a deployment be diagnosed
+    // without ever putting internals in front of a real visitor.
+    const debug = req.headers['x-advisor-debug'] === '1' ? { debug: lastFailure } : {};
+    res.status(503).json({ error: 'unavailable', ...debug });
     return;
   }
   res.status(200).json({ answer: sanitise(answer), source: 'ai' });
