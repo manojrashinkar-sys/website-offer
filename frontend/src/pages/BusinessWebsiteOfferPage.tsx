@@ -18,6 +18,7 @@ import EnquiryForm from '../components/EnquiryForm';
 import FAQSection from '../components/FAQSection';
 import ClosingCta from '../components/ClosingCta';
 import WhatsAppButton from '../components/WhatsAppButton';
+import MobileStickyActions from '../components/MobileStickyActions';
 import WebsiteAdvisor from '../components/website-advisor/WebsiteAdvisor';
 import SuccessModal from '../components/SuccessModal';
 import OfferFooter from '../components/OfferFooter';
@@ -68,6 +69,7 @@ export default function BusinessWebsiteOfferPage() {
       </main>
       <OfferFooter />
       <WhatsAppButton />
+      <MobileStickyActions />
       <WebsiteAdvisor />
       <SuccessModal
         open={modalOpen}

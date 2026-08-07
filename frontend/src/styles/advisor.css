@@ -314,3 +314,27 @@
   .advisor-launcher.is-entering,
   .advisor-greeting { animation: none; }
 }
+
+/* ---------- Launcher ring (mobile) ----------
+   Borrows the pulse the WhatsApp button used before the action bar took over
+   its job. On a phone the launcher is a bare 50px circle with no label, so it
+   needs something to say "this is live" — on desktop the wordmark does that
+   and a pulsing ring would just be noise. */
+@media (max-width: 640px) {
+  .advisor-launcher::after {
+    content: ""; position: absolute; inset: -5px; border-radius: 50%;
+    border: 2px solid currentColor; opacity: 0.45;
+    animation: advisor-ping 2.4s ease-out infinite;
+    pointer-events: none;
+  }
+  /* Once it is open the ring has nothing left to announce. */
+  .advisor-launcher.is-open::after { content: none; }
+}
+@keyframes advisor-ping {
+  0%   { transform: scale(0.92); opacity: 0.45; }
+  100% { transform: scale(1.7); opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .advisor-launcher::after { animation: none; opacity: 0; }
+}

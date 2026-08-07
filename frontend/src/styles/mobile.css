@@ -1,10 +1,10 @@
 /* ============================================================
-   Mobile conversion chrome — roadmap page only
+   Mobile conversion chrome — both pages
    ------------------------------------------------------------
-   The roadmap is a long, information-dense read, so it carries a
-   bottom action bar to keep contact one tap away. The offer page
-   keeps the floating WhatsApp button instead, so every rule that
-   changes page chrome here is scoped to .roadmap-page.
+   Both routes carry the same bottom action bar, so the two pages
+   behave identically on a phone. .offer-page is on both (the
+   roadmap adds .roadmap-page alongside it), so scoping to it
+   covers the pair.
    ============================================================ */
 
 .sticky-actions { display: none; }
@@ -36,18 +36,17 @@
   .sticky-action-cta { background: var(--gradient-brand); color: #fff; }
   .sticky-action-cta:active { background: var(--gradient-brand); filter: brightness(1.1); color: #fff; }
 
-  /* Reserve the bar's height so it cannot cover the footer. Scoped to the
-     roadmap, or the offer page would carry dead space at the bottom. */
-  .roadmap-page {
+  /* Reserve the bar's height so it cannot cover the footer. */
+  .offer-page {
     padding-bottom: calc(var(--sticky-actions-h) + env(safe-area-inset-bottom, 0px));
   }
 
-  /* One WhatsApp affordance per screen. Only the roadmap has the bar, so only
-     there does the floating button stand down — the offer page keeps it. */
-  .roadmap-page .whatsapp-fab { display: none; }
+  /* The bar carries WhatsApp on both pages now, so the floating button stands
+     down everywhere rather than duplicating it in the same corner. */
+  .whatsapp-fab { display: none; }
 
   /* Keep the roadmap's back-to-top clear of the bar. */
-  .roadmap-page .back-to-top {
+  .back-to-top {
     bottom: calc(var(--sticky-actions-h) + 0.85rem + env(safe-area-inset-bottom, 0px));
   }
 }
