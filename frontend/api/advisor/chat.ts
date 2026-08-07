@@ -58,7 +58,10 @@ async function route(req: Req, res: Res) {
   // model call on a request whose only purpose is to break the rules.
   if (looksLikeInjection(validation.question)) {
     res.status(200).json({
-      answer: rules?.refusals?.systemPrompt
+      // The generated module is typed loosely, so this is narrowed at the
+      // point of use rather than trusted.
+      answer:
+        (rules as { refusals?: { systemPrompt?: string } })?.refusals?.systemPrompt
         ?? 'I can only help with website and web development questions.',
       source: 'guard',
     });

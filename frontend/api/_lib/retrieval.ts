@@ -103,10 +103,13 @@ export function buildContext(question: string): string {
 
   // Always included: these govern how the model must behave regardless of topic.
   blocks.push(`INFRASTRUCTURE POLICY:\n${rules.infrastructurePhilosophy}`);
-  if (portfolio?.publicPortfolioStatus) blocks.push(
-    `PORTFOLIO STATUS: ${portfolio.publicPortfolioStatus}. ` +
-      `Verified public project count: ${portfolio.verifiedPublicProjectCount ?? 'not published'}. ` +
-      `Approved wording: ${portfolio.portfolioMessage}`,
+  const pf = portfolio as {
+    publicPortfolioStatus?: string; verifiedPublicProjectCount?: number | null; portfolioMessage?: string;
+  };
+  if (pf?.publicPortfolioStatus) blocks.push(
+    `PORTFOLIO STATUS: ${pf.publicPortfolioStatus}. ` +
+      `Verified public project count: ${pf.verifiedPublicProjectCount ?? 'not published'}. ` +
+      `Approved wording: ${pf.portfolioMessage}`,
   );
 
   return blocks.join('\n\n');
@@ -118,8 +121,8 @@ export function systemInstruction(): string {
     'You help potential business clients understand website options, technology, architecture, hosting, the development process and project requirements.',
     '',
     'RULES:',
-    ...asArray<string>(rules?.neverDo).map((rule: string) => `- Never ${rule.charAt(0).toLowerCase()}${rule.slice(1)}`),
-    ...asArray<string>(rules?.alwaysDo).map((rule: string) => `- Always ${rule.charAt(0).toLowerCase()}${rule.slice(1)}`),
+    ...asArray<string>((rules as { neverDo?: unknown })?.neverDo).map((rule: string) => `- Never ${rule.charAt(0).toLowerCase()}${rule.slice(1)}`),
+    ...asArray<string>((rules as { alwaysDo?: unknown })?.alwaysDo).map((rule: string) => `- Always ${rule.charAt(0).toLowerCase()}${rule.slice(1)}`),
     '',
     'Use only the approved business knowledge supplied with the question. If the knowledge does not cover it, say the information is not currently published and suggest discussing it directly. Never fill a gap with a plausible guess.',
     '',

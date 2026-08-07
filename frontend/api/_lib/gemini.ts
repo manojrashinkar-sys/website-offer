@@ -5,6 +5,17 @@ import type { AdvisorRequest, AdvisorResult, AiProvider } from './provider';
 // imported into browser code.
 
 const DEFAULT_MODEL = 'gemini-3.5-flash-lite';
+
+/**
+ * Reads an environment variable without declaring `process` ourselves.
+ * A hand-written ambient declaration can collide with the Node types the
+ * platform injects, and a duplicate-identifier error at build time surfaces
+ * as an unexplained invocation failure at runtime.
+ */
+function env(name: string): string | undefined {
+  const proc = (globalThis as { process?: { env?: Record<string, string | undefined> } }).process;
+  return proc?.env?.[name];
+}
 const TIMEOUT_MS = 15_000;
 
 /**
@@ -26,14 +37,14 @@ export const geminiProvider: AiProvider = {
   name: 'gemini',
 
   isConfigured() {
-    return Boolean(process.env.GEMINI_API_KEY);
+    return Boolean(env('GEMINI_API_KEY'));
   },
 
   async generate({ question, context, systemInstruction }: AdvisorRequest): Promise<AdvisorResult> {
-    const apiKey = process.env.GEMINI_API_KEY;
+    const apiKey = env('GEMINI_API_KEY');
     if (!apiKey) return { ok: false, failure: 'not_configured' };
 
-    const model = process.env.GEMINI_MODEL || DEFAULT_MODEL;
+    const model = env('GEMINI_MODEL') || DEFAULT_MODEL;
     const url = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent`;
 
     const controller = new AbortController();

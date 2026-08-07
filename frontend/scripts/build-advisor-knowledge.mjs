@@ -44,7 +44,10 @@ for (const [name, file] of Object.entries(FILES)) {
   // Parsed and re-serialised so a malformed file fails here, loudly, at build
   // time rather than silently at runtime in production.
   const data = JSON.parse(raw);
-  parts.push(`export const ${name} = ${JSON.stringify(data, null, 2)} as const;`);
+  // Deliberately not `as const`: on a literal this size it makes the
+  // TypeScript compiler do an enormous amount of needless work, and nothing
+  // here benefits from literal types.
+  parts.push(`export const ${name}: ${Array.isArray(data) ? 'ReadonlyArray<Record<string, unknown>>' : 'Record<string, unknown>'} = ${JSON.stringify(data)};`);
   parts.push('');
 }
 
