@@ -2,32 +2,31 @@ interface Props {
   size?: number;
 }
 
-// Mark for the Website Assistant: a rounded speech form with a four-point
-// spark inside it. Solid shapes rather than strokes, because a 1.5px stroke
-// disappears at 20px on a phone — this stays legible down to 16px.
+// Mark for the Website Assistant AI.
 //
-// Deliberately not a robot or a face. Business owners read those as toys;
-// this reads as a conversation with something capable.
+// A four-point spark with a smaller companion — the shape that now reads as
+// "assistant" across Gemini, Copilot and most other tools, so visitors
+// recognise what it is before reading a word. A speech bubble says "chat
+// widget"; a robot says "toy". This says "capable".
+//
+// Two solid paths in currentColor: no strokes to thin out at 20px, no
+// gradients to manage across themes, and it inherits whatever colour the
+// launcher or header is using.
 export default function AssistantMark({ size = 20 }: Props) {
   return (
     <svg
       width={size}
       height={size}
       viewBox="0 0 24 24"
-      fill="none"
+      fill="currentColor"
       aria-hidden="true"
       focusable="false"
     >
-      {/* Speech form — asymmetric tail so it reads as dialogue, not a box. */}
-      <path
-        d="M4.6 3.2h14.8a2.4 2.4 0 0 1 2.4 2.4v9a2.4 2.4 0 0 1-2.4 2.4H9.9l-4.4 3.5a.8.8 0 0 1-1.3-.63V17H4.6a2.4 2.4 0 0 1-2.4-2.4v-9A2.4 2.4 0 0 1 4.6 3.2Z"
-        fill="currentColor"
-      />
-      {/* Spark, knocked out of the bubble so it works on any background. */}
-      <path
-        d="M12 6.2l1.05 2.83a1.4 1.4 0 0 0 .82.82L16.7 10.9l-2.83 1.05a1.4 1.4 0 0 0-.82.82L12 15.6l-1.05-2.83a1.4 1.4 0 0 0-.82-.82L7.3 10.9l2.83-1.05a1.4 1.4 0 0 0 .82-.82L12 6.2Z"
-        className="assistant-mark-spark"
-      />
+      {/* Primary spark. Quadratic curves give the concave waist that makes a
+          four-point star read as light rather than as a diamond. */}
+      <path d="M10.5 3 Q11.4 10.3 18 11.2 Q11.4 12.1 10.5 19.4 Q9.6 12.1 3 11.2 Q9.6 10.3 10.5 3 Z" />
+      {/* Companion spark, offset to break the symmetry and suggest motion. */}
+      <path d="M18.4 14.2 Q18.8 17.2 21.6 17.6 Q18.8 18 18.4 21 Q18 18 15.2 17.6 Q18 17.2 18.4 14.2 Z" />
     </svg>
   );
 }

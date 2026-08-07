@@ -17,12 +17,18 @@ export default function WebsiteAdvisor() {
   const [open, setOpen] = useState(false);
   const [loaded, setLoaded] = useState(false);
   const [greeting, setGreeting] = useState(false);
+  // Nothing is on screen at first. Someone who has already met the assistant
+  // this session gets it back immediately and without the entrance, since
+  // replaying an introduction on every page is irritating rather than helpful.
+  const [visible, setVisible] = useState(() => nudgeDismissed());
+  const [entering, setEntering] = useState(false);
   const launcherRef = useRef<HTMLButtonElement>(null);
 
   const openAdvisor = useCallback((placement: string) => {
     setLoaded(true);
     setOpen(true);
     setGreeting(false);
+    setEntering(false);
     dismissNudge();
     trackEvent('advisor_opened', { placement });
   }, []);
@@ -37,18 +43,29 @@ export default function WebsiteAdvisor() {
   // The panel itself is never opened automatically — arriving to find a dialog
   // already covering the page is the fastest way to get one closed unread.
   useEffect(() => {
-    if (nudgeDismissed()) return;
+    if (visible) return;
     const timer = window.setTimeout(() => {
+      setVisible(true);
+      setEntering(true);
       setGreeting(true);
       // Warm the chunk while the greeting is on screen, so opening it is instant.
       setLoaded(true);
       trackEvent('advisor_greeting_shown');
     }, GREETING_DELAY_MS);
     return () => window.clearTimeout(timer);
-  }, []);
+  }, [visible]);
+
+  // The entrance and attention beats run once; after that the launcher is
+  // simply a button and should stop moving.
+  useEffect(() => {
+    if (!entering) return;
+    const timer = window.setTimeout(() => setEntering(false), 7000);
+    return () => window.clearTimeout(timer);
+  }, [entering]);
 
   const dismissGreeting = () => {
     setGreeting(false);
+    setEntering(false);
     dismissNudge();
     trackEvent('advisor_greeting_dismissed');
   };
@@ -78,10 +95,11 @@ export default function WebsiteAdvisor() {
         </div>
       )}
 
+      {visible && (
       <button
         ref={launcherRef}
         type="button"
-        className={`advisor-launcher ${open ? 'is-open' : ''} ${greeting && !open ? 'is-calling' : ''}`}
+        className={`advisor-launcher ${open ? 'is-open' : ''} ${entering && !open ? 'is-entering' : ''}`}
         onClick={() => (open ? closeAdvisor() : openAdvisor('launcher'))}
         aria-expanded={open}
         aria-haspopup="dialog"
@@ -90,6 +108,7 @@ export default function WebsiteAdvisor() {
         {open ? <Icon name="close" size={20} /> : <AssistantMark size={21} />}
         <span className="advisor-launcher-label">Website Assistant AI</span>
       </button>
+      )}
 
       {loaded && (
         <Suspense fallback={null}>
