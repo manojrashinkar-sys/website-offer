@@ -974,3 +974,17 @@
 .roadmap-page .tech-card:hover,
 .roadmap-page .hosting-card:hover,
 .roadmap-page .support-card:hover { border-color: var(--border-strong); }
+
+/* ---------- Blue the selector audit cannot see ----------
+   @keyframes carry colour too, and no selector matches them, so the audit
+   walks straight past. The travelling highlight that runs along the journey
+   badges was cyan, and the connector arrows in the dark chain were cyan.
+   Both are the same accent as everything else that has just gone. */
+@keyframes flow-step-travel-ink {
+  0%, 14%, 100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); transform: scale(1); }
+  5% { box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.34); transform: scale(1.14); }
+}
+.roadmap-page .roadmap-hero-flow .flow-node-index { animation-name: flow-step-travel-ink; }
+.roadmap-page .flow-tone-dark .flow-node:not(:last-child)::after {
+  color: rgba(255, 255, 255, 0.55);
+}
