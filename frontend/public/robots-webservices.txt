@@ -1,0 +1,12 @@
+# Served as /robots.txt on webservices.manojrashinkar.com only.
+# See the host-conditional rewrite in vercel.json.
+#
+# The Web Services site is still being written. Blocking it here is the guard
+# that does not depend on JavaScript running: the noindex tag in the pages is
+# applied at runtime, which most crawlers honour but none are obliged to reach.
+#
+# To publish: replace the Disallow below with "Allow: /", add the sitemap line,
+# and set COMMUNITY_PUBLISHED to true in src/community/useCommunityMeta.ts.
+
+User-agent: *
+Disallow: /
