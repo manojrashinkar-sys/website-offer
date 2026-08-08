@@ -399,3 +399,13 @@
   .advisor-hints { max-height: 5.6rem; overflow-y: auto; }
   .advisor-foot-note { font-size: 0.66rem; }
 }
+
+/* ---------- Links inside answers ---------- */
+.advisor-link {
+  color: var(--advisor-ink); font-weight: 600;
+  text-decoration: underline; text-underline-offset: 2px;
+  text-decoration-color: var(--border-strong);
+  word-break: break-word;
+}
+.advisor-link:hover { text-decoration-color: var(--advisor-ink); }
+.advisor-link:focus-visible { outline: 2px solid var(--advisor-ink); outline-offset: 2px; border-radius: 3px; }

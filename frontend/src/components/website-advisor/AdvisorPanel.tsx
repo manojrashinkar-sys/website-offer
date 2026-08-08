@@ -40,6 +40,33 @@ const SUGGESTIONS = [
   { label: 'Can it grow later?', faqId: 'scale-later' },
 ];
 
+/**
+ * Turns bare URLs in an answer into real links.
+ *
+ * Built as React elements rather than injected HTML: the text passing through
+ * here includes model output, and dangerouslySetInnerHTML on model output is
+ * how a prompt injection becomes a script tag. Only http and https are linked,
+ * and a trailing full stop is left as punctuation rather than swallowed into
+ * the href.
+ */
+const URL_PATTERN = /(https?:\/\/[^\s<>"')\]]+)/g;
+
+function linkify(text: string): React.ReactNode[] {
+  return text.split(URL_PATTERN).map((part, index) => {
+    if (!/^https?:\/\//.test(part)) return part;
+    const trailing = part.match(/[.,;:!?]+$/)?.[0] ?? '';
+    const href = trailing ? part.slice(0, -trailing.length) : part;
+    return (
+      <span key={index}>
+        <a className="advisor-link" href={href} target="_blank" rel="noopener noreferrer">
+          {href.replace(/^https?:\/\//, '')}
+        </a>
+        {trailing}
+      </span>
+    );
+  });
+}
+
 const FOLLOW_UP: Record<string, string> = {
   businessType: 'What kind of business is it? Even one word helps — a shop, a clinic, a manufacturer.',
   goal: 'And what should the website mainly do for you — present the business, bring in enquiries, or show products?',
