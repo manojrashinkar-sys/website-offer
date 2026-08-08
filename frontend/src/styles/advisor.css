@@ -25,8 +25,23 @@
   padding: 0.7rem 1.15rem; border-radius: var(--radius-pill);
   background: var(--advisor-ink); color: var(--color-surface);
   border: 1px solid transparent;
-  box-shadow: 0 6px 20px rgba(10, 16, 32, 0.28);
+  /* An outer ring so the launcher keeps its edge against whatever it happens
+     to be floating over — most importantly the dark hero, where a dark button
+     on a dark background loses its outline entirely.
+
+     It is a box-shadow rather than a pseudo-element on purpose: ::before and
+     ::after are both spoken for by the mobile ripple, and this must not
+     disturb that. Layered before the existing drop shadow so both survive. */
+  box-shadow: 0 0 0 3px var(--advisor-ring), 0 6px 20px rgba(10, 16, 32, 0.28);
   transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+}
+/* The ring has to invert with the button. In light mode the button is dark ink,
+   so a white ring separates it. In dark mode the button is light, and a white
+   ring around it would disappear — so the ring goes dark instead. */
+:root { --advisor-ring: rgba(255, 255, 255, 0.94); }
+[data-theme="dark"] { --advisor-ring: rgba(8, 13, 26, 0.8); }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { --advisor-ring: rgba(8, 13, 26, 0.8); }
 }
 .advisor-launcher:hover { background: var(--advisor-ink-hover); transform: translateY(-2px); }
 .advisor-launcher:focus-visible { outline: 2px solid var(--advisor-ink); outline-offset: 3px; }

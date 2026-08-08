@@ -26,9 +26,9 @@ let blockId = 0;
 const nextId = () => `b${(blockId += 1)}`;
 
 const OPENING =
-  'Tell me about your business in a sentence or two and I will suggest what kind of website ' +
-  'would suit it, and how it would be built.\n\nOr ask me anything — cost, domains, hosting, ' +
-  'how long it takes.';
+  'Hello, I am MIRA — the website assistant here.\n\nTell me about your business in a sentence ' +
+  'or two and I will suggest what kind of website would suit it, and how it would be built. ' +
+  'Or ask me anything — cost, domains, hosting, how long it takes.';
 
 // Quiet prompts, not a menu of buttons. Kept short so they read as examples of
 // what you might type rather than a set of options you must choose between.
@@ -277,13 +277,13 @@ export default function AdvisorPanel({ open, onClose }: { open: boolean; onClose
         ref={panelRef}
         role="dialog"
         aria-modal="true"
-        aria-label="Website Assistant AI"
+        aria-label="MIRA, the website assistant"
         aria-hidden={!open}
       >
         <header className="advisor-head">
           <span className="advisor-head-text">
-            <strong>Website Assistant AI</strong>
-            <small>Instant guidance for your website project</small>
+            <strong>MIRA</strong>
+            <small>Website guidance, instantly</small>
           </span>
           {blocks.length > 1 && (
             <button
@@ -296,7 +296,7 @@ export default function AdvisorPanel({ open, onClose }: { open: boolean; onClose
               Clear
             </button>
           )}
-          <button type="button" className="advisor-close" onClick={onClose} aria-label="Close Website Assistant AI">
+          <button type="button" className="advisor-close" onClick={onClose} aria-label="Close MIRA">
             <Icon name="close" size={16} />
           </button>
         </header>
@@ -448,7 +448,7 @@ export default function AdvisorPanel({ open, onClose }: { open: boolean; onClose
               value={draft}
               rows={1}
               maxLength={LIMITS.maxQuestionLength}
-              placeholder="Tell me about your business, or ask anything…"
+              placeholder="Chat with MIRA…"
               onChange={(event) => setDraft(event.target.value)}
               onKeyDown={(event) => {
                 if (event.key === 'Enter' && !event.shiftKey) { event.preventDefault(); void send(); }

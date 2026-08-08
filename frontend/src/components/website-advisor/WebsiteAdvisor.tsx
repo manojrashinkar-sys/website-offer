@@ -79,7 +79,7 @@ export default function WebsiteAdvisor() {
             className="advisor-greeting-body"
             onClick={() => openAdvisor('greeting')}
           >
-            <span className="advisor-greeting-title">Hi, how can I help you?</span>
+            <span className="advisor-greeting-title">Hi, I&rsquo;m MIRA. How can I help?</span>
             <span className="advisor-greeting-text">
               Tell me about your business and I&rsquo;ll suggest the right website for it — free, and in about a minute.
             </span>
@@ -103,10 +103,10 @@ export default function WebsiteAdvisor() {
         onClick={() => (open ? closeAdvisor() : openAdvisor('launcher'))}
         aria-expanded={open}
         aria-haspopup="dialog"
-        aria-label={open ? 'Close Website Assistant AI' : 'Open Website Assistant AI'}
+        aria-label={open ? 'Close MIRA, the website assistant' : 'Open MIRA, the website assistant'}
       >
         {open ? <Icon name="close" size={20} /> : <AssistantMark size={21} />}
-        <span className="advisor-launcher-label">Website Assistant AI</span>
+        <span className="advisor-launcher-label">MIRA</span>
       </button>
       )}
 

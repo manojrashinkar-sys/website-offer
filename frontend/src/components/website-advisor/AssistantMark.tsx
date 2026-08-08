@@ -2,7 +2,7 @@ interface Props {
   size?: number;
 }
 
-// Mark for the Website Assistant AI.
+// Mark for MIRA, the website assistant.
 //
 // A four-point spark with a smaller companion — the shape that now reads as
 // "assistant" across Gemini, Copilot and most other tools, so visitors
