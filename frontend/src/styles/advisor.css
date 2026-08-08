@@ -363,3 +363,39 @@
   .advisor-launcher::after,
   .advisor-launcher::before { animation: none; opacity: 0; }
 }
+
+/* ---------- Clear conversation ---------- */
+.advisor-clear {
+  margin-left: auto; display: inline-flex; align-items: center; gap: 0.3rem;
+  font: inherit; font-size: 0.74rem; font-weight: 600; cursor: pointer;
+  background: none; border: 1px solid var(--border-subtle); border-radius: var(--radius-pill);
+  color: var(--text-body); padding: 0.24rem 0.6rem;
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+.advisor-clear:hover { border-color: var(--advisor-ink); color: var(--color-ink); }
+.advisor-clear:focus-visible { outline: 2px solid var(--advisor-ink); outline-offset: 2px; }
+/* Close keeps its position once Clear takes the auto margin. */
+.advisor-clear + .advisor-close { margin-left: 0.3rem; }
+
+/* ---------- Collapsible prompts ----------
+   On a phone the prompt row eats roughly a third of the sheet, which is space
+   you want back while reading an answer. It folds away on request, and folds
+   itself away once the conversation is under way. */
+.advisor-prompts-toggle {
+  display: block; width: 100%; margin-bottom: 0.5rem;
+  font: inherit; font-size: 0.74rem; font-weight: 600; cursor: pointer;
+  background: none; border: 1px dashed var(--border-subtle); border-radius: var(--radius-pill);
+  color: var(--text-body); padding: 0.32rem 0.6rem;
+}
+.advisor-prompts-toggle:hover { border-color: var(--advisor-ink); color: var(--color-ink); }
+.advisor-prompts-toggle:focus-visible { outline: 2px solid var(--advisor-ink); outline-offset: 2px; }
+.advisor-hint-hide { border-style: dashed; opacity: 0.85; }
+
+.advisor-foot-note { line-height: 1.45; }
+
+@media (max-width: 640px) {
+  /* The prompt row is capped and scrolls rather than pushing the input off
+     the bottom of the sheet when the keyboard is open. */
+  .advisor-hints { max-height: 5.6rem; overflow-y: auto; }
+  .advisor-foot-note { font-size: 0.66rem; }
+}

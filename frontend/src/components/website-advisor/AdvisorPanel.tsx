@@ -53,6 +53,9 @@ export default function AdvisorPanel({ open, onClose }: { open: boolean; onClose
   const [cooldown, setCooldown] = useState(0);
   const [brief, setBrief] = useState<RecommendationAnswers>({ features: [] });
   const [showAllFaqs, setShowAllFaqs] = useState(false);
+  // Prompts collapse away on request. On a phone they occupy a third of the
+  // sheet, which is space you want back once you are reading an answer.
+  const [showPrompts, setShowPrompts] = useState(true);
 
   const panelRef = useRef<HTMLDivElement>(null);
   const streamRef = useRef<HTMLDivElement>(null);
@@ -65,6 +68,12 @@ export default function AdvisorPanel({ open, onClose }: { open: boolean; onClose
   useEffect(() => {
     streamRef.current?.scrollTo({ top: streamRef.current.scrollHeight, behavior: 'smooth' });
   }, [blocks, busy]);
+
+  // Once there is something to read, the prompts fold themselves away rather
+  // than waiting to be dismissed. They are an opener, not a permanent menu.
+  useEffect(() => {
+    if (blocks.length > 2) setShowPrompts(false);
+  }, [blocks.length]);
 
   useEffect(() => {
     if (open) requestAnimationFrame(() => inputRef.current?.focus());
@@ -93,6 +102,16 @@ export default function AdvisorPanel({ open, onClose }: { open: boolean; onClose
     const timer = window.setTimeout(() => setCooldown((value) => value - 1), 1000);
     return () => window.clearTimeout(timer);
   }, [cooldown]);
+
+  const clearChat = () => {
+    setBlocks([{ kind: 'advisor', text: OPENING, id: nextId() }]);
+    setBrief({ features: [] });
+    setDraft('');
+    setShowPrompts(true);
+    setShowAllFaqs(false);
+    trackEvent('advisor_cleared');
+    requestAnimationFrame(() => inputRef.current?.focus());
+  };
 
   const answerFaq = (item: FaqItem, echo = true) => {
     if (echo) push({ kind: 'visitor', text: item.question });
@@ -231,6 +250,17 @@ export default function AdvisorPanel({ open, onClose }: { open: boolean; onClose
             <strong>Website Assistant AI</strong>
             <small>Instant guidance for your website project</small>
           </span>
+          {blocks.length > 1 && (
+            <button
+              type="button"
+              className="advisor-clear"
+              onClick={clearChat}
+              title="Start a new conversation"
+            >
+              <Icon name="refresh" size={14} />
+              Clear
+            </button>
+          )}
           <button type="button" className="advisor-close" onClick={onClose} aria-label="Close Website Assistant AI">
             <Icon name="close" size={16} />
           </button>
@@ -319,8 +349,27 @@ export default function AdvisorPanel({ open, onClose }: { open: boolean; onClose
         </div>
 
         <div className="advisor-compose">
-          {!showAllFaqs ? (
+          {!showAllFaqs && !showPrompts && (
+            <button
+              type="button"
+              className="advisor-prompts-toggle"
+              onClick={() => setShowPrompts(true)}
+              aria-expanded={false}
+            >
+              Show suggested questions
+            </button>
+          )}
+
+          {!showAllFaqs && showPrompts ? (
             <div className="advisor-hints">
+              <button
+                type="button"
+                className="advisor-hint advisor-hint-hide"
+                onClick={() => setShowPrompts(false)}
+                aria-label="Hide suggested questions"
+              >
+                Hide
+              </button>
               {SUGGESTIONS.map((suggestion) => {
                 const item = getFaq(suggestion.faqId);
                 if (!item) return null;
@@ -335,7 +384,7 @@ export default function AdvisorPanel({ open, onClose }: { open: boolean; onClose
                 All {faqs.length} questions
               </button>
             </div>
-          ) : (
+          ) : showAllFaqs ? (
             <div className="advisor-faq-browser">
               <button type="button" className="advisor-hint" onClick={() => setShowAllFaqs(false)}>← Back</button>
               {faqCategories.map((category) => (
@@ -354,7 +403,7 @@ export default function AdvisorPanel({ open, onClose }: { open: boolean; onClose
                 </div>
               ))}
             </div>
-          )}
+          ) : null}
 
           <div className="advisor-input-row">
             <label className="sr-only" htmlFor="advisor-input">Your message</label>
@@ -383,7 +432,7 @@ export default function AdvisorPanel({ open, onClose }: { open: boolean; onClose
           <p className="advisor-foot-note">
             {cooldown > 0
               ? `One moment — ${cooldown}s`
-              : 'Guidance only. Pricing and timelines are confirmed after a scope discussion.'}
+              : 'Guidance only, and this conversation is not saved — so nothing here reaches us. For a quotation or to start a project, message on WhatsApp or call.'}
           </p>
         </div>
       </div>

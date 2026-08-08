@@ -2,8 +2,18 @@
   "publicPortfolioStatus": "under_development",
   "communityPageUrl": null,
   "verifiedPublicProjectCount": null,
-  "publicProjects": [],
-  "portfolioMessage": "Our detailed public project showcase is currently being prepared. It will include verified projects and live website URLs where client permission allows. You can contact us directly if you would like to discuss relevant examples for your business.",
-  "status": "planned",
-  "maintenanceNote": "When the showcase goes live: set publicPortfolioStatus to 'live', set communityPageUrl to the real route, set verifiedPublicProjectCount to the approved number, and add entries to publicProjects. Add a project only when the client has given permission to publish it. Leave verifiedPublicProjectCount as null rather than guessing — the Advisor will say the figure is not published, which is accurate, instead of stating a number that is not."
+  "publicProjects": [
+    {
+      "name": "Yojit Enterprises",
+      "url": "https://manojrashinkar.com/yojit-enterprises",
+      "sector": "Dairy processing equipment manufacturer, Nashik",
+      "type": "Manufacturer website",
+      "permission": "granted",
+      "note": "The one client who has agreed to have their project shown publicly. Useful as an example of design, layout and presentation for a manufacturing business."
+    }
+  ],
+  "portfolioMessage": "Our full project showcase is still being prepared. We do not share client work without that client's permission, so it only goes up as each one agrees. One client has agreed so far — Yojit Enterprises, a dairy processing equipment manufacturer in Nashik — and you can see that work at https://manojrashinkar.com/yojit-enterprises to judge the design, layout and presentation quality for yourself.",
+  "countAnswer": "We do not publish a project count, because a number nobody can verify is worth very little. What we can show is actual work: https://manojrashinkar.com/yojit-enterprises is a manufacturer website built for a client who has agreed to have it shown. The wider showcase is being prepared and grows as each client gives permission.",
+  "status": "verified",
+  "maintenanceNote": "Add a project here only once that client has agreed in writing to have it shown publicly. When the community page goes live: set publicPortfolioStatus to 'live', set communityPageUrl, and update the portfolio FAQs in faq.json. Leave verifiedPublicProjectCount as null unless there is an approved figure — null makes the Assistant say the number is not published, which is true, rather than stating one that is not."
 }

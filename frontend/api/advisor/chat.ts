@@ -127,7 +127,7 @@ const K: Knowledge = {
       "id": "price-how",
       "category": "Pricing",
       "question": "How is the cost decided?",
-      "answer": "By the work the project actually involves — number of pages, custom design, content and image preparation, features, integrations, whether a backend or database is needed, an admin panel, authentication, payments, hosting architecture, security, testing and any maintenance. A quotation follows a scope discussion.",
+      "answer": "The cost is decided by the work the project actually involves — number of pages, custom design, content and image preparation, features, integrations, whether a backend or database is needed, an admin panel, authentication, payments, hosting architecture, security, testing and any maintenance. A quotation follows a scope discussion.",
       "keywords": [
         "cost",
         "price",
@@ -1113,8 +1113,8 @@ const K: Knowledge = {
     {
       "id": "portfolio-examples",
       "category": "Portfolio",
-      "question": "Can I see examples of your work?",
-      "answer": "A public project showcase is currently being prepared. It will include verified projects and live website URLs where client permission allows. In the meantime you are welcome to ask directly about examples relevant to your kind of business.",
+      "question": "Can I see your portfolio or examples of your work?",
+      "answer": "Yes. Our portfolio is still being prepared, because we do not publish client work without that client's permission — it grows as each one agrees. One has agreed so far: Yojit Enterprises, a dairy processing equipment manufacturer in Nashik, at https://manojrashinkar.com/yojit-enterprises. Have a look and judge the design, layout and presentation for yourself.",
       "keywords": [
         "portfolio",
         "examples",
@@ -1122,29 +1122,215 @@ const K: Knowledge = {
         "projects",
         "samples",
         "showcase",
-        "clients"
+        "clients",
+        "see your work",
+        "demo",
+        "reference",
+        "previous work",
+        "case study"
       ],
       "followUpQuestions": [
         "portfolio-count"
       ],
-      "status": "planned"
+      "status": "verified"
     },
     {
       "id": "portfolio-count",
       "category": "Portfolio",
-      "question": "How many websites have you built?",
-      "answer": "That figure is not currently published. Rather than quote a number that cannot be verified, the public showcase being prepared will list actual projects with live URLs where permission allows.",
+      "question": "How many websites have you developed?",
+      "answer": "We do not publish a count of websites developed — a number nobody can verify is worth very little. What we can show is real work. Yojit Enterprises, a dairy processing equipment manufacturer in Nashik, has agreed to have their site shown: https://manojrashinkar.com/yojit-enterprises. Our full portfolio is being prepared and grows as each client gives permission to publish theirs.",
       "keywords": [
         "how many",
+        "websites developed",
+        "developed",
+        "built",
+        "made",
         "count",
         "number",
+        "projects",
+        "completed",
+        "clients",
+        "track record",
         "experience",
-        "projects done"
+        "portfolio"
       ],
       "followUpQuestions": [
         "portfolio-examples"
       ],
       "status": "unknown"
+    },
+    {
+      "id": "about-developer",
+      "category": "About Us",
+      "question": "Who will actually build my website?",
+      "answer": "Manoj Rashinkar. You deal directly with the person doing the work — there is no agency layer, no account manager and no handing your project to someone you have not spoken to. He works publicly as a Full Stack Developer and FinTech Engineer, building real-time trading platforms and analytics dashboards alongside business websites.",
+      "keywords": [
+        "who builds",
+        "who will build",
+        "developer",
+        "who works",
+        "team",
+        "agency",
+        "freelancer",
+        "who makes"
+      ],
+      "followUpQuestions": [
+        "about-manoj",
+        "about-why-matters"
+      ],
+      "status": "verified"
+    },
+    {
+      "id": "about-manoj",
+      "category": "About Us",
+      "question": "Who is Manoj Rashinkar?",
+      "answer": "A Full Stack Developer and FinTech Engineer. His main work is in trading technology — real-time market data systems, trading platforms and financial analytics dashboards — and he builds business websites alongside that. You can see his professional profile at https://manojrashinkar.com.",
+      "keywords": [
+        "manoj",
+        "rashinkar",
+        "who is",
+        "about him",
+        "founder",
+        "owner",
+        "background",
+        "profile"
+      ],
+      "followUpQuestions": [
+        "about-why-matters",
+        "about-skills"
+      ],
+      "status": "verified"
+    },
+    {
+      "id": "about-why-matters",
+      "category": "About Us",
+      "question": "Why does that background matter for my website?",
+      "answer": "Because a simple website stays simple, but you are not limited to one. The same engineer who builds real-time financial systems is building your site, so if you later need customer logins, an admin panel, payments or a database, that capability is already here rather than being outsourced or refused. It also means you get told honestly when your project does not need any of it.",
+      "keywords": [
+        "why",
+        "matters",
+        "benefit",
+        "capable",
+        "experience",
+        "trust",
+        "fintech",
+        "trading"
+      ],
+      "followUpQuestions": [
+        "scale-later",
+        "about-skills"
+      ],
+      "status": "verified"
+    },
+    {
+      "id": "about-skills",
+      "category": "About Us",
+      "question": "What technologies do you know and work with?",
+      "answer": "The technologies used day to day are Python, FastAPI and Flask on the backend; React and modern JavaScript on the frontend; PostgreSQL, ClickHouse and SQLite for data; and Linux, Docker, Nginx and Git for infrastructure. A business website normally needs only a small part of that — the rest exists for projects that genuinely call for it.",
+      "keywords": [
+        "technologies",
+        "skills",
+        "stack",
+        "know",
+        "expertise",
+        "languages",
+        "tools",
+        "capable",
+        "tech",
+        "frameworks"
+      ],
+      "followUpQuestions": [
+        "tech-nextjs",
+        "about-why-matters"
+      ],
+      "status": "verified"
+    },
+    {
+      "id": "about-contact",
+      "category": "About Us",
+      "question": "How do I contact you directly?",
+      "answer": "WhatsApp is quickest — the button on this page opens a chat. You can also contact us by phone or email using the details in the footer. You will be speaking to the developer, not a sales desk.",
+      "keywords": [
+        "contact",
+        "reach",
+        "speak",
+        "talk",
+        "call",
+        "whatsapp",
+        "email",
+        "get in touch",
+        "phone",
+        "connect"
+      ],
+      "followUpQuestions": [
+        "start-what-first"
+      ],
+      "status": "verified"
+    },
+    {
+      "id": "about-assistant",
+      "category": "About Us",
+      "question": "What is this assistant, and is it a real person?",
+      "answer": "It is an automated assistant, not a person. It answers from a written set of approved information about how these projects work, and it will tell you plainly when something is not published rather than guessing. For anything needing a real commitment — a quotation, a timeline, a decision about your project — you need Manoj directly, on WhatsApp or a call.",
+      "keywords": [
+        "assistant",
+        "bot",
+        "ai",
+        "real person",
+        "human",
+        "chatbot",
+        "who am i talking to",
+        "automated"
+      ],
+      "followUpQuestions": [
+        "about-contact",
+        "about-privacy"
+      ],
+      "status": "verified"
+    },
+    {
+      "id": "about-privacy",
+      "category": "About Us",
+      "question": "Is my chat saved or stored anywhere?",
+      "answer": "No. This chat is not saved — nothing you type is stored on a server or kept once you close the page. That also means we never see it, so it cannot be followed up. If you want a reply, send your requirement on WhatsApp or call.",
+      "keywords": [
+        "chat",
+        "saved",
+        "stored",
+        "privacy",
+        "data",
+        "record",
+        "conversation",
+        "confidential",
+        "secure",
+        "history",
+        "kept"
+      ],
+      "followUpQuestions": [
+        "about-contact"
+      ],
+      "status": "verified"
+    },
+    {
+      "id": "about-location",
+      "category": "About Us",
+      "question": "Where are you based, and do you work with businesses elsewhere?",
+      "answer": "Work is done remotely and clients are taken across India. Nothing about a website project requires being in the same city — discussion happens over WhatsApp and calls, and the site is delivered online.",
+      "keywords": [
+        "location",
+        "based",
+        "where",
+        "city",
+        "remote",
+        "india",
+        "local",
+        "office"
+      ],
+      "followUpQuestions": [
+        "about-contact",
+        "start-what-first"
+      ],
+      "status": "verified"
     }
   ],
   "technologies": [
@@ -1742,10 +1928,20 @@ const K: Knowledge = {
     "publicPortfolioStatus": "under_development",
     "communityPageUrl": null,
     "verifiedPublicProjectCount": null,
-    "publicProjects": [],
-    "portfolioMessage": "Our detailed public project showcase is currently being prepared. It will include verified projects and live website URLs where client permission allows. You can contact us directly if you would like to discuss relevant examples for your business.",
-    "status": "planned",
-    "maintenanceNote": "When the showcase goes live: set publicPortfolioStatus to 'live', set communityPageUrl to the real route, set verifiedPublicProjectCount to the approved number, and add entries to publicProjects. Add a project only when the client has given permission to publish it. Leave verifiedPublicProjectCount as null rather than guessing — the Advisor will say the figure is not published, which is accurate, instead of stating a number that is not."
+    "publicProjects": [
+      {
+        "name": "Yojit Enterprises",
+        "url": "https://manojrashinkar.com/yojit-enterprises",
+        "sector": "Dairy processing equipment manufacturer, Nashik",
+        "type": "Manufacturer website",
+        "permission": "granted",
+        "note": "The one client who has agreed to have their project shown publicly. Useful as an example of design, layout and presentation for a manufacturing business."
+      }
+    ],
+    "portfolioMessage": "Our full project showcase is still being prepared. We do not share client work without that client's permission, so it only goes up as each one agrees. One client has agreed so far — Yojit Enterprises, a dairy processing equipment manufacturer in Nashik — and you can see that work at https://manojrashinkar.com/yojit-enterprises to judge the design, layout and presentation quality for yourself.",
+    "countAnswer": "We do not publish a project count, because a number nobody can verify is worth very little. What we can show is actual work: https://manojrashinkar.com/yojit-enterprises is a manufacturer website built for a client who has agreed to have it shown. The wider showcase is being prepared and grows as each client gives permission.",
+    "status": "verified",
+    "maintenanceNote": "Add a project here only once that client has agreed in writing to have it shown publicly. When the community page goes live: set publicPortfolioStatus to 'live', set communityPageUrl, and update the portfolio FAQs in faq.json. Leave verifiedPublicProjectCount as null unless there is an approved figure — null makes the Assistant say the number is not published, which is true, rather than stating one that is not."
   },
   "businessRules": {
     "identity": {

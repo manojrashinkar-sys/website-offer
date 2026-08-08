@@ -60,6 +60,17 @@ financial systems also builds these business websites. A simple brochure site is
 kept simple — but if the project later needs a backend, a database, authentication
 or custom infrastructure, that capability already exists in-house.
 
+**Answering "who are you / who is the developer":** clients ask this constantly
+and it must never be improvised. It is covered by the `About Us` FAQ category
+(`about-developer`, `about-manoj`, `about-why-matters`, `about-skills`,
+`about-contact`, `about-assistant`, `about-privacy`, `about-location`), all of
+which are matched locally and never reach the model. Change those entries in
+`src/data/faq.json`, not here alone.
+
+The line that matters commercially: **you deal directly with the person doing
+the work.** No agency layer, no account manager, no handing the project to
+someone the client has never spoken to.
+
 Do not extend this into claims about years of experience, employers, project
 counts or client outcomes. Only what is published above is approved.
 
@@ -373,11 +384,24 @@ third-party integrations. **Never promise a delivery date in the Advisor.**
 
 # Portfolio
 
-**status: planned**
+**status: verified for the one permitted project; planned for the rest**
 
-A public project showcase is being prepared. It will list verified projects and
-live URLs only where client permission allows. Until it is published, the Advisor
-must not name projects, clients or URLs.
+The governing rule is consent: **no client's work is published without that
+client's permission.** The showcase therefore grows one project at a time.
+
+Permitted so far:
+
+- **Yojit Enterprises** — dairy processing equipment manufacturer, Nashik.
+  <https://manojrashinkar.com/yojit-enterprises>. Permission granted. Useful as
+  a live example of design, layout and presentation for a manufacturing client.
+
+Asked *how many websites have you developed*, the answer is that no count is
+published — an unverifiable number is worth little — followed by the Yojit
+link as something real to judge. Never estimate a figure. Never name a client
+who has not agreed.
+
+This behaviour lives in `src/data/portfolio.json` and the `portfolio-count` /
+`portfolio-examples` FAQ entries.
 
 ---
 
@@ -387,14 +411,47 @@ must not name projects, clients or URLs.
 
 - publicPortfolioStatus: under_development
 - communityPageUrl: not published
-- verifiedPublicProjectCount: unknown
+- verifiedPublicProjectCount: unknown (deliberately null — see portfolio.json)
+- permitted projects: 1 (Yojit Enterprises)
 
 Approved response while under development:
 
-> Our detailed public project showcase is currently being prepared. It will
-> include verified projects and live website URLs where client permission allows.
-> You can contact us directly if you would like to discuss relevant examples for
-> your business.
+> Our full showcase is still being prepared, because we do not publish client
+> work without that client's permission — it grows as each one agrees. One has
+> agreed so far: Yojit Enterprises, a dairy processing equipment manufacturer in
+> Nashik, at <https://manojrashinkar.com/yojit-enterprises>. Have a look and
+> judge the design, layout and presentation for yourself.
+
+---
+
+# Conversation Privacy
+
+**status: verified**
+
+The assistant stores nothing. Messages are held in the browser for the length of
+the visit and are never sent anywhere except, for a free-text question, to the
+model that answers it. Nothing is written to a server, nothing is retained, and
+we cannot read it afterwards.
+
+That has a consequence worth stating plainly to visitors: **a conversation here
+never reaches us.** Anyone who wants a reply has to make contact on WhatsApp or
+by phone. The assistant's footer says exactly that.
+
+---
+
+# Token Efficiency
+
+**status: verified**
+
+Every question answered from `faq.json` costs nothing. Only genuinely novel
+free-text questions reach the model, and even then only the handful of matching
+entries are sent, never the whole knowledge base.
+
+So the cheapest way to reduce cost is **not** to shorten prompts — it is to add
+a good FAQ entry for anything visitors ask often. When adding one, put the words
+a visitor would actually type into `keywords`, and make sure the important term
+also appears in the question or answer text: the matcher scores keywords 6,
+question 3 and answer 1, and a one-word query needs 7 to be answered locally.
 
 ---
 
