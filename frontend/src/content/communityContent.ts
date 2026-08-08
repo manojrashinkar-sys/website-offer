@@ -8,10 +8,11 @@ export const venture = {
   parent: 'Manoj Rashinkar Venture',
   branch: 'Web Services',
   tagline: 'Websites and web applications for growing businesses',
+  // Used in structured data and wherever the operation needs describing in one
+  // sentence. Says what we do, not where we sit on an org chart.
   intro:
-    'Web Services is the web development branch of Manoj Rashinkar Venture. We plan, design, ' +
-    'build and launch websites for businesses that need a credible presence online — and web ' +
-    'applications for the ones that have outgrown a website.',
+    'We plan, design, build and launch websites for businesses that need a credible presence ' +
+    'online — and web applications for the ones that have outgrown a website.',
 };
 
 export interface Pillar {
@@ -169,13 +170,19 @@ export const pages = {
     path: '',
     nav: 'Home',
     title: 'Web Services — Manoj Rashinkar Venture',
+    // This is what a searcher reads before deciding to click, so it says what
+    // we do for them — not how the business is organised internally.
     description:
-      'The web development branch of Manoj Rashinkar Venture. Business websites, web applications, ' +
-      'redesigns, and domain and hosting setup — built and handed over by the developer himself.',
+      'Business websites, web applications, redesigns, and domain and hosting setup. You deal ' +
+      'directly with the developer, the scope is agreed in writing, and everything is yours to own.',
     heading: 'Websites and web applications for growing businesses',
+    // No mention of branches or parent companies here. A prospective client is
+    // deciding whether we can help them; our internal structure tells them
+    // nothing about that. It belongs on the About page, where it answers a
+    // question someone has actually asked.
     lead:
-      'The web development branch of Manoj Rashinkar Venture. You deal with the person who builds ' +
-      'your project, the scope is agreed in writing, and everything ends up in your name.',
+      'You deal directly with the developer who builds your project. The scope is agreed in ' +
+      'writing before work starts, and the domain, the accounts and the site all end up in your name.',
   },
   about: {
     path: 'about',
@@ -187,7 +194,7 @@ export const pages = {
     heading: 'About Web Services',
     lead:
       'A small, deliberate operation built around one idea: a business should understand, control ' +
-      'and own its own website.',
+      'and own its own website. Web Services is the web development arm of Manoj Rashinkar Venture.',
   },
   services: {
     path: 'services',

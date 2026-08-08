@@ -146,7 +146,7 @@
     ]
   },
   "limits": {
-    "customQuestionsPerSession": 5,
+    "customQuestionsPerSession": 30,
     "maxQuestionLength": 400,
     "cooldownSeconds": 5
   },

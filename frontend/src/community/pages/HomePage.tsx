@@ -31,7 +31,6 @@ export default function HomePage() {
     <>
       <PageHero
         page="home"
-        eyebrow={`${venture.parent} · ${venture.branch}`}
         actions={
           <>
             <button className="btn btn-primary btn-lg" onClick={discuss}>Discuss a Project</button>
@@ -41,12 +40,15 @@ export default function HomePage() {
         }
         aside={
           <div className="community-hero-panel">
-            <p className="community-hero-panel-title">What this branch does</p>
+            <p className="community-hero-panel-title">What we build</p>
             <ul className="community-hero-list">
               {capabilities.map((c) => (
                 <li key={c.title}>
-                  <Icon name={c.icon} size={18} />
-                  {c.title}
+                  <span className="community-hero-icon"><Icon name={c.icon} size={18} /></span>
+                  <span className="community-hero-text">
+                    <strong>{c.title}</strong>
+                    <small>{c.summary}</small>
+                  </span>
                 </li>
               ))}
             </ul>

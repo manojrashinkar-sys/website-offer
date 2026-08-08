@@ -1123,7 +1123,7 @@ const K: Knowledge = {
       "id": "portfolio-examples",
       "category": "Portfolio",
       "question": "Can I see your portfolio or examples of your work?",
-      "answer": "Yes. Our community page — one place showing the projects we have delivered — is currently under development. It will only ever include work a client has agreed to publish, so it grows by mutual understanding rather than appearing all at once. One client has agreed so far: Yojit Enterprises, a dairy processing equipment manufacturer in Nashik. See it at https://manojrashinkar.com/yojit-enterprises and judge the design, layout and presentation for yourself.",
+      "answer": "Yes. We publish client work only where we hold that client's written consent, so our public references reflect permission rather than volume. The project we are currently authorised to share is Yojit Enterprises, a dairy processing equipment manufacturer in Nashik: https://manojrashinkar.com/yojit-enterprises — please assess the design, structure and presentation for yourself. A dedicated Web Services page bringing our references together is in preparation.",
       "keywords": [
         "portfolio",
         "examples",
@@ -1148,7 +1148,7 @@ const K: Knowledge = {
       "id": "portfolio-count",
       "category": "Portfolio",
       "question": "How many websites have you developed?",
-      "answer": "We do not publish a count of websites developed — a number nobody can verify is worth very little. Our community page listing delivered projects is under development, and a project only appears there once that client has agreed to it, by mutual understanding. One has agreed so far: Yojit Enterprises, a dairy processing equipment manufacturer in Nashik, at https://manojrashinkar.com/yojit-enterprises — real work you can look at rather than a number.",
+      "answer": "We do not publish a project count. An unverifiable figure carries little weight, and we would rather you assessed the work itself. Client work is published only where we hold that client's written consent, so our public references reflect permission rather than volume. The project we are currently authorised to share is Yojit Enterprises, a dairy processing equipment manufacturer in Nashik: https://manojrashinkar.com/yojit-enterprises",
       "keywords": [
         "how many",
         "websites developed",
@@ -1347,7 +1347,7 @@ const K: Knowledge = {
       "id": "community-page",
       "category": "Portfolio",
       "question": "Do you have a community or projects page?",
-      "answer": "It is under development. The community page will bring our delivered projects together in one place, with live links — but only for clients who have agreed to have their work shown. That consent is the reason it is being built gradually rather than published in one go. One client has agreed so far, and you can see that project at https://manojrashinkar.com/yojit-enterprises",
+      "answer": "A dedicated Web Services page bringing our references together is currently in preparation. It will list projects with live links, and a project is included only where we hold that client's written consent — which is why it is being built up progressively rather than published in one go. The project we are currently authorised to share is Yojit Enterprises: https://manojrashinkar.com/yojit-enterprises",
       "keywords": [
         "community",
         "community page",
@@ -2030,11 +2030,11 @@ const K: Knowledge = {
         "sector": "Dairy processing equipment manufacturer, Nashik",
         "type": "Manufacturer website",
         "permission": "granted",
-        "note": "The one client who has agreed to have their project shown publicly. Useful as an example of design, layout and presentation for a manufacturing business."
+        "note": "Published with the client's written consent. A good reference for design, structure and presentation of a technical product range."
       }
     ],
-    "portfolioMessage": "Our community page — a single place showing the projects we have delivered — is under development. It will only ever list work that the client has agreed to have published, so it is being built up by mutual understanding rather than all at once. One client has agreed so far: Yojit Enterprises, a dairy processing equipment manufacturer in Nashik, at https://manojrashinkar.com/yojit-enterprises",
-    "countAnswer": "We do not publish a count of websites developed — an unverifiable number is worth very little. Our community page, which will show delivered projects properly, is under development, and work only goes on it once that client agrees. One has agreed so far: https://manojrashinkar.com/yojit-enterprises",
+    "portfolioMessage": "We publish client work only where we hold that client's written consent, so our public references reflect permission rather than volume. The project we are currently authorised to share is Yojit Enterprises, a dairy processing equipment manufacturer in Nashik: https://manojrashinkar.com/yojit-enterprises — a useful reference for how we structure and present a technical product range. A dedicated Web Services page bringing our references together is in preparation.",
+    "countAnswer": "We do not publish a project count. An unverifiable figure carries little weight, and we would rather you assessed the work itself. The reference we are currently authorised to share is Yojit Enterprises, a dairy processing equipment manufacturer in Nashik: https://manojrashinkar.com/yojit-enterprises",
     "status": "verified",
     "maintenanceNote": "Add a project here only once that client has agreed in writing to have it shown publicly. When the community page goes live: set publicPortfolioStatus to 'live', set communityPageUrl, and update the portfolio FAQs in faq.json. Leave verifiedPublicProjectCount as null unless there is an approved figure — null makes the Assistant say the number is not published, which is true, rather than stating one that is not."
   },

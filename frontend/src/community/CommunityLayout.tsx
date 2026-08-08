@@ -13,6 +13,19 @@ import MobileStickyActions from '../components/MobileStickyActions';
 import WebsiteAdvisor from '../components/website-advisor/WebsiteAdvisor';
 
 /**
+ * One line under each drawer link. A bare list of six words makes the reader
+ * guess; naming what is behind each one removes the guessing.
+ */
+const drawerHints: Record<string, string> = {
+  home: 'Overview of what we do',
+  about: 'How we work, and who you deal with',
+  services: 'Websites, applications, redesigns, hosting',
+  work: 'Projects we are permitted to show',
+  process: 'The six stages of a project',
+  contact: 'Start a conversation',
+};
+
+/**
  * Shell for the Web Services site.
  *
  * The offer page's header carries section jump-links for a single long page,
@@ -26,6 +39,7 @@ export default function CommunityLayout() {
   const location = useLocation();
   const drawerRef = useRef<HTMLDivElement>(null);
   const toggleRef = useRef<HTMLButtonElement>(null);
+  const tabsRef = useRef<HTMLDivElement>(null);
   const discuss = useDiscussAction('community_header');
 
   useEffect(() => {
@@ -37,6 +51,13 @@ export default function CommunityLayout() {
 
   // Never carry an open drawer across a page change.
   useEffect(() => { setMenuOpen(false); }, [location.pathname]);
+
+  // Keep the current tab visible in the scrolling strip. Landing on Contact
+  // and seeing a strip that appears to start at Home is disorienting.
+  useEffect(() => {
+    const active = tabsRef.current?.querySelector<HTMLElement>('.community-tab.active');
+    active?.scrollIntoView({ block: 'nearest', inline: 'center' });
+  }, [location.pathname]);
 
   const closeMenu = useCallback(() => {
     setMenuOpen(false);
@@ -156,6 +177,24 @@ export default function CommunityLayout() {
         </div>
       </header>
 
+      {/* Phones lose the header nav entirely, which leaves the drawer as the
+          only way to move between six pages. This strip keeps them one tap
+          away and, being scrollable, does not force the labels to shrink. */}
+      <nav className="community-tabs" aria-label="Pages">
+        <div className="community-tabs-track" ref={tabsRef}>
+          {navOrder.map((key) => (
+            <NavLink
+              key={key}
+              to={communityPath(key)}
+              end={key === 'home'}
+              className={({ isActive }) => `community-tab ${isActive ? 'active' : ''}`}
+            >
+              {pages[key].nav}
+            </NavLink>
+          ))}
+        </div>
+      </nav>
+
       {menuOpen && <div className="mobile-nav-backdrop" onClick={closeMenu} aria-hidden="true" />}
 
       <div
@@ -185,9 +224,12 @@ export default function CommunityLayout() {
                 key={key}
                 to={communityPath(key)}
                 end={key === 'home'}
-                className={({ isActive }) => `mobile-nav-link ${isActive ? 'active' : ''}`}
+                className={({ isActive }) => `mobile-nav-link community-drawer-link ${isActive ? 'active' : ''}`}
               >
-                <span>{pages[key].nav}</span>
+                <span className="community-drawer-text">
+                  <strong>{pages[key].nav}</strong>
+                  <small>{drawerHints[key]}</small>
+                </span>
                 <span className="mobile-nav-arrow" aria-hidden="true">→</span>
               </NavLink>
             ))}
@@ -201,6 +243,40 @@ export default function CommunityLayout() {
           <button className="btn btn-primary" onClick={() => { setMenuOpen(false); discuss(); }}>
             Discuss a Project
           </button>
+
+          <div className="mobile-nav-contact">
+            {config.whatsappNumber && (
+              <a
+                className="mobile-nav-contact-link"
+                href={whatsappLink(generalEnquiryMessage())}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => {
+                  setMenuOpen(false);
+                  trackEvent('promo_whatsapp_click', { placement: 'community_drawer' });
+                }}
+              >
+                <Icon name="chat" size={16} />
+                WhatsApp
+              </a>
+            )}
+            {config.contactPhone && (
+              <a
+                className="mobile-nav-contact-link"
+                href={`tel:${config.contactPhone}`}
+                onClick={() => trackEvent('phone_click', { placement: 'community_drawer' })}
+              >
+                <Icon name="phone" size={16} />
+                Call
+              </a>
+            )}
+            {config.contactEmail && (
+              <a className="mobile-nav-contact-link" href={`mailto:${config.contactEmail}`}>
+                <Icon name="mail" size={16} />
+                Email
+              </a>
+            )}
+          </div>
         </div>
       </div>
 
