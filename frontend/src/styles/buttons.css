@@ -13,6 +13,11 @@
 
 :root {
   --btn-ink: #10151f;
+  /* Text for a white button that sits on a surface which is dark in BOTH
+     themes — the hero aurora, the closing band. Deliberately not a theme
+     token: --btn-ink inverts to near-white in dark mode, which turned these
+     into white text on a white button. */
+  --btn-on-white: #10151f;
   --btn-ink-hover: #232c3d;
   --btn-ink-text: #ffffff;
   --focus-ring: rgba(16, 21, 31, 0.2);
@@ -62,7 +67,7 @@
   color: #fff; border-color: rgba(255, 255, 255, 0.32); background: rgba(255, 255, 255, 0.06);
 }
 .hero-actions .btn-outline:hover { background: rgba(255, 255, 255, 0.14); border-color: rgba(255, 255, 255, 0.5); color: #fff; }
-.closing-cta-actions .btn-primary { background: #fff; color: var(--btn-ink); }
+.closing-cta-actions .btn-primary { background: #fff; color: var(--btn-on-white); }
 .closing-cta-actions .btn-primary:hover { background: #f1f5ff; }
 .closing-cta-actions .btn-outline { color: #fff; border-color: rgba(255, 255, 255, 0.5); background: rgba(255, 255, 255, 0.08); }
 .closing-cta-actions .btn-outline:hover { background: rgba(255, 255, 255, 0.18); border-color: #fff; color: #fff; }

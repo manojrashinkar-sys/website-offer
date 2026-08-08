@@ -839,7 +839,7 @@
   background: #fff;
   background-size: auto;
   animation: none;
-  color: var(--btn-ink);
+  color: var(--btn-on-white);
   box-shadow: 0 10px 26px rgba(0, 0, 0, 0.3);
 }
 .roadmap-page .hero-actions .btn-primary:hover {
@@ -987,4 +987,19 @@
 .roadmap-page .roadmap-hero-flow .flow-node-index { animation-name: flow-step-travel-ink; }
 .roadmap-page .flow-tone-dark .flow-node:not(:last-child)::after {
   color: rgba(255, 255, 255, 0.55);
+}
+
+/* ---------- Back-to-top: out from under MIRA ----------
+   Both were pinned to the right at almost the same height — .back-to-top at
+   right 1.25rem / bottom 5.75rem, the launcher at right 1.25rem / bottom
+   5.5rem — so they sat on top of each other. The launcher is the more
+   important of the two and is shared with every other page, so this one
+   moves. Left is free: the mobile bar spans the bottom and clears it, and
+   nothing else lives in that corner.
+
+   Only this page. MIRA stays exactly where she is. */
+.roadmap-page .back-to-top { left: 1.25rem; right: auto; }
+
+@media (max-width: 900px) {
+  .roadmap-page .back-to-top { left: 1rem; right: auto; }
 }
