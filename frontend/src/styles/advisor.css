@@ -118,7 +118,11 @@
 
 /* ---------- Conversation ---------- */
 .advisor-stream {
-  flex: 1 1 auto; overflow-y: auto; overscroll-behavior: contain;
+  /* min-height:0 is what lets this actually shrink. A flex item defaults to
+     min-height:auto and refuses to go below its content, so without it the
+     panel cannot get shorter than the conversation — and the composer gets
+     pushed out of view the moment the keyboard shortens the sheet. */
+  flex: 1 1 auto; min-height: 0; overflow-y: auto; overscroll-behavior: contain;
   padding: 1rem; display: flex; flex-direction: column; gap: 0.75rem;
 }
 .advisor-msg { margin: 0; font-size: 0.885rem; line-height: 1.62; }
@@ -268,8 +272,13 @@
   @keyframes advisor-fade { from { opacity: 0; } to { opacity: 1; } }
 
   .advisor-panel {
-    left: 0; right: 0; bottom: 0; width: 100%; max-width: none;
-    height: 86vh; max-height: 86vh;
+    left: 0; right: 0; width: 100%; max-width: none;
+    /* Clamped to the visible region, not the layout viewport — see the
+       visualViewport effect in AdvisorPanel. With no keyboard open the two
+       are the same and this behaves exactly like the old 86vh. */
+    bottom: var(--advisor-vp-bottom, 0px);
+    height: min(86vh, var(--advisor-vp-h, 86vh));
+    max-height: var(--advisor-vp-h, 86vh);
     border-radius: 20px 20px 0 0; border-bottom: 0;
     transform: translateY(100%); opacity: 1;
     transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), visibility 0.3s;

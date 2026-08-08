@@ -137,6 +137,45 @@ export default function AdvisorPanel({ open, onClose }: { open: boolean; onClose
     return () => window.clearTimeout(timer);
   }, [cooldown]);
 
+  /**
+   * Keep the sheet inside the part of the screen you can actually see.
+   *
+   * The panel is sized in vh, and vh does not shrink when the on-screen
+   * keyboard appears — the layout viewport stays the full height of the
+   * device. So on a phone the sheet kept its full height, the keyboard
+   * covered the bottom of it, and the whole thing rode up off the top of the
+   * screen while you were typing.
+   *
+   * visualViewport is the only thing that reports the region left over, so
+   * the height and the bottom offset are published as custom properties and
+   * the stylesheet clamps against them. When there is no keyboard the visual
+   * viewport is the full height, the clamp does nothing, and the panel keeps
+   * its normal 86vh.
+   */
+  useEffect(() => {
+    const vv = window.visualViewport;
+    if (!open || !vv) return;
+
+    const root = document.documentElement;
+    const apply = () => {
+      // offsetTop is non-zero when the page itself has been scrolled up to
+      // reveal a focused field; without it the sheet sits below the keyboard.
+      const bottomInset = Math.max(0, window.innerHeight - vv.height - vv.offsetTop);
+      root.style.setProperty('--advisor-vp-h', `${Math.round(vv.height)}px`);
+      root.style.setProperty('--advisor-vp-bottom', `${Math.round(bottomInset)}px`);
+    };
+
+    apply();
+    vv.addEventListener('resize', apply);
+    vv.addEventListener('scroll', apply);
+    return () => {
+      vv.removeEventListener('resize', apply);
+      vv.removeEventListener('scroll', apply);
+      root.style.removeProperty('--advisor-vp-h');
+      root.style.removeProperty('--advisor-vp-bottom');
+    };
+  }, [open]);
+
   const clearChat = () => {
     setBlocks([{ kind: 'advisor', text: OPENING, id: nextId() }]);
     setBrief({ features: [] });
@@ -283,7 +322,7 @@ export default function AdvisorPanel({ open, onClose }: { open: boolean; onClose
         <header className="advisor-head">
           <span className="advisor-head-text">
             <strong>MIRA</strong>
-            <small>Website guidance, instantly</small>
+            <small>Website Assistant AI</small>
           </span>
           {blocks.length > 1 && (
             <button
