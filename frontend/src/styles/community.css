@@ -290,29 +290,42 @@
   /* With the header nav gone, the drawer would be the only route between six
      pages. This strip sits directly under the header and keeps every page one
      tap away; it scrolls sideways rather than shrinking the labels. */
+  /* Quiet text with an underline on the current page, not filled pills. Six
+     solid pills in a row read as six competing buttons and swamp a phone
+     header; the whole strip should be a wayfinder you glance at, not the
+     loudest thing on screen. */
   .community-tabs {
     display: block; position: sticky; top: var(--header-h, 62px); z-index: 40;
-    background: var(--color-surface);
+    background: var(--color-surface-alt);
     border-bottom: 1px solid var(--border-subtle);
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.05);
   }
   .community-tabs-track {
-    display: flex; gap: 0.2rem; overflow-x: auto; scrollbar-width: none;
-    padding: 0.35rem 0.85rem;
+    display: flex; gap: 0; overflow-x: auto; scrollbar-width: none;
+    padding: 0 0.9rem;
     -webkit-overflow-scrolling: touch;
-    scroll-snap-type: x proximity;
   }
   .community-tabs-track::-webkit-scrollbar { display: none; }
   .community-tab {
-    flex: 0 0 auto; scroll-snap-align: center;
-    padding: 0.5rem 0.85rem; border-radius: var(--radius-pill);
-    font-family: var(--font-heading); font-weight: 700; font-size: 0.84rem;
+    flex: 0 0 auto; position: relative;
+    padding: 0.7rem 0.72rem; margin-bottom: -1px;
+    font-weight: 600; font-size: 0.86rem; letter-spacing: -0.005em;
     color: var(--text-body); text-decoration: none; white-space: nowrap;
-    transition: color 0.18s ease, background-color 0.18s ease;
+    border-bottom: 2px solid transparent;
+    transition: color 0.18s ease, border-color 0.18s ease;
   }
-  .community-tab:hover { color: var(--text-heading); background: var(--color-surface-alt); }
-  .community-tab.active { color: #fff; background: var(--btn-ink); }
-  .community-tab:focus-visible { outline: 3px solid var(--focus-ring); outline-offset: 2px; }
+  .community-tab:hover { color: var(--text-heading); }
+  .community-tab.active {
+    color: var(--text-heading); font-weight: 700;
+    border-bottom-color: var(--btn-ink);
+  }
+  .community-tab:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: -2px; border-radius: 4px; }
+
+  /* A half-visible label at the edge looks broken. Fading it says "scroll". */
+  .community-tabs::after {
+    content: ""; position: absolute; top: 0; right: 0; bottom: 0; width: 2.25rem;
+    background: linear-gradient(to right, transparent, var(--color-surface-alt) 70%);
+    pointer-events: none;
+  }
 
   /* Anchored sections have to clear the header and the strip together. */
   .community-site section[id],
@@ -339,8 +352,8 @@
   .community-hero-icon { width: 30px; height: 30px; border-radius: 9px; }
   .community-hero-text strong { font-size: 0.88rem; }
   .community-hero-text small { font-size: 0.75rem; }
-  .community-tab { padding: 0.45rem 0.75rem; font-size: 0.8rem; }
-  .community-tabs-track { padding: 0.3rem 0.7rem; }
+  .community-tab { padding: 0.62rem 0.6rem; font-size: 0.83rem; }
+  .community-tabs-track { padding: 0 0.75rem; }
 
   /* Two-up cards, matching the rest of the site on phones. */
   .pillar-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.8rem; }
