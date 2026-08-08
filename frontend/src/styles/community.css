@@ -16,7 +16,11 @@
 .community-brand-mark {
   display: inline-flex; align-items: center; justify-content: center;
   width: 34px; height: 34px; flex: 0 0 auto;
-  border-radius: 10px; color: #fff;
+  /* Not #fff. --btn-ink inverts with the theme — near-black on a light page,
+     near-white on a dark one — so a hardcoded white glyph vanished into the
+     mark in dark mode. --color-surface inverts the opposite way, which is
+     exactly the negative this needs, in both themes, with no override. */
+  border-radius: 10px; color: var(--color-surface);
   background: var(--btn-ink); box-shadow: var(--shadow-1);
 }
 .community-brand-text { display: flex; flex-direction: column; line-height: 1.15; min-width: 0; }
@@ -248,7 +252,8 @@
   display: inline-flex; align-items: center; justify-content: center;
   width: 46px; height: 46px; border-radius: 14px;
   font-family: var(--font-heading); font-weight: 800; font-size: 1rem;
-  color: #fff; background: var(--btn-ink);
+  /* Same inversion problem as the brand mark — see the note there. */
+  color: var(--color-surface); background: var(--btn-ink);
 }
 .stage-body { min-width: 0; flex: 1; }
 .stage-body h2 { font-size: 1.15rem; letter-spacing: -0.02em; margin-bottom: 0.35rem; }

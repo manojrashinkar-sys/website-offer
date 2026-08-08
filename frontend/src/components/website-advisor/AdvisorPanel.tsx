@@ -152,6 +152,48 @@ export default function AdvisorPanel({ open, onClose }: { open: boolean; onClose
    * viewport is the full height, the clamp does nothing, and the panel keeps
    * its normal 86vh.
    */
+  /**
+   * Freeze the page behind the sheet while it is open, on phones.
+   *
+   * This is the actual reason the panel appeared to fly upward while typing.
+   * Focusing an input makes the browser scroll the document to bring it into
+   * view — and it will do that even though the input is inside a fixed
+   * element, because it has no way to know the element is already visible.
+   * The page scrolls, and on iOS fixed elements travel with it.
+   *
+   * Pinning the body at its current offset removes the thing there is to
+   * scroll. The offset is restored on close, so the visitor comes back to
+   * exactly where they were reading.
+   *
+   * Phones only: on desktop the panel is a small floating card beside the
+   * page, and freezing the page under it would be wrong.
+   */
+  useEffect(() => {
+    if (!open || !window.matchMedia('(max-width: 640px)').matches) return;
+
+    const body = document.body;
+    const y = window.scrollY;
+    const previous = {
+      position: body.style.position,
+      top: body.style.top,
+      width: body.style.width,
+      overflow: body.style.overflow,
+    };
+
+    body.style.position = 'fixed';
+    body.style.top = `-${y}px`;
+    body.style.width = '100%';
+    body.style.overflow = 'hidden';
+
+    return () => {
+      body.style.position = previous.position;
+      body.style.top = previous.top;
+      body.style.width = previous.width;
+      body.style.overflow = previous.overflow;
+      window.scrollTo(0, y);
+    };
+  }, [open]);
+
   useEffect(() => {
     const vv = window.visualViewport;
     if (!open || !vv) return;
