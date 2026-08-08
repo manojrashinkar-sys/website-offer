@@ -3,7 +3,7 @@
     "id": "start-what-first",
     "category": "Getting Started",
     "question": "What is the first step to getting a website?",
-    "answer": "A short conversation about what your business does, who your customers are and what the site needs to achieve. Everything else — pages, features, architecture — follows from that. Nothing is committed until the scope is agreed in writing.",
+    "answer": "A short conversation about what your business does, who your customers are and what the site needs to achieve. Everything else — pages, features, architecture — follows from that. Nothing is committed until the scope is agreed in writing.\n\nThe full stage-by-stage roadmap is here: https://website-offer.manojrashinkar.com/development-roadmap",
     "keywords": [
       "start",
       "begin",
@@ -161,7 +161,7 @@
     "id": "dev-how-long",
     "category": "Timeline",
     "question": "How long does a business website take?",
-    "answer": "A standard business website usually takes one to three weeks after content is received. That is an estimate rather than a commitment — the timeline depends on how many pages there are, how ready your content is, feature complexity, how quickly feedback comes back, and any third-party integrations.",
+    "answer": "A standard business website usually takes one to three weeks after content is received. That is an estimate rather than a commitment — the timeline depends on how many pages there are, how ready your content is, feature complexity, how quickly feedback comes back, and any third-party integrations.\n\nThe stages that make up that timeline are set out here: https://website-offer.manojrashinkar.com/development-roadmap",
     "keywords": [
       "how long",
       "timeline",
@@ -954,14 +954,23 @@
   {
     "id": "process-stages",
     "category": "Development Process",
-    "question": "What are the stages of a project?",
-    "answer": "Discovery, content and planning, design and development, review and testing, domain and launch, then handover and support. Each stage has agreed responsibilities so it is always clear who is doing what next.",
+    "question": "What is the roadmap or process for developing my website?",
+    "answer": "The roadmap runs through six phases, and these are the stages: discovery, content and planning, design and development, review and testing, domain and launch, then handover and support. Each stage has agreed responsibilities, so it is always clear who does what next.\n\nThe full development roadmap, stage by stage, is here: https://website-offer.manojrashinkar.com/development-roadmap",
     "keywords": [
+      "roadmap",
       "process",
       "stages",
       "phases",
-      "roadmap",
-      "steps"
+      "steps",
+      "path",
+      "journey",
+      "development process",
+      "how it works",
+      "workflow",
+      "plan",
+      "procedure",
+      "show me the process",
+      "what are the stages"
     ],
     "followUpQuestions": [
       "dev-how-long",
@@ -1315,5 +1324,50 @@
       "portfolio-count"
     ],
     "status": "planned"
+  },
+  {
+    "id": "roadmap-page",
+    "category": "Development Process",
+    "question": "Where can I see the full development roadmap?",
+    "answer": "Our development roadmap page walks through every stage of a project — business discovery, requirements, content, design, development, testing, domain and DNS setup, deployment, launch, handover and future scaling. For each stage it sets out what we do, what you provide, and what you end up with.\n\nYou can read it here: https://website-offer.manojrashinkar.com/development-roadmap",
+    "keywords": [
+      "roadmap",
+      "roadmap page",
+      "development roadmap",
+      "full process",
+      "see the process",
+      "stages",
+      "path",
+      "web development path",
+      "project stages",
+      "development path"
+    ],
+    "followUpQuestions": [
+      "process-stages",
+      "start-what-first"
+    ],
+    "status": "verified"
+  },
+  {
+    "id": "roadmap-what-happens",
+    "category": "Development Process",
+    "question": "What happens at each step of website development?",
+    "answer": "Early on it is discovery and requirements — understanding the business and agreeing scope. Then content and page structure, then design and build, then review and testing on real devices. After that the domain is connected, SSL verified and the site deployed and launched. Finally handover, and optional support.\n\nEach step is broken down in detail here: https://website-offer.manojrashinkar.com/development-roadmap",
+    "keywords": [
+      "each step",
+      "what happens",
+      "step by step",
+      "order",
+      "sequence",
+      "how do you build",
+      "from start to finish",
+      "beginning to end",
+      "website development steps"
+    ],
+    "followUpQuestions": [
+      "roadmap-page",
+      "dev-how-long"
+    ],
+    "status": "verified"
   }
 ]

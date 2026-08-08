@@ -56,9 +56,16 @@ function linkify(text: string): React.ReactNode[] {
     if (!/^https?:\/\//.test(part)) return part;
     const trailing = part.match(/[.,;:!?]+$/)?.[0] ?? '';
     const href = trailing ? part.slice(0, -trailing.length) : part;
+    // A link back to this same site should not spawn a tab — that is
+    // navigation, not leaving. Anything external still opens separately.
+    const sameSite = href.includes(window.location.host);
     return (
       <span key={index}>
-        <a className="advisor-link" href={href} target="_blank" rel="noopener noreferrer">
+        <a
+          className="advisor-link"
+          href={href}
+          {...(sameSite ? {} : { target: '_blank', rel: 'noopener noreferrer' })}
+        >
           {href.replace(/^https?:\/\//, '')}
         </a>
         {trailing}
@@ -166,7 +173,8 @@ export default function AdvisorPanel({ open, onClose }: { open: boolean; onClose
           `A project runs through ${roadmap.length} stages, from business discovery to future scaling. ` +
           'The early ones — discovery, requirements and content — decide most of the outcome; development, ' +
           'testing, domain setup and launch follow, then handover and optional support.\n\n' +
-          'The Development Roadmap page breaks down every stage, including what we do and what you provide.',
+          'Every stage is broken down here, including what we do and what you provide:\n' +
+          'https://website-offer.manojrashinkar.com/development-roadmap',
       });
     } else {
       const core = (technologies as Array<Record<string, unknown>>).filter((t) => !t.requiresPaidInfrastructure);
