@@ -3,7 +3,7 @@ import { trackEvent } from '../../analytics';
 import { config } from '../../config';
 import { whatsappLink } from '../../utils/whatsapp';
 import {
-  bestFaqAnswer, faqCategories, faqs, getFaq, inferBrief, recommend, searchFaqs,
+  bestFaqAnswer, faqCategories, listedFaqs, getFaq, inferBrief, recommend, searchFaqs,
   type FaqItem, type Recommendation, type RecommendationAnswers,
 } from '../../lib/advisor/engine';
 import { buildSummary, summaryMessage, type LeadSummary } from '../../lib/advisor/leadSummary';
@@ -141,21 +141,6 @@ export default function AdvisorPanel({ open, onClose }: { open: boolean; onClose
   }, [cooldown]);
 
   /**
-   * Keep the sheet inside the part of the screen you can actually see.
-   *
-   * The panel is sized in vh, and vh does not shrink when the on-screen
-   * keyboard appears — the layout viewport stays the full height of the
-   * device. So on a phone the sheet kept its full height, the keyboard
-   * covered the bottom of it, and the whole thing rode up off the top of the
-   * screen while you were typing.
-   *
-   * visualViewport is the only thing that reports the region left over, so
-   * the height and the bottom offset are published as custom properties and
-   * the stylesheet clamps against them. When there is no keyboard the visual
-   * viewport is the full height, the clamp does nothing, and the panel keeps
-   * its normal 86vh.
-   */
-  /**
    * Freeze the page behind the sheet while it is open, on phones.
    *
    * This is the actual reason the panel appeared to fly upward while typing.
@@ -197,6 +182,21 @@ export default function AdvisorPanel({ open, onClose }: { open: boolean; onClose
     };
   }, [open]);
 
+  /**
+   * Keep the sheet inside the part of the screen you can actually see.
+   *
+   * The panel is sized in vh, and vh does not shrink when the on-screen
+   * keyboard appears — the layout viewport stays the full height of the
+   * device. So on a phone the sheet kept its full height, the keyboard
+   * covered the bottom of it, and the whole thing rode up off the top of the
+   * screen while you were typing.
+   *
+   * visualViewport is the only thing that reports the region left over, so
+   * the height and the bottom offset are published as custom properties and
+   * the stylesheet clamps against them. When there is no keyboard the visual
+   * viewport is the full height, the clamp does nothing, and the panel keeps
+   * its normal 86vh.
+   */
   useEffect(() => {
     const vv = window.visualViewport;
     if (!open || !vv) return;
@@ -500,7 +500,7 @@ export default function AdvisorPanel({ open, onClose }: { open: boolean; onClose
               })}
               <button type="button" className="advisor-hint" onClick={() => topicShortcut('process')}>The process</button>
               <button type="button" className="advisor-hint" onClick={() => setShowAllFaqs(true)}>
-                All {faqs.length} questions
+                All {listedFaqs.length} questions
               </button>
             </div>
           ) : showAllFaqs ? (
@@ -509,7 +509,7 @@ export default function AdvisorPanel({ open, onClose }: { open: boolean; onClose
               {faqCategories.map((category) => (
                 <div className="advisor-faq-group" key={category}>
                   <p>{category}</p>
-                  {faqs.filter((item) => item.category === category).map((item) => (
+                  {listedFaqs.filter((item) => item.category === category).map((item) => (
                     <button
                       type="button"
                       key={item.id}

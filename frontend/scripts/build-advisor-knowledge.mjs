@@ -43,6 +43,19 @@ for (const [key, file] of Object.entries(FILES)) {
   knowledge[key] = JSON.parse(readFileSync(join(root, 'src', 'data', file), 'utf8'));
 }
 
+// Unlisted entries never reach the model.
+//
+// The browser can keep them and simply not display them, because it only ever
+// returns an entry that a question matched. The model is different: give it a
+// fact and it may volunteer that fact wherever it seems relevant, which is
+// exactly what "answerable but never offered" rules out. Withholding it is the
+// only way to be sure.
+//
+// Nothing is lost. These entries are answered by the local matcher before the
+// model is ever consulted, so a direct question still gets a direct answer.
+const unlisted = knowledge.faqs.filter((item) => item.unlisted);
+knowledge.faqs = knowledge.faqs.filter((item) => !item.unlisted);
+
 const START = '/* KNOWLEDGE_START */';
 const END = '/* KNOWLEDGE_END */';
 
@@ -65,3 +78,6 @@ const summary = Object.entries(knowledge)
   .map(([key, value]) => `${key}=${Array.isArray(value) ? value.length : 'object'}`)
   .join(' ');
 console.log(`advisor knowledge injected (${(literal.length / 1024).toFixed(1)}KB): ${summary}`);
+if (unlisted.length) {
+  console.log(`  withheld from the model: ${unlisted.map((item) => item.id).join(', ')}`);
+}

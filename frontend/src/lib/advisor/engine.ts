@@ -12,13 +12,23 @@ export interface FaqItem {
   keywords: string[];
   followUpQuestions: string[];
   status: string;
+  /**
+   * Answerable, but never offered. Unlisted entries stay searchable so a
+   * direct question still gets a direct answer, and are kept out of the
+   * browse list, the question count and the "related questions" chips — so
+   * nobody is shown them who was not already asking.
+   */
+  unlisted?: boolean;
 }
 
 export const faqs = faqData as FaqItem[];
 export const businessRules = rules;
 export const portfolioInfo = portfolio;
 
-export const faqCategories = Array.from(new Set(faqs.map((item) => item.category)));
+/** The browsable set: everything a visitor may be offered. */
+export const listedFaqs = faqs.filter((item) => !item.unlisted);
+
+export const faqCategories = Array.from(new Set(listedFaqs.map((item) => item.category)));
 
 export function getFaq(id: string): FaqItem | undefined {
   return faqs.find((item) => item.id === id);
@@ -64,10 +74,15 @@ export interface FaqMatch {
   score: number;
 }
 
-export function searchFaqs(query: string, limit = 5): FaqMatch[] {
+/**
+ * @param includeUnlisted search everything, not only the browsable set. Used
+ *   for answering a direct question; never for building a list of
+ *   suggestions.
+ */
+export function searchFaqs(query: string, limit = 5, includeUnlisted = false): FaqMatch[] {
   const tokens = tokenise(query);
   if (tokens.length === 0) return [];
-  return faqs
+  return (includeUnlisted ? faqs : listedFaqs)
     .map((item) => ({ item, score: score(item, tokens) }))
     .filter((match) => match.score > 0)
     .sort((a, b) => b.score - a.score)
@@ -76,7 +91,7 @@ export function searchFaqs(query: string, limit = 5): FaqMatch[] {
 
 /** A confident single answer, or null when the question needs the AI path. */
 export function bestFaqAnswer(query: string): FaqItem | null {
-  const matches = searchFaqs(query, 2);
+  const matches = searchFaqs(query, 2, true);
   if (matches.length === 0) return null;
   const [best, runnerUp] = matches;
   if (best.score < 7) return null;

@@ -1533,5 +1533,20 @@
       "type-webapp"
     ],
     "status": "verified"
+  },
+  {
+    "id": "about-chandrakant",
+    "category": "About Us",
+    "question": "Who is Chandrakant Kale?",
+    "answer": "Chandrakant Kale is a close friend of Manoj — like a brother to him. He supports Manoj in acquiring and managing clients and handles front-desk responsibilities across web services, digital services and various projects. He also assists with client coordination and day-to-day business operations.",
+    "keywords": [
+      "chandrakant",
+      "chandrakant kale",
+      "kale",
+      "chandrakant sir"
+    ],
+    "followUpQuestions": [],
+    "unlisted": true,
+    "status": "verified"
   }
 ]
