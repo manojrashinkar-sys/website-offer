@@ -110,6 +110,80 @@
   font-size: 0.8rem; line-height: 1.45; color: var(--hero-ink-soft);
 }
 
+/* ---------- No blue on this site ----------
+   buttons.css keeps the blue gradient for hero CTAs deliberately, and the
+   mobile bar's CTA still carries it. Both are overridden here rather than
+   globally, so the offer page keeps the treatment it was tuned for.
+
+   Ink is the wrong answer on the hero specifically: the hero is dark, and a
+   near-black button on a near-black background has no edge. White with dark
+   text is the high-contrast, non-blue choice, and it matches the outline
+   buttons already sitting beside it. */
+.community-site .hero-actions .btn-primary {
+  background: #fff;
+  background-size: auto;
+  animation: none;
+  color: var(--btn-ink);
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.3);
+}
+.community-site .hero-actions .btn-primary:hover {
+  background: #eef2f8;
+  filter: none;
+  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.36);
+}
+
+/* Away from the hero the background is light, so ink is right. */
+.community-site .sticky-action-cta,
+.community-site .sticky-action-cta:active {
+  background: var(--btn-ink); color: var(--btn-ink-text); filter: none;
+}
+
+/* Everything below is the rest of the audit. The blue does not only arrive
+   through buttons — it is in the active nav item, the accent bar above every
+   section heading, the bullet markers, the form focus ring, the scroll
+   progress bar and the drawer. Same colour, different routes. All of it is
+   redirected to ink here, and only here. */
+
+/* Navigation */
+.community-site .nav-link.active { color: var(--btn-ink); }
+.community-site .nav-link::after { background: var(--btn-ink); }
+.community-site .menu-toggle:hover { color: var(--btn-ink); background: var(--color-surface-alt); }
+.community-site .mobile-nav-link:hover,
+.community-site .mobile-nav-link.active {
+  background: var(--color-surface-alt); color: var(--text-heading);
+}
+.community-site .mobile-nav-arrow { color: var(--btn-ink); }
+
+/* Section furniture */
+.community-site .section-head::before { background: var(--btn-ink); box-shadow: none; }
+.community-site .section-head p a { color: var(--btn-ink); }
+.community-site .section-note { border-left-color: var(--border-strong); }
+.community-site .dot-list li::before { background: var(--btn-ink); }
+.community-site .link-toggle { color: var(--btn-ink); }
+.community-site .scroll-progress span { background: var(--btn-ink); }
+.community-site .skip-link { background: var(--btn-ink); color: var(--btn-ink-text); }
+
+/* Forms — the contact page uses the shared enquiry form. */
+.community-site .form-field input:focus,
+.community-site .form-field select:focus,
+.community-site .form-field textarea:focus {
+  border-color: var(--btn-ink);
+  box-shadow: 0 0 0 4px var(--focus-ring);
+}
+
+/* Focus rings: the same colour arriving by a different route, and just as
+   visible when tabbing through. */
+.community-site .btn:focus-visible,
+.community-site .sticky-action:focus-visible {
+  outline-color: var(--focus-ring);
+}
+.community-site .sticky-action:active {
+  background: var(--color-surface-alt); color: var(--text-heading);
+}
+[data-theme="dark"] .community-site .theme-switch {
+  background: var(--btn-ink); border-color: transparent;
+}
+
 /* ---------- Mobile page strip ---------- */
 /* Hidden on desktop, where the header nav does this job. */
 .community-tabs { display: none; }

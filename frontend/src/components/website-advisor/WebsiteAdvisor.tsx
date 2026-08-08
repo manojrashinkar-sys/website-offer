@@ -105,7 +105,13 @@ export default function WebsiteAdvisor() {
         aria-haspopup="dialog"
         aria-label={open ? 'Close MIRA, the website assistant' : 'Open MIRA, the website assistant'}
       >
-        {open ? <Icon name="close" size={20} /> : <AssistantMark size={21} />}
+        {/* Both icons are always mounted and crossfade. Swapping the element
+            on open made the mark vanish and a close cross appear in the same
+            frame, which reads as a glitch rather than a state change. */}
+        <span className="advisor-launcher-icon" aria-hidden="true">
+          <span className="advisor-icon advisor-icon-mark"><AssistantMark size={21} /></span>
+          <span className="advisor-icon advisor-icon-close"><Icon name="close" size={20} /></span>
+        </span>
         <span className="advisor-launcher-label">MIRA</span>
       </button>
       )}
