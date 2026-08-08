@@ -301,7 +301,7 @@ export default function AdvisorPanel({ open, onClose }: { open: boolean; onClose
             if (block.kind === 'advisor') {
               return (
                 <div className="advisor-msg advisor-msg-bot" key={block.id}>
-                  {block.text.split('\n\n').map((para, index) => <p key={index}>{para}</p>)}
+                  {block.text.split('\n\n').map((para, index) => <p key={index}>{linkify(para)}</p>)}
                 </div>
               );
             }
