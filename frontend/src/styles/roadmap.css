@@ -822,3 +822,155 @@
   .phase-tasks-wrap { transition: none; }
   #advanced-tech-group { animation: none; }
 }
+
+/* ============================================================
+   Roadmap page: hero polish and no blue
+   Scoped to .roadmap-page throughout, so nothing here reaches
+   the offer page.
+   ============================================================ */
+
+/* ---------- Hero CTA ----------
+   Ink is wrong on this hero for the same reason it is wrong on the Web
+   Services one: the background is near-black and an ink button has no edge
+   against it. White with dark text is the high-contrast, non-blue answer,
+   and it sits correctly beside the glass outline button and the green
+   WhatsApp button already there. */
+.roadmap-page .hero-actions .btn-primary {
+  background: #fff;
+  background-size: auto;
+  animation: none;
+  color: var(--btn-ink);
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.3);
+}
+.roadmap-page .hero-actions .btn-primary:hover {
+  background: #eef2f8; filter: none;
+  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.36);
+}
+
+/* ---------- Journey panel ----------
+   The eight stages were carrying blue gradient badges on a blue-lit rail,
+   which was the loudest thing in the hero and competing with the headline.
+   Numbers are wayfinding, not decoration: they go quiet and let the labels
+   read. */
+.roadmap-page .roadmap-hero-flow {
+  background: rgba(255, 255, 255, 0.055);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+.roadmap-page .roadmap-hero-flow .flow-node-index {
+  background: rgba(255, 255, 255, 0.92);
+  color: #0d1220;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.28);
+}
+/* Support is ongoing rather than a finish line. A hollow marker says that
+   without borrowing green, which on this site means WhatsApp. */
+.roadmap-page .roadmap-hero-flow .flow-node:last-child .flow-node-index {
+  background: transparent; color: #fff;
+  border: 1.5px dashed rgba(255, 255, 255, 0.6);
+  box-shadow: none;
+}
+
+@media (min-width: 901px) {
+  /* Tighter rows: the panel was taller than the copy beside it, which left
+     the hero bottom-heavy. */
+  .roadmap-page .roadmap-hero-flow { padding: 1.4rem 1.35rem 1.3rem; }
+  .roadmap-page .roadmap-hero-flow .flow-tone-dark .flow-node {
+    padding: 0.42rem 0.6rem; gap: 0.75rem;
+  }
+  .roadmap-page .roadmap-hero-flow .flow-node-index { width: 24px; height: 24px; font-size: 0.72rem; }
+  .roadmap-page .roadmap-hero-flow .flow-node-label { font-size: 0.9rem; }
+  /* The rail loses its blue tint along with the badges. */
+  .roadmap-page .roadmap-hero-flow .flow-stack .flow-node:not(:last-child)::before {
+    left: calc(0.6rem + 11px);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.42), rgba(255, 255, 255, 0.1));
+  }
+}
+
+/* ---------- The rest of the blue ----------
+   The audit found forty-seven more blue rules reachable on this page: icons,
+   chevrons, rails, hover borders, badges, markers. Overriding them one by one
+   would mean forty-seven rules that have to be kept in step with the
+   originals forever.
+
+   They nearly all resolve through four tokens, so the tokens are redefined
+   for this page instead. One block, and anything added later inherits it
+   automatically instead of quietly arriving blue.
+
+   Ink rather than a different hue: the site's palette is already ink plus
+   green for WhatsApp, and introducing a third colour here would make this
+   page the odd one out rather than the consistent one. */
+.roadmap-page {
+  --color-primary: #10151f;
+  --color-primary-dark: #232c3d;
+  --color-primary-soft: rgba(16, 21, 31, 0.09);
+  --brand-primary: #10151f;
+  --brand-primary-dark: #232c3d;
+  --brand-primary-soft: rgba(16, 21, 31, 0.09);
+  --gradient-brand: linear-gradient(135deg, #10151f 0%, #232c3d 55%, #3a465e 100%);
+  --gradient-brand-loop: linear-gradient(135deg, #10151f, #232c3d, #3a465e, #232c3d, #10151f);
+}
+[data-theme="dark"] .roadmap-page {
+  --color-primary: #eef2fa;
+  --color-primary-dark: #ffffff;
+  --color-primary-soft: rgba(238, 242, 250, 0.14);
+  --brand-primary: #eef2fa;
+  --brand-primary-dark: #ffffff;
+  --brand-primary-soft: rgba(238, 242, 250, 0.14);
+  --gradient-brand: linear-gradient(135deg, #cbd5e8 0%, #eef2fa 55%, #ffffff 100%);
+  --gradient-brand-loop: linear-gradient(135deg, #cbd5e8, #eef2fa, #ffffff, #eef2fa, #cbd5e8);
+}
+
+/* The handful that hardcode the hex instead of using a token. */
+.roadmap-page .compare-table tbody tr:hover td { background: rgba(16, 21, 31, 0.035); }
+.roadmap-page .tech-card.open { border-color: var(--border-strong); }
+
+/* Forms, focus and the mobile bar. */
+.roadmap-page .form-field input:focus,
+.roadmap-page .form-field select:focus,
+.roadmap-page .form-field textarea:focus {
+  border-color: var(--btn-ink); box-shadow: 0 0 0 4px var(--focus-ring);
+}
+.roadmap-page .btn:focus-visible,
+.roadmap-page .sticky-action:focus-visible,
+.roadmap-page .cmp-switch-btn:focus-visible,
+.roadmap-page .stage-item:focus-visible { outline-color: var(--focus-ring); }
+.roadmap-page .sticky-action:active {
+  background: var(--color-surface-alt); color: var(--text-heading);
+}
+.roadmap-page .sticky-action-cta,
+.roadmap-page .sticky-action-cta:active {
+  background: var(--btn-ink); color: var(--btn-ink-text); filter: none;
+}
+
+/* ---------- The stragglers ----------
+   A handful of places write the blue as a literal hex instead of going
+   through a token, so the redefinition above cannot reach them. These are
+   all shadows, rails and hairline borders — the tint that survives after the
+   fills have gone. */
+.roadmap-page .phase-rail {
+  background: linear-gradient(180deg, rgba(16, 21, 31, 0.32), rgba(16, 21, 31, 0.06));
+}
+.roadmap-page .phase-icon { box-shadow: 0 10px 24px rgba(10, 16, 32, 0.22); }
+.roadmap-page .offer-card {
+  border-color: var(--border-subtle);
+  background: var(--card-bg);
+}
+.roadmap-page .scroll-progress span { box-shadow: none; }
+.roadmap-page .section-head::before { box-shadow: none; }
+.roadmap-page .flow-node:hover { border-color: var(--border-strong); }
+.roadmap-page .btn-outline:hover { box-shadow: 0 6px 18px rgba(10, 16, 32, 0.16); }
+.roadmap-page .checklist-card:hover { border-color: var(--border-strong); }
+.roadmap-page .compare-table tbody tr:hover th,
+.roadmap-page .compare-table tbody tr:hover td { background: rgba(16, 21, 31, 0.035); }
+[data-theme="dark"] .roadmap-page .phase-rail {
+  background: linear-gradient(180deg, rgba(238, 242, 250, 0.34), rgba(238, 242, 250, 0.07));
+}
+[data-theme="dark"] .roadmap-page .compare-table tbody tr:hover th,
+[data-theme="dark"] .roadmap-page .compare-table tbody tr:hover td {
+  background: rgba(238, 242, 250, 0.05);
+}
+
+/* Card hover borders — the same literal tint on four selectors. */
+.roadmap-page .principle-card:hover,
+.roadmap-page .tech-card:hover,
+.roadmap-page .hosting-card:hover,
+.roadmap-page .support-card:hover { border-color: var(--border-strong); }

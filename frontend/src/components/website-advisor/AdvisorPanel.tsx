@@ -33,6 +33,9 @@ const OPENING =
 // Quiet prompts, not a menu of buttons. Kept short so they read as examples of
 // what you might type rather than a set of options you must choose between.
 const SUGGESTIONS = [
+  // First, because it is the question someone who has decided nothing yet
+  // actually has. The rest assume a project already exists.
+  { label: 'What is the first step?', faqId: 'start-what-first' },
   { label: 'What will it cost?', faqId: 'price-how' },
   { label: 'Who owns the domain?', faqId: 'domain-who-owns' },
   { label: 'How long does it take?', faqId: 'dev-how-long' },
