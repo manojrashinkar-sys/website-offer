@@ -1,8 +1,0 @@
-User-agent: *
-Allow: /
-
-# Still being worked on — reachable for previewing, but not for indexing.
-# Remove this line when the page is ready to publish.
-Disallow: /community
-
-Sitemap: https://website-offer.manojrashinkar.com/sitemap.xml

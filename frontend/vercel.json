@@ -6,6 +6,10 @@
       "destination": "/robots-webservices.txt"
     },
     {
+      "source": "/robots.txt",
+      "destination": "/robots-main.txt"
+    },
+    {
       "source": "/((?!api/).*)",
       "destination": "/index.html"
     }

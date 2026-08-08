@@ -1,0 +1,14 @@
+# Served as /robots.txt on website-offer.manojrashinkar.com.
+# There is no public/robots.txt on purpose: Vercel serves static files before
+# it applies rewrites, so a file at that path would win and the Web Services
+# subdomain could never be given a different one. See vercel.json.
+
+User-agent: *
+Allow: /
+
+# The Web Services pages are reachable here for previewing on deployments that
+# are not the subdomain. They are not finished, and the subdomain is their real
+# home, so they are kept out of search results from both directions.
+Disallow: /community
+
+Sitemap: https://website-offer.manojrashinkar.com/sitemap.xml
