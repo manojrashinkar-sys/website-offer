@@ -163,7 +163,15 @@ export default function OfferHeader() {
               </button>
             ))}
 
-            {onRoadmap ? (
+            <Link
+            className="nav-link nav-link-page"
+            to={config.communityRoute}
+            onClick={() => trackEvent('community_link_click', { placement: 'header' })}
+          >
+            Web Services
+          </Link>
+
+          {onRoadmap ? (
               <Link
                 className="nav-link nav-link-page"
                 to={config.offerRoute}
@@ -277,6 +285,15 @@ export default function OfferHeader() {
               <span className="mobile-nav-arrow" aria-hidden="true">→</span>
             </Link>
           </div>
+
+          <Link
+            className="mobile-nav-link"
+            to={config.communityRoute}
+            onClick={() => { setMenuOpen(false); trackEvent('community_link_click', { placement: 'mobile_nav' }); }}
+          >
+            <span>Web Services</span>
+            <span className="mobile-nav-arrow" aria-hidden="true">→</span>
+          </Link>
 
           <p className="mobile-nav-label">Appearance</p>
           <ThemeToggle variant="row" />

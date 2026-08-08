@@ -10,6 +10,7 @@ import './styles/mobile.css';
 import './styles/polish.css';
 import './styles/interactions.css';
 import './styles/theme.css';
+import './styles/community.css';
 import './styles/advisor.css';
 import './styles/buttons.css';
 

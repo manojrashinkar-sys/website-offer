@@ -65,6 +65,9 @@ export default function OfferFooter() {
                 <Link to={config.offerRoute}>Website Offer</Link>
               </li>
               <li>
+                <Link to={config.communityRoute}>Web Services</Link>
+              </li>
+              <li>
                 <Link
                   to={config.roadmapRoute}
                   onClick={() => trackEvent('roadmap_link_click', { placement: 'footer' })}

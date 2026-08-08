@@ -1,6 +1,6 @@
 {
-  "publicPortfolioStatus": "under_development",
-  "communityPageUrl": null,
+  "publicPortfolioStatus": "live",
+  "communityPageUrl": "https://website-offer.manojrashinkar.com/community",
   "verifiedPublicProjectCount": null,
   "publicProjects": [
     {
@@ -12,8 +12,8 @@
       "note": "The one client who has agreed to have their project shown publicly. Useful as an example of design, layout and presentation for a manufacturing business."
     }
   ],
-  "portfolioMessage": "Our community page — a single place showing the projects we have delivered — is under development. It will only ever list work that the client has agreed to have published, so it is being built up by mutual understanding rather than all at once. One client has agreed so far: Yojit Enterprises, a dairy processing equipment manufacturer in Nashik, at https://manojrashinkar.com/yojit-enterprises",
-  "countAnswer": "We do not publish a count of websites developed — an unverifiable number is worth very little. Our community page, which will show delivered projects properly, is under development, and work only goes on it once that client agrees. One has agreed so far: https://manojrashinkar.com/yojit-enterprises",
+  "portfolioMessage": "Our Web Services page brings the work together in one place: https://website-offer.manojrashinkar.com/community. It only lists projects the client has agreed to have published, so it grows by mutual understanding rather than all at once. One client has agreed so far: Yojit Enterprises, a dairy processing equipment manufacturer in Nashik, at https://manojrashinkar.com/yojit-enterprises",
+  "countAnswer": "We do not publish a count of websites developed — an unverifiable number is worth very little. What we do publish is the work itself, on our Web Services page: https://website-offer.manojrashinkar.com/community. A project appears there only once that client agrees. One has agreed so far: https://manojrashinkar.com/yojit-enterprises",
   "status": "verified",
   "maintenanceNote": "Add a project here only once that client has agreed in writing to have it shown publicly. When the community page goes live: set publicPortfolioStatus to 'live', set communityPageUrl, and update the portfolio FAQs in faq.json. Leave verifiedPublicProjectCount as null unless there is an approved figure — null makes the Assistant say the number is not published, which is true, rather than stating one that is not."
 }

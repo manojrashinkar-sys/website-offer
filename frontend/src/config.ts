@@ -12,6 +12,11 @@ export const config = {
   // for an env var most hosts would forget to set anyway.
   offerRoute: '/',
   roadmapRoute: '/development-roadmap',
+  communityRoute: '/community',
+  // The Web Services branch has its own subdomain. Requests arriving there
+  // land on the community page at the root rather than needing /community in
+  // the URL — see the host check in App.tsx.
+  webServicesHost: 'webservices.manojrashinkar.com',
   siteUrl: 'https://website-offer.manojrashinkar.com',
   // Intentionally blank by default — header/footer hide the name entirely
   // rather than showing a placeholder like "Your Business Name".
