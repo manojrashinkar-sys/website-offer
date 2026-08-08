@@ -1282,7 +1282,7 @@ const K: Knowledge = {
       "id": "about-assistant",
       "category": "About Us",
       "question": "What is this assistant, and is it a real person?",
-      "answer": "It is an automated assistant, not a person. It answers from a written set of approved information about how these projects work, and it will tell you plainly when something is not published rather than guessing. For anything needing a real commitment — a quotation, a timeline, a decision about your project — you need Manoj directly, on WhatsApp or a call.",
+      "answer": "I am MIRA, an automated assistant, not a person. I answer from a written set of approved information about how these projects work, and I will tell you plainly when something is not published rather than guessing. For anything needing a real commitment — a quotation, a timeline, a decision about your project — you need Manoj directly, on WhatsApp or a call.",
       "keywords": [
         "assistant",
         "bot",
@@ -1291,7 +1291,8 @@ const K: Knowledge = {
         "human",
         "chatbot",
         "who am i talking to",
-        "automated"
+        "automated",
+        "mira"
       ],
       "followUpQuestions": [
         "about-contact",
@@ -1303,19 +1304,29 @@ const K: Knowledge = {
       "id": "about-privacy",
       "category": "About Us",
       "question": "Is my chat saved or stored anywhere?",
-      "answer": "No. This chat is not saved — nothing you type is stored on a server or kept once you close the page. That also means we never see it, so it cannot be followed up. If you want a reply, send your requirement on WhatsApp or call.",
+      "answer": "No. This conversation is not saved — nothing you type is stored on a server or kept once you close the page, and I have no memory of it if you come back. That also means we never see it, so it cannot be followed up. If you would like a reply, send your requirement on WhatsApp or call.",
       "keywords": [
         "chat",
         "saved",
         "stored",
+        "store",
         "privacy",
         "data",
+        "my data",
+        "store my data",
+        "do you store",
+        "save my data",
         "record",
         "conversation",
         "confidential",
         "secure",
         "history",
-        "kept"
+        "kept",
+        "is my data safe",
+        "remember",
+        "do you remember me",
+        "remember me",
+        "do you remember"
       ],
       "followUpQuestions": [
         "about-contact"
@@ -1472,6 +1483,92 @@ const K: Knowledge = {
       "followUpQuestions": [
         "mira-name",
         "about-manoj"
+      ],
+      "status": "verified"
+    },
+    {
+      "id": "mira-role",
+      "category": "About Us",
+      "question": "What is your role here?",
+      "answer": "My role is to answer questions about website development for this business, so you can get a clear picture before speaking to anyone. I explain how projects work, what is included, who owns what, and what things depend on. I also suggest what kind of website would suit a business once you tell me what it does.\n\nWhat I do not do is negotiate, quote or commit on anyone's behalf. Those are Manoj's to give, and I will hand you over whenever you want them.",
+      "keywords": [
+        "your role",
+        "what is your role",
+        "what do you do",
+        "your job",
+        "your purpose",
+        "why are you here",
+        "what are you for",
+        "role here",
+        "what is your work"
+      ],
+      "followUpQuestions": [
+        "mira-help",
+        "mira-limits"
+      ],
+      "status": "verified"
+    },
+    {
+      "id": "mira-help",
+      "category": "About Us",
+      "question": "What can you help me with?",
+      "answer": "Quite a lot of the groundwork. I can tell you what a business website involves, what a web application involves and how they differ, how a project runs stage by stage, what affects cost, who ends up owning the domain and the code, how hosting and domains actually work, and what is charged separately.\n\nTell me what your business does and what you want visitors to do, and I will suggest the kind of website that fits and how it would be built.",
+      "keywords": [
+        "what can you help",
+        "what can you do",
+        "how can you help",
+        "can you help me",
+        "what do you know",
+        "what can i ask",
+        "help me with",
+        "capabilities"
+      ],
+      "followUpQuestions": [
+        "mira-limits",
+        "start-what-first"
+      ],
+      "status": "verified"
+    },
+    {
+      "id": "mira-limits",
+      "category": "About Us",
+      "question": "What can you not answer?",
+      "answer": "I will not give you a price, a rate or a budget figure, because they depend on scope and an invented number helps nobody. I will not promise a delivery date, a Google ranking or a number of enquiries. I will not share client details we do not have permission to share, and I do not answer questions unrelated to websites.\n\nWhere something genuinely needs a person's judgement, I will say so and point you to Manoj rather than guess.",
+      "keywords": [
+        "what can you not",
+        "cannot answer",
+        "can't answer",
+        "your limits",
+        "limitations",
+        "what you don't know",
+        "restrictions",
+        "not allowed",
+        "won't answer"
+      ],
+      "followUpQuestions": [
+        "price-how",
+        "contact-how"
+      ],
+      "status": "verified"
+    },
+    {
+      "id": "mira-who-built",
+      "category": "About Us",
+      "question": "Who built you?",
+      "answer": "Manoj Rashinkar built me, as part of this site. My answers come from a knowledge base he wrote and maintains about how these projects actually work — which is why I can be specific about process and ownership, and why I decline to invent figures. I am also a working example of the kind of thing built here: if you want something similar for your own business, that is a conversation worth having.",
+      "keywords": [
+        "who built you",
+        "who made you",
+        "who created you",
+        "who developed you",
+        "who programmed you",
+        "who trained you",
+        "your creator",
+        "your developer"
+      ],
+      "followUpQuestions": [
+        "about-manoj",
+        "type-webapp"
       ],
       "status": "verified"
     }

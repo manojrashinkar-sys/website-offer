@@ -244,15 +244,20 @@
 .advisor-input-row textarea::placeholder { color: var(--text-body); }
 
 /* The single point of brand colour in the whole panel. */
+/* Ink, not the blue brand gradient. The gradient was the last blue left in
+   the assistant and it fought with the launcher it sits beneath. Ink matches
+   the launcher and the site buttons, and inverts with the theme for free. */
 .advisor-send {
-  flex: 0 0 auto; width: 34px; height: 34px; border-radius: 9px; cursor: pointer;
+  flex: 0 0 auto; width: 34px; height: 34px; border-radius: 50%; cursor: pointer;
   display: inline-flex; align-items: center; justify-content: center;
-  background: var(--gradient-brand); color: #fff; border: 0;
-  transition: filter 0.15s ease, opacity 0.15s ease;
+  background: var(--advisor-ink); color: var(--color-surface); border: 0;
+  transition: background 0.15s ease, transform 0.15s ease, opacity 0.15s ease;
 }
-.advisor-send:hover:not(:disabled) { filter: brightness(1.1); }
-.advisor-send:disabled { opacity: 0.32; cursor: not-allowed; }
-.advisor-send:focus-visible { outline: 2px solid var(--brand-primary); outline-offset: 2px; }
+.advisor-send:hover:not(:disabled) { background: var(--advisor-ink-hover); transform: translateY(-1px); }
+.advisor-send:active:not(:disabled) { transform: translateY(0); }
+.advisor-send:disabled { opacity: 0.28; cursor: not-allowed; }
+.advisor-send:focus-visible { outline: 2px solid var(--advisor-ink); outline-offset: 2px; }
+[data-theme="dark"] .advisor-send { color: #0a1020; }
 
 .advisor-foot-note { font-size: 0.68rem; color: var(--text-body); margin: 0.5rem 0 0; text-align: center; }
 

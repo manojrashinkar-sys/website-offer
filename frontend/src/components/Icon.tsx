@@ -3,6 +3,14 @@
 // premium look. Deliberately kept geometrically simple.
 
 const paths: Record<string, JSX.Element> = {
+  // Upward arrow for the chat composer. Sending a message reads as "up" in
+  // every messaging app there is; a right arrow reads as "next".
+  'arrow-up': (
+    <>
+      <line x1="12" y1="19" x2="12" y2="6" />
+      <polyline points="6 12 12 6 18 12" />
+    </>
+  ),
   monitor: (
     <>
       <rect x="2" y="3" width="20" height="14" rx="2" />

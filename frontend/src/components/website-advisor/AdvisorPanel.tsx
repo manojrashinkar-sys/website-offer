@@ -500,7 +500,7 @@ export default function AdvisorPanel({ open, onClose }: { open: boolean; onClose
               onClick={() => void send()}
               aria-label="Send"
             >
-              <Icon name="arrow-right" size={17} />
+              <Icon name="arrow-up" size={17} />
             </button>
           </div>
           <p className="advisor-foot-note">
