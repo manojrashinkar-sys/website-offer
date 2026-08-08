@@ -68,6 +68,11 @@ export default function CommunityPage() {
     keywords:
       'web services, website development, business website developer, web application development, ' +
       'website redesign, domain and hosting setup, Manoj Rashinkar Venture',
+    // Not finished yet. The page is reachable so it can be previewed and worked
+    // on, but it should not turn up in search results until it is ready.
+    // Remove this line, the robots.txt Disallow, and the sitemap omission
+    // together when publishing.
+    robots: 'noindex, nofollow',
     og: {
       'og:type': 'website',
       'og:title': `${venture.branch} — ${venture.parent}`,

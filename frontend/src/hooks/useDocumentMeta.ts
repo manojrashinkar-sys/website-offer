@@ -15,6 +15,9 @@ export interface DocumentMeta {
   description: string;
   canonical: string;
   keywords?: string;
+  // Set to keep a page out of search results — used for pages that are
+  // reachable but not finished. Reverted on unmount like everything else.
+  robots?: string;
   og?: Record<string, string>;
   twitter?: Record<string, string>;
   structuredData?: StructuredData[];
@@ -58,7 +61,7 @@ function setCanonical(href: string): Restore {
 
 export function useDocumentMeta(meta: DocumentMeta) {
   const {
-    title, description, canonical, keywords, og, twitter, structuredData,
+    title, description, canonical, keywords, robots, og, twitter, structuredData,
   } = meta;
 
   // Serialised so a caller can pass fresh object literals without re-running
@@ -75,6 +78,7 @@ export function useDocumentMeta(meta: DocumentMeta) {
     restores.push(setNamedMeta('name', 'description', description));
     restores.push(setCanonical(canonical));
     if (keywords) restores.push(setNamedMeta('name', 'keywords', keywords));
+    if (robots) restores.push(setNamedMeta('name', 'robots', robots));
 
     Object.entries(og ?? {}).forEach(([name, value]) => {
       restores.push(setNamedMeta('property', name, value));

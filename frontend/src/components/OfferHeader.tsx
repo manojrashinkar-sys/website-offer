@@ -163,15 +163,9 @@ export default function OfferHeader() {
               </button>
             ))}
 
-            <Link
-            className="nav-link nav-link-page"
-            to={config.communityRoute}
-            onClick={() => trackEvent('community_link_click', { placement: 'header' })}
-          >
-            Web Services
-          </Link>
-
-          {onRoadmap ? (
+            {/* The Web Services page is not linked publicly yet — it is still
+                being worked on. Restore this link when it is ready to show. */}
+            {onRoadmap ? (
               <Link
                 className="nav-link nav-link-page"
                 to={config.offerRoute}
@@ -285,15 +279,6 @@ export default function OfferHeader() {
               <span className="mobile-nav-arrow" aria-hidden="true">→</span>
             </Link>
           </div>
-
-          <Link
-            className="mobile-nav-link"
-            to={config.communityRoute}
-            onClick={() => { setMenuOpen(false); trackEvent('community_link_click', { placement: 'mobile_nav' }); }}
-          >
-            <span>Web Services</span>
-            <span className="mobile-nav-arrow" aria-hidden="true">→</span>
-          </Link>
 
           <p className="mobile-nav-label">Appearance</p>
           <ThemeToggle variant="row" />

@@ -1123,7 +1123,7 @@ const K: Knowledge = {
       "id": "portfolio-examples",
       "category": "Portfolio",
       "question": "Can I see your portfolio or examples of your work?",
-      "answer": "Yes. Our Web Services page collects them: https://website-offer.manojrashinkar.com/community. It only includes work a client has agreed to publish, so it grows by mutual understanding. One client has agreed so far: Yojit Enterprises, a dairy processing equipment manufacturer in Nashik, at https://manojrashinkar.com/yojit-enterprises — have a look and judge the design and presentation for yourself.",
+      "answer": "Yes. Our community page — one place showing the projects we have delivered — is currently under development. It will only ever include work a client has agreed to publish, so it grows by mutual understanding rather than appearing all at once. One client has agreed so far: Yojit Enterprises, a dairy processing equipment manufacturer in Nashik. See it at https://manojrashinkar.com/yojit-enterprises and judge the design, layout and presentation for yourself.",
       "keywords": [
         "portfolio",
         "examples",
@@ -1148,7 +1148,7 @@ const K: Knowledge = {
       "id": "portfolio-count",
       "category": "Portfolio",
       "question": "How many websites have you developed?",
-      "answer": "We do not publish a count of websites developed — a number nobody can verify is worth very little. What we publish is the work itself, on our Web Services page: https://website-offer.manojrashinkar.com/community. A project appears there only once that client has agreed to it. One has agreed so far: Yojit Enterprises, a dairy processing equipment manufacturer in Nashik, at https://manojrashinkar.com/yojit-enterprises — real work you can look at rather than a number.",
+      "answer": "We do not publish a count of websites developed — a number nobody can verify is worth very little. Our community page listing delivered projects is under development, and a project only appears there once that client has agreed to it, by mutual understanding. One has agreed so far: Yojit Enterprises, a dairy processing equipment manufacturer in Nashik, at https://manojrashinkar.com/yojit-enterprises — real work you can look at rather than a number.",
       "keywords": [
         "how many",
         "websites developed",
@@ -1346,25 +1346,22 @@ const K: Knowledge = {
     {
       "id": "community-page",
       "category": "Portfolio",
-      "question": "Do you have a community or Web Services page?",
-      "answer": "Yes — our Web Services page is here: https://website-offer.manojrashinkar.com/community. It is the web development branch of Manoj Rashinkar Venture, and it sets out what we build, how a project runs, and the work we are permitted to show. Projects appear there only once that client has agreed, so it grows by mutual understanding rather than all at once.",
+      "question": "Do you have a community or projects page?",
+      "answer": "It is under development. The community page will bring our delivered projects together in one place, with live links — but only for clients who have agreed to have their work shown. That consent is the reason it is being built gradually rather than published in one go. One client has agreed so far, and you can see that project at https://manojrashinkar.com/yojit-enterprises",
       "keywords": [
         "community",
         "community page",
-        "web services",
         "projects page",
         "gallery",
         "our work",
         "clients page",
-        "showcase page",
-        "branch",
-        "venture"
+        "showcase page"
       ],
       "followUpQuestions": [
         "portfolio-examples",
         "portfolio-count"
       ],
-      "status": "verified"
+      "status": "planned"
     },
     {
       "id": "roadmap-page",
@@ -1415,19 +1412,18 @@ const K: Knowledge = {
       "id": "about-venture",
       "category": "About Us",
       "question": "What is Manoj Rashinkar Venture and how does Web Services fit in?",
-      "answer": "Web Services is the web development branch of Manoj Rashinkar Venture. It covers business websites, web applications, redesigns, and domain and hosting setup. You can see what the branch does and the work it is permitted to show here: https://website-offer.manojrashinkar.com/community",
+      "answer": "Web Services is the web development branch of Manoj Rashinkar Venture. It covers business websites, web applications, redesigns, and domain and hosting setup — everything described on this site. A dedicated page for the branch is being prepared; until it is ready, the best place to start is a short conversation about what your business needs.",
       "keywords": [
         "venture",
         "manoj rashinkar venture",
         "branch",
         "company",
-        "business",
         "organisation",
         "web services"
       ],
       "followUpQuestions": [
         "about-manoj",
-        "community-page"
+        "portfolio-examples"
       ],
       "status": "verified"
     }
@@ -2024,8 +2020,8 @@ const K: Knowledge = {
     }
   ],
   "portfolio": {
-    "publicPortfolioStatus": "live",
-    "communityPageUrl": "https://website-offer.manojrashinkar.com/community",
+    "publicPortfolioStatus": "under_development",
+    "communityPageUrl": null,
     "verifiedPublicProjectCount": null,
     "publicProjects": [
       {
@@ -2037,8 +2033,8 @@ const K: Knowledge = {
         "note": "The one client who has agreed to have their project shown publicly. Useful as an example of design, layout and presentation for a manufacturing business."
       }
     ],
-    "portfolioMessage": "Our Web Services page brings the work together in one place: https://website-offer.manojrashinkar.com/community. It only lists projects the client has agreed to have published, so it grows by mutual understanding rather than all at once. One client has agreed so far: Yojit Enterprises, a dairy processing equipment manufacturer in Nashik, at https://manojrashinkar.com/yojit-enterprises",
-    "countAnswer": "We do not publish a count of websites developed — an unverifiable number is worth very little. What we do publish is the work itself, on our Web Services page: https://website-offer.manojrashinkar.com/community. A project appears there only once that client agrees. One has agreed so far: https://manojrashinkar.com/yojit-enterprises",
+    "portfolioMessage": "Our community page — a single place showing the projects we have delivered — is under development. It will only ever list work that the client has agreed to have published, so it is being built up by mutual understanding rather than all at once. One client has agreed so far: Yojit Enterprises, a dairy processing equipment manufacturer in Nashik, at https://manojrashinkar.com/yojit-enterprises",
+    "countAnswer": "We do not publish a count of websites developed — an unverifiable number is worth very little. Our community page, which will show delivered projects properly, is under development, and work only goes on it once that client agrees. One has agreed so far: https://manojrashinkar.com/yojit-enterprises",
     "status": "verified",
     "maintenanceNote": "Add a project here only once that client has agreed in writing to have it shown publicly. When the community page goes live: set publicPortfolioStatus to 'live', set communityPageUrl, and update the portfolio FAQs in faq.json. Leave verifiedPublicProjectCount as null unless there is an approved figure — null makes the Assistant say the number is not published, which is true, rather than stating one that is not."
   },
