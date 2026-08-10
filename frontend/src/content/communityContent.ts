@@ -248,8 +248,18 @@ export const pages = {
 
 export type PageKey = keyof typeof pages;
 
-/** Navigation order. */
-export const navOrder: PageKey[] = ['home', 'about', 'services', 'work', 'process', 'contact'];
+/**
+ * Navigation order.
+ *
+ * About Us sits last. A visitor arrives wanting to know what we build and
+ * whether we have built it before; who we are is what they check afterwards,
+ * once they are interested. Leading with it puts the least urgent page in the
+ * most valuable slot.
+ *
+ * Used by the header, the mobile strip, the drawer and the footer, so this
+ * one line is the whole ordering.
+ */
+export const navOrder: PageKey[] = ['home', 'services', 'work', 'process', 'contact', 'about'];
 
 /* ---------------- About page ---------------- */
 
