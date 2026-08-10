@@ -7,7 +7,6 @@ import type { StructuredData } from '../../hooks/useDocumentMeta';
 import { communityOrigin, communityPath } from '../routing';
 import { useCommunityMeta } from '../useCommunityMeta';
 import PageHero from '../PageHero';
-import BuildScene from '../BuildScene';
 import Icon from '../../components/Icon';
 import Reveal from '../../components/Reveal';
 
@@ -39,11 +38,22 @@ export default function HomePage() {
             <Link className="btn btn-outline btn-lg" to={communityPath('work')}>Our Work</Link>
           </>
         }
-        /* The panel that was here listed the four capabilities — the same four
-           the section directly below shows as full cards. Saying it twice in
-           one screen was not earning its space, so the hero shows the work
-           instead of describing it. */
-        aside={<BuildScene />}
+        aside={
+          <div className="community-hero-panel">
+            <p className="community-hero-panel-title">What we build</p>
+            <ul className="community-hero-list">
+              {capabilities.map((c) => (
+                <li key={c.title}>
+                  <span className="community-hero-icon"><Icon name={c.icon} size={18} /></span>
+                  <span className="community-hero-text">
+                    <strong>{c.title}</strong>
+                    <small>{c.summary}</small>
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        }
       />
 
       {/* ---------- How we work ---------- */}
