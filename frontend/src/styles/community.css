@@ -476,3 +476,134 @@
 @media (max-width: 360px) {
   .pillar-grid, .contact-route-grid { grid-template-columns: 1fr; }
 }
+
+/* ============================================================
+   Motion
+   Written by hand rather than exported from an animation editor:
+   an editor produces markup you cannot edit in place, and a
+   business services site needs no vector animation to justify
+   the weight of a runtime. Everything here is CSS, adds nothing
+   to the bundle, and can be retimed by changing one number.
+
+   The rule throughout: things move on arrival and on touch.
+   Nothing moves while you are trying to read it.
+   ============================================================ */
+
+/* ---------- Page entrance ----------
+   A change of page should register. Short, and no vertical travel, so it
+   never fights with the hero animation running underneath it. */
+@keyframes community-page-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+.community-page-in { animation: community-page-in 0.28s ease-out both; }
+
+/* ---------- Hero entrance ----------
+   The parts arrive in reading order — eyebrow, heading, lead, buttons —
+   rather than the block appearing at once. 80ms apart is enough to read as
+   sequence and short enough that the whole thing is settled in under half a
+   second, so it never delays someone who came to act. */
+@keyframes community-hero-rise {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: none; }
+}
+.community-hero .hero-copy > * {
+  animation: community-hero-rise 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.community-hero .hero-copy > :nth-child(1) { animation-delay: 0.04s; }
+.community-hero .hero-copy > :nth-child(2) { animation-delay: 0.12s; }
+.community-hero .hero-copy > :nth-child(3) { animation-delay: 0.20s; }
+.community-hero .hero-copy > :nth-child(4) { animation-delay: 0.28s; }
+
+/* The panel follows the copy in, and its rows follow the panel. */
+.community-hero-panel { animation-delay: 0.34s; }
+@keyframes community-hero-row {
+  from { opacity: 0; transform: translateX(-8px); }
+  to   { opacity: 1; transform: none; }
+}
+.community-hero-list li {
+  animation: community-hero-row 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.community-hero-list li:nth-child(1) { animation-delay: 0.50s; }
+.community-hero-list li:nth-child(2) { animation-delay: 0.58s; }
+.community-hero-list li:nth-child(3) { animation-delay: 0.66s; }
+.community-hero-list li:nth-child(4) { animation-delay: 0.74s; }
+
+/* ---------- Card interaction ----------
+   The lift already existed. What was missing was the icon acknowledging the
+   hover — a card that moves as one flat slab reads as an image, not a
+   control. */
+.pillar-icon,
+.capability-icon,
+.contact-route-icon {
+  transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.pillar-card:hover .pillar-icon,
+.capability-card:hover .capability-icon,
+.contact-route:hover .contact-route-icon {
+  transform: translateY(-3px) scale(1.08);
+}
+.community-hero-list li:hover .community-hero-icon { transform: scale(1.06); }
+.community-hero-icon { transition: transform 0.24s cubic-bezier(0.22, 1, 0.36, 1); }
+
+/* ---------- Process stages ----------
+   The stages already fade up one after another. A rail running between the
+   cards would have to cross the gaps and the card borders, and would sit
+   wrong the moment one card grew taller than another. Instead each card
+   grows its own spine downward from the number as it arrives — contained,
+   impossible to misalign, and it still reads as a sequence because six of
+   them draw in turn as you scroll. */
+.stage { position: relative; }
+.stage::after {
+  content: ""; position: absolute; z-index: 0; pointer-events: none;
+  left: calc(1.6rem + 22px);
+  top: calc(1.6rem + 54px);
+  bottom: 1.6rem;
+  width: 2px; border-radius: 2px;
+  background: linear-gradient(180deg, var(--btn-ink), transparent);
+  opacity: 0.22;
+  transform: scaleY(0); transform-origin: top;
+  transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1) 0.2s;
+}
+.reveal-visible .stage::after { transform: scaleY(1); }
+/* Below 640px the card padding and the marker both shrink, so the spine has
+   to move with them or it lands off-centre. */
+@media (max-width: 640px) {
+  .stage::after {
+    left: calc(1.2rem + 18px);
+    top: calc(1.2rem + 46px);
+    bottom: 1.2rem;
+  }
+}
+
+/* The number lands rather than simply appearing. */
+@keyframes stage-n-in {
+  from { opacity: 0; transform: scale(0.6) rotate(-12deg); }
+  to   { opacity: 1; transform: none; }
+}
+.reveal-visible .stage-n {
+  animation: stage-n-in 0.45s cubic-bezier(0.34, 1.4, 0.64, 1) both;
+}
+
+/* ---------- Off ----------
+   Restated at the end because the global reduced-motion rule in offer.css is
+   declared before everything above and would otherwise be overridden by it.
+   Resting state is the finished state, so nothing is left invisible. */
+@media (prefers-reduced-motion: reduce) {
+  .community-page-in,
+  .community-hero .hero-copy > *,
+  .community-hero-list li,
+  .reveal-visible .stage-n {
+    animation: none !important;
+    opacity: 1;
+    transform: none;
+  }
+  .pillar-icon, .capability-icon, .contact-route-icon, .community-hero-icon {
+    transition: none;
+  }
+  .pillar-card:hover .pillar-icon,
+  .capability-card:hover .capability-icon,
+  .contact-route:hover .contact-route-icon,
+  .community-hero-list li:hover .community-hero-icon { transform: none; }
+  .stage::after { transition: none; transform: scaleY(1); }
+}

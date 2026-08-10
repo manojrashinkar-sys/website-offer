@@ -280,8 +280,14 @@ export default function CommunityLayout() {
         </div>
       </div>
 
+      {/* Keyed on the path so React remounts on navigation and the entrance
+          animation runs again. Without the key the six pages would swap
+          instantly, which on a site this fast reads as a flicker rather than
+          a change of page. */}
       <main id="main">
-        <Outlet />
+        <div className="community-page-in" key={location.pathname}>
+          <Outlet />
+        </div>
       </main>
 
       <footer className="offer-footer community-footer">
