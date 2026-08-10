@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { NavLink, Outlet, useLocation } from 'react-router-dom';
+import { flushSync } from 'react-dom';
+import { NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { config } from '../config';
 import { trackEvent } from '../analytics';
 import { navOrder, pages, venture } from '../content/communityContent';
@@ -37,9 +38,11 @@ export default function CommunityLayout() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
   const drawerRef = useRef<HTMLDivElement>(null);
   const toggleRef = useRef<HTMLButtonElement>(null);
   const tabsRef = useRef<HTMLDivElement>(null);
+  const rootRef = useRef<HTMLDivElement>(null);
   const discuss = useDiscussAction('community_header');
 
   useEffect(() => {
@@ -107,10 +110,78 @@ export default function CommunityLayout() {
     };
   }, [menuOpen, closeMenu]);
 
+  /**
+   * Light the card the pointer is over, from where the pointer is.
+   *
+   * One listener on the root rather than one per card — there are dozens of
+   * cards across six pages — throttled to a frame, and it writes two custom
+   * properties. The gradient itself is CSS, so nothing is styled from
+   * JavaScript and nothing is measured on a frame that does not need it.
+   *
+   * Skipped entirely without a fine pointer: there is no cursor to follow on
+   * a touchscreen, so the listener is never attached.
+   */
+  useEffect(() => {
+    if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+    const root = rootRef.current;
+    if (!root) return;
+
+    const LIT = '.pillar-card, .capability-card, .work-card, .contact-route,'
+      + ' .stage, .community-aside, .service-block';
+    let frame = 0;
+    let pending: PointerEvent | null = null;
+
+    const apply = () => {
+      frame = 0;
+      const event = pending;
+      pending = null;
+      const card = (event?.target as Element | null)?.closest?.(LIT) as HTMLElement | null;
+      if (!card || !event) return;
+      const box = card.getBoundingClientRect();
+      card.style.setProperty('--mx', `${event.clientX - box.left}px`);
+      card.style.setProperty('--my', `${event.clientY - box.top}px`);
+    };
+
+    const onMove = (event: PointerEvent) => {
+      pending = event;
+      if (!frame) frame = requestAnimationFrame(apply);
+    };
+
+    root.addEventListener('pointermove', onMove, { passive: true });
+    return () => {
+      root.removeEventListener('pointermove', onMove);
+      if (frame) cancelAnimationFrame(frame);
+    };
+  }, []);
+
+  /**
+   * Navigate through the View Transitions API where the browser has it.
+   *
+   * The browser takes a snapshot of the old page and the new one and
+   * interpolates between them, so the change is a genuine transition rather
+   * than one thing disappearing while another appears. flushSync is required:
+   * the callback has to leave the DOM in its final state before it returns,
+   * and React would otherwise batch the update until afterwards.
+   *
+   * Where the API is missing the handler does nothing at all and the link
+   * behaves normally, falling back to the CSS fade.
+   */
+  const withViewTransition = (to: string) => (event: React.MouseEvent) => {
+    const start = (document as Document & {
+      startViewTransition?: (cb: () => void) => void;
+    }).startViewTransition;
+    // Never hijack a modified click — that is the visitor asking for a new tab.
+    if (!start || event.defaultPrevented || event.button !== 0
+        || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+    if (to === location.pathname) return;
+    event.preventDefault();
+    start.call(document, () => { flushSync(() => navigate(to)); });
+  };
+
   const year = new Date().getFullYear();
 
   return (
-    <div className="offer-page community-site">
+    <div className="offer-page community-site" ref={rootRef}>
       <ScrollProgress />
       <a className="skip-link" href="#main">Skip to content</a>
 
@@ -132,6 +203,7 @@ export default function CommunityLayout() {
                 key={key}
                 to={communityPath(key)}
                 end={key === 'home'}
+                onClick={withViewTransition(communityPath(key))}
                 className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
               >
                 {pages[key].nav}
@@ -187,6 +259,7 @@ export default function CommunityLayout() {
               key={key}
               to={communityPath(key)}
               end={key === 'home'}
+              onClick={withViewTransition(communityPath(key))}
               className={({ isActive }) => `community-tab ${isActive ? 'active' : ''}`}
             >
               {pages[key].nav}

@@ -745,3 +745,167 @@
   .bs-sweep { opacity: 0; }
   .bs-cursor { transform: translate(96px, 200px); }
 }
+
+/* ============================================================
+   Craft
+   The site is the portfolio, so the interface has to be the
+   evidence. Not more movement — the details that are only
+   there when someone has actually cared: how type breaks, how
+   surfaces catch light, how a page becomes another page.
+   ============================================================ */
+
+/* ---------- Page transitions ----------
+   Where the browser has the View Transitions API the change of page is a
+   real transition: the browser snapshots both states and interpolates. The
+   header, the strip and the footer are excluded, so they hold still while
+   the content moves — which is what makes it read as one application rather
+   than a sequence of documents. */
+@supports (view-transition-name: none) {
+  /* The CSS fade is the fallback. With the real thing available it would run
+     on top of it and double the motion. */
+  .community-page-in { animation: none; }
+
+  .community-page-in { view-transition-name: community-main; }
+
+  /* The root snapshot covers everything unnamed — header, tab strip, footer.
+     Left un-animated, those stay put instead of cross-fading with the body. */
+  ::view-transition-old(root),
+  ::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
+
+  ::view-transition-old(community-main) {
+    animation: vt-leave 0.2s cubic-bezier(0.4, 0, 1, 1) both;
+  }
+  ::view-transition-new(community-main) {
+    animation: vt-enter 0.34s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+  @keyframes vt-leave { to { opacity: 0; transform: translateY(-6px); } }
+  @keyframes vt-enter { from { opacity: 0; transform: translateY(10px); } }
+}
+
+/* ---------- Surfaces that catch the light ----------
+   A card lit evenly from nowhere looks printed. These take their highlight
+   from where the pointer actually is — the position arrives as two custom
+   properties from one delegated listener; the gradient is all CSS.
+
+   Fine pointers only. There is no cursor to follow on a phone, and the
+   listener is not even attached there. */
+@media (hover: hover) and (pointer: fine) {
+  .pillar-card, .capability-card, .work-card,
+  .contact-route, .stage, .community-aside, .service-block {
+    position: relative;
+    isolation: isolate;
+  }
+  .pillar-card::before, .capability-card::before, .work-card::before,
+  .contact-route::before, .stage::before, .community-aside::before,
+  .service-block::before {
+    content: ""; position: absolute; inset: 0; z-index: -1;
+    border-radius: inherit; pointer-events: none;
+    background: radial-gradient(
+      260px circle at var(--mx, 50%) var(--my, 0%),
+      var(--lit-glow), transparent 62%
+    );
+    opacity: 0;
+    transition: opacity 0.32s ease;
+  }
+  .pillar-card:hover::before, .capability-card:hover::before,
+  .work-card:hover::before, .contact-route:hover::before,
+  .stage:hover::before, .community-aside:hover::before,
+  .service-block:hover::before { opacity: 1; }
+}
+.community-site { --lit-glow: rgba(16, 21, 31, 0.055); }
+[data-theme="dark"] .community-site { --lit-glow: rgba(238, 242, 250, 0.07); }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .community-site { --lit-glow: rgba(238, 242, 250, 0.07); }
+}
+
+/* ---------- Type ----------
+   The details a reader never notices and always feels. Headings break where
+   a typesetter would break them instead of leaving one word stranded on the
+   last line; paragraphs avoid orphans; prose is held to a measure the eye
+   can track without losing its place. */
+.community-site h1,
+.community-site h2,
+.community-site h3,
+.community-site .section-head h2 { text-wrap: balance; }
+.community-site p,
+.community-site li { text-wrap: pretty; }
+.community-prose p { max-width: 68ch; }
+.community-site .hero-sub { max-width: 54ch; }
+.community-hero-solo .hero-sub { margin-left: auto; margin-right: auto; }
+/* Display sizes need tighter tracking than body text; the same value at both
+   makes headlines look loose and body text look cramped. */
+.community-site h1 { letter-spacing: -0.032em; }
+.community-site h2 { letter-spacing: -0.024em; }
+/* Numbers in the same column should line up, which they do not by default. */
+.stage-n, .work-type, .service-label { font-variant-numeric: tabular-nums; }
+
+/* ---------- Depth ----------
+   One large soft shadow reads as a drop shadow. Two layers — a tight contact
+   shadow and a wide ambient one — read as an object resting on a surface,
+   which is the difference between a card and a rectangle. */
+.community-site {
+  --shadow-1: 0 1px 2px rgba(13, 20, 36, 0.05), 0 4px 14px rgba(13, 20, 36, 0.045);
+  --shadow-2: 0 2px 4px rgba(13, 20, 36, 0.06), 0 10px 28px rgba(13, 20, 36, 0.06);
+  --shadow-3: 0 4px 8px rgba(13, 20, 36, 0.07), 0 20px 46px rgba(13, 20, 36, 0.1);
+}
+/* A one-pixel lit top edge. Physical surfaces catch light along their upper
+   edge; without it a card is a flat fill with a border. */
+.pillar-card, .capability-card, .work-card, .contact-route, .service-block, .community-aside {
+  box-shadow: var(--shadow-1), inset 0 1px 0 rgba(255, 255, 255, 0.7);
+}
+[data-theme="dark"] .pillar-card, [data-theme="dark"] .capability-card,
+[data-theme="dark"] .work-card, [data-theme="dark"] .contact-route,
+[data-theme="dark"] .service-block, [data-theme="dark"] .community-aside {
+  box-shadow: var(--shadow-1), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+.work-card-pending { box-shadow: none; }
+
+/* ---------- The small things ---------- */
+.community-site ::selection { background: var(--btn-ink); color: var(--btn-ink-text); }
+
+/* A scrollbar in the page's own palette rather than the operating system's. */
+@media (pointer: fine) {
+  .community-site * { scrollbar-width: thin; scrollbar-color: var(--border-strong) transparent; }
+  .community-site *::-webkit-scrollbar { width: 10px; height: 10px; }
+  .community-site *::-webkit-scrollbar-track { background: transparent; }
+  .community-site *::-webkit-scrollbar-thumb {
+    background: var(--border-strong); border-radius: 999px;
+    border: 3px solid transparent; background-clip: content-box;
+  }
+  .community-site *::-webkit-scrollbar-thumb:hover { background-clip: content-box; opacity: 1; }
+}
+
+/* Underlines that sit below the descenders and grow from the side you are
+   reading towards, rather than a browser default line through the letters. */
+.community-prose a, .community-aside a:not(.work-link), .section-head p a {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.22em;
+  text-decoration-color: color-mix(in srgb, currentColor 35%, transparent);
+  transition: text-decoration-color 0.2s ease;
+}
+.community-prose a:hover, .community-aside a:not(.work-link):hover, .section-head p a:hover {
+  text-decoration-color: currentColor;
+}
+
+/* ---------- Off ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .pillar-card::before, .capability-card::before, .work-card::before,
+  .contact-route::before, .stage::before, .community-aside::before,
+  .service-block::before { transition: none; }
+  ::view-transition-old(community-main),
+  ::view-transition-new(community-main) { animation: none; }
+}
+
+/* box-shadow is one property: the hover rules replace it whole, which drops
+   the lit top edge exactly when the card is raised and most needs it. */
+.pillar-card:hover, .capability-card:hover, .work-card:hover,
+.contact-route:hover, .service-block:hover {
+  box-shadow: var(--shadow-3), inset 0 1px 0 rgba(255, 255, 255, 0.7);
+}
+[data-theme="dark"] .pillar-card:hover, [data-theme="dark"] .capability-card:hover,
+[data-theme="dark"] .work-card:hover, [data-theme="dark"] .contact-route:hover,
+[data-theme="dark"] .service-block:hover {
+  box-shadow: var(--shadow-3), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+.work-card-pending:hover { box-shadow: none; }
