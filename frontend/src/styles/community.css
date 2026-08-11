@@ -771,3 +771,17 @@
   box-shadow: var(--shadow-3), inset 0 1px 0 rgba(255, 255, 255, 0.06);
 }
 .work-card-pending:hover { box-shadow: none; }
+
+/* A footer link that carries its own status line. A paid product still in
+   development should say so before someone clicks, not after. */
+.community-footer .footer-link-rich {
+  display: block;
+  line-height: 1.35;
+}
+.community-footer .footer-link-rich small {
+  display: block;
+  margin-top: 0.2rem;
+  font-size: 0.74rem;
+  line-height: 1.45;
+  opacity: 0.62;
+}

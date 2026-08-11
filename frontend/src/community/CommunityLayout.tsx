@@ -435,7 +435,27 @@ export default function CommunityLayout() {
                     rel="noopener noreferrer"
                     onClick={() => trackEvent('roadmap_link_click', { placement: 'community_footer' })}
                   >
-                    Development Roadmap
+                    Website Development Roadmap
+                  </a>
+                </li>
+                {/* Another venture, not a web-services offering. It is named
+                    plainly and its status is stated on the face of the link:
+                    a paid product still in development should say so before
+                    someone clicks, not after. */}
+                <li>
+                  <a
+                    className="footer-link-rich"
+                    href="https://quantdesk.manojrashinkar.com/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => trackEvent('quantdesk_link_click', { placement: 'community_footer' })}
+                  >
+                    QuantDesk
+                    <small>
+                      Derivatives paper trading &amp; analytics
+                      <br />
+                      Paid subscription · In development
+                    </small>
                   </a>
                 </li>
                 <li>
