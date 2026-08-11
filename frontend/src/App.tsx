@@ -21,7 +21,12 @@ function ScrollToTopOnNavigate() {
 
   useEffect(() => {
     if (state && typeof state === 'object' && 'scrollTo' in state) return;
-    window.scrollTo({ top: 0, behavior: 'auto' });
+    // left: 0 as well as top. Anything that scrolls an element into view can
+    // drag the document sideways with it, and overflow-x: hidden does not
+    // prevent that — it only hides the scrollbar, so the page sits shifted
+    // with nothing on screen to explain why. Resetting both on every
+    // navigation means a stray horizontal offset can never outlive one page.
+    window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
   }, [pathname, state]);
 
   return null;

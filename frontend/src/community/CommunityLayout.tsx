@@ -57,9 +57,25 @@ export default function CommunityLayout() {
 
   // Keep the current tab visible in the scrolling strip. Landing on Contact
   // and seeing a strip that appears to start at Home is disorienting.
+  //
+  // Scrolled by setting scrollLeft on the strip itself, not with
+  // scrollIntoView. scrollIntoView walks up and scrolls every scrollable
+  // ancestor including the document, and overflow-x: hidden does not stop it
+  // — that still makes a scroll container, it only hides the scrollbar. So
+  // the whole page slid sideways and the content was cut off at the left edge
+  // with nothing on screen to explain why. Worst on the last tab, which has
+  // furthest to travel.
   useEffect(() => {
-    const active = tabsRef.current?.querySelector<HTMLElement>('.community-tab.active');
-    active?.scrollIntoView({ block: 'nearest', inline: 'center' });
+    const track = tabsRef.current;
+    const active = track?.querySelector<HTMLElement>('.community-tab.active');
+    if (!track || !active) return;
+
+    // Nothing to do when every tab already fits.
+    if (track.scrollWidth <= track.clientWidth) return;
+
+    const centred = active.offsetLeft - (track.clientWidth - active.offsetWidth) / 2;
+    const target = Math.max(0, Math.min(centred, track.scrollWidth - track.clientWidth));
+    track.scrollTo({ left: target, behavior: 'smooth' });
   }, [location.pathname]);
 
   const closeMenu = useCallback(() => {
