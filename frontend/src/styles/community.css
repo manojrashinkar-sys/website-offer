@@ -785,3 +785,53 @@
   line-height: 1.45;
   opacity: 0.62;
 }
+
+/* ---------- Footer on small screens ----------
+   The shared footer drops to a single column below 640px. With four blocks
+   and thirteen links that becomes a very long ladder that has to be scrolled
+   past — and a footer is something you scan, not read.
+
+   Two columns instead: the brand spans the top, Pages and Contact sit side
+   by side, and Elsewhere spans the bottom because QuantDesk carries a
+   two-line status that needs the width. Same content, roughly half the
+   height. */
+@media (max-width: 640px) {
+  .community-footer .footer-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 1.6rem 1.2rem;
+    margin-bottom: 1.75rem;
+  }
+  .community-footer .footer-grid > :nth-child(1),
+  .community-footer .footer-grid > :nth-child(4) { grid-column: 1 / -1; }
+
+  .community-footer h4 {
+    font-size: 0.72rem; letter-spacing: 0.09em; text-transform: uppercase;
+    opacity: 0.62; margin-bottom: 0.7rem;
+  }
+  .community-footer .footer-brand strong { font-size: 1.08rem; }
+  .community-footer .footer-grid > :nth-child(1) p {
+    font-size: 0.88rem; line-height: 1.55; margin: 0.35rem 0 0;
+  }
+
+  /* Comfortable targets. 0.4rem apart is fine to read and awkward to tap. */
+  .community-footer .footer-links { gap: 0.1rem; }
+  .community-footer .footer-links a {
+    display: inline-block; padding: 0.34rem 0; font-size: 0.9rem;
+  }
+  .community-footer .footer-link-rich { padding-bottom: 0.5rem; }
+  .community-footer .footer-link-rich small { font-size: 0.76rem; }
+
+  /* Long addresses should wrap rather than push the column wide. */
+  .community-footer .footer-links a { overflow-wrap: anywhere; }
+
+  .community-footer .footer-copy {
+    font-size: 0.78rem; line-height: 1.5; text-align: center;
+    padding-top: 1.25rem;
+  }
+}
+
+/* Below 380px two columns of links start to wrap mid-word. */
+@media (max-width: 380px) {
+  .community-footer .footer-grid { grid-template-columns: 1fr; gap: 1.35rem; }
+  .community-footer .footer-grid > :nth-child(n) { grid-column: 1 / -1; }
+}
