@@ -207,9 +207,11 @@ export default function CommunityLayout() {
             <span className="community-brand-mark" aria-hidden="true">
               <Icon name="layers" size={18} />
             </span>
+            {/* The parent name sits here until the business name for this
+                branch exists. Restore the <small> line — in the drawer head
+                too — once there is a name to put in it. */}
             <span className="community-brand-text">
               <strong>{venture.branch}</strong>
-              <small>{venture.parent}</small>
             </span>
           </NavLink>
 
@@ -298,7 +300,6 @@ export default function CommunityLayout() {
         <div className="mobile-nav-head">
           <span className="community-brand-text">
             <strong>{venture.branch}</strong>
-            <small>{venture.parent}</small>
           </span>
           <button type="button" className="mobile-nav-close" onClick={closeMenu} aria-label="Close menu">
             <Icon name="close" size={18} />
