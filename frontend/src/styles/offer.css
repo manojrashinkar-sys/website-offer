@@ -45,7 +45,19 @@
 * { box-sizing: border-box; }
 
 html { scroll-behavior: smooth; }
-html, body { overflow-x: hidden; }
+
+/* The closed mobile drawer is parked a screen-width off to the right, so the
+   page always has horizontal overflow to hide. `hidden` hides it but still
+   makes the viewport a horizontal *scroll container*: a programmatic scroll
+   (scrollIntoView, focusing an off-screen element) can slide the whole site
+   sideways, and with no scrollbar the visitor cannot slide it back — the page
+   just looks cropped. `clip` clips without ever being scrollable, so nothing
+   can shift it. `hidden` stays first as the fallback for older browsers.
+
+   `clip` also leaves overflow-y as `visible`, where `hidden` forces it to
+   `auto` — that second scroll container is what makes `position: sticky`
+   unreliable, and the header and tab strip both depend on sticky. */
+html, body { overflow-x: hidden; overflow-x: clip; }
 
 body {
   margin: 0;

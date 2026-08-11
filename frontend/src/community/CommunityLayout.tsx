@@ -57,9 +57,21 @@ export default function CommunityLayout() {
 
   // Keep the current tab visible in the scrolling strip. Landing on Contact
   // and seeing a strip that appears to start at Home is disorienting.
+  //
+  // Deliberately not scrollIntoView, for the same reason as the roadmap's
+  // section nav: it scrolls *every* scrollable ancestor, not just the strip.
+  // The last two tabs cannot be centred within the strip alone, so the
+  // browser makes up the difference by scrolling the page itself sideways —
+  // which on WebKit shifted the whole site left and cropped it. Writing
+  // scrollLeft on the track can only ever move the track.
   useEffect(() => {
-    const active = tabsRef.current?.querySelector<HTMLElement>('.community-tab.active');
-    active?.scrollIntoView({ block: 'nearest', inline: 'center' });
+    const track = tabsRef.current;
+    const active = track?.querySelector<HTMLElement>('.community-tab.active');
+    if (!track || !active) return;
+    // Instant, like the scrollIntoView it replaces: the strip should already
+    // be in the right place for the page you land on, not slide there.
+    const target = active.offsetLeft - (track.clientWidth - active.clientWidth) / 2;
+    track.scrollLeft = Math.max(0, target);
   }, [location.pathname]);
 
   const closeMenu = useCallback(() => {
