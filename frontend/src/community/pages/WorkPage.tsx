@@ -24,7 +24,12 @@ export default function WorkPage() {
             {work.map((item, index) => (
               <Reveal key={item.name} delay={index * 70}>
                 <article className="work-card">
-                  <span className="work-type">{item.type}</span>
+                  <span className="work-card-tags">
+                    <span className="work-type">{item.type}</span>
+                    {item.status === 'preview' && (
+                      <span className="work-type work-type-preview">In review</span>
+                    )}
+                  </span>
                   <h2>{item.name}</h2>
                   <p className="work-sector">{item.sector}</p>
                   <ul className="tick-list">
@@ -37,7 +42,7 @@ export default function WorkPage() {
                     rel="noopener noreferrer"
                     onClick={() => trackEvent('community_work_click', { project: item.name })}
                   >
-                    Visit the site
+                    {item.status === 'preview' ? 'View the preview' : 'Visit the site'}
                     <Icon name="arrow-right" size={16} />
                   </a>
                 </article>

@@ -1123,7 +1123,7 @@ const K: Knowledge = {
       "id": "portfolio-examples",
       "category": "Portfolio",
       "question": "Can I see your portfolio or examples of your work?",
-      "answer": "Yes. We publish client work only where we hold that client's written consent, so our public references reflect permission rather than volume. The project we are currently authorised to share is Yojit Enterprises, a dairy processing equipment manufacturer in Nashik: https://manojrashinkar.com/yojit-enterprises — please assess the design, structure and presentation for yourself. A dedicated Web Services page bringing our references together is in preparation.",
+      "answer": "Yes. We publish client work only where we hold that client's consent, so our public references reflect permission rather than volume. Three are shareable at the moment:\n\n• Yojit Enterprises — dairy processing equipment manufacturer, Nashik: https://manojrashinkar.com/yojit-enterprises\n• RB Ads — advertising agency, Shrirampur: https://rbads.in\n• Om Kale Photography — Ahilyanagar, written entirely in Marathi: https://omkale-undertesting.manojrashinkar.com\n\nThe last of those is still in review and will move to its own domain, so please look at it as work in progress rather than a finished site.",
       "keywords": [
         "portfolio",
         "examples",
@@ -1137,7 +1137,11 @@ const K: Knowledge = {
         "demo",
         "reference",
         "previous work",
-        "case study"
+        "case study",
+        "advertising agency",
+        "photography",
+        "marathi website",
+        "marathi site"
       ],
       "followUpQuestions": [
         "portfolio-count"
@@ -1148,7 +1152,7 @@ const K: Knowledge = {
       "id": "portfolio-count",
       "category": "Portfolio",
       "question": "How many websites have you developed?",
-      "answer": "We do not publish a project count. An unverifiable figure carries little weight, and we would rather you assessed the work itself. Client work is published only where we hold that client's written consent, so our public references reflect permission rather than volume. The project we are currently authorised to share is Yojit Enterprises, a dairy processing equipment manufacturer in Nashik: https://manojrashinkar.com/yojit-enterprises",
+      "answer": "We do not publish a count of websites developed — a number nobody can verify is worth very little, and we would rather you assessed the work itself. Three projects are shareable at the moment: https://manojrashinkar.com/yojit-enterprises (dairy equipment manufacturer, Nashik), https://rbads.in (advertising agency, Shrirampur) and https://omkale-undertesting.manojrashinkar.com (photography, Ahilyanagar — still in review, and the address will change). Others have been delivered but are not published, because those clients have not agreed to it.",
       "keywords": [
         "how many",
         "websites developed",
@@ -1358,7 +1362,7 @@ const K: Knowledge = {
       "id": "community-page",
       "category": "Portfolio",
       "question": "Do you have a community or projects page?",
-      "answer": "A dedicated Web Services page bringing our references together is currently in preparation. It will list projects with live links, and a project is included only where we hold that client's written consent — which is why it is being built up progressively rather than published in one go. The project we are currently authorised to share is Yojit Enterprises: https://manojrashinkar.com/yojit-enterprises",
+      "answer": "A dedicated Web Services page bringing our references together is currently in preparation. A project is included only where we hold that client's consent, which is why it is being built up progressively rather than published in one go. The projects we can share today are https://manojrashinkar.com/yojit-enterprises , https://rbads.in and https://omkale-undertesting.manojrashinkar.com — the last still in review.",
       "keywords": [
         "community",
         "community page",
@@ -2175,13 +2179,32 @@ const K: Knowledge = {
         "sector": "Dairy processing equipment manufacturer, Nashik",
         "type": "Manufacturer website",
         "permission": "granted",
-        "note": "Published with the client's written consent. A good reference for design, structure and presentation of a technical product range."
+        "status": "live",
+        "note": "Published with the client's consent. A good reference for design, structure and presentation of a technical product range."
+      },
+      {
+        "name": "RB Ads",
+        "url": "https://rbads.in/",
+        "sector": "Advertising agency, Shrirampur",
+        "type": "Agency website",
+        "permission": "granted",
+        "status": "live",
+        "note": "Published with the client's consent. On its own domain, in the business's name. A reference for a services business that needs to be found locally."
+      },
+      {
+        "name": "Om Kale Photography",
+        "url": "https://omkale-undertesting.manojrashinkar.com/",
+        "sector": "Wedding and event photography, Pimpalgaon Malvi, Ahilyanagar",
+        "type": "Photography website",
+        "permission": "granted",
+        "status": "in_review",
+        "note": "Still in review and on a preview address, not yet on the client's own domain. Describe it as in review rather than delivered, and say the address will change. A reference for a site written entirely in Marathi."
       }
     ],
-    "portfolioMessage": "We publish client work only where we hold that client's written consent, so our public references reflect permission rather than volume. The project we are currently authorised to share is Yojit Enterprises, a dairy processing equipment manufacturer in Nashik: https://manojrashinkar.com/yojit-enterprises — a useful reference for how we structure and present a technical product range. A dedicated Web Services page bringing our references together is in preparation.",
-    "countAnswer": "We do not publish a project count. An unverifiable figure carries little weight, and we would rather you assessed the work itself. The reference we are currently authorised to share is Yojit Enterprises, a dairy processing equipment manufacturer in Nashik: https://manojrashinkar.com/yojit-enterprises",
+    "portfolioMessage": "We publish client work only where we hold that client's consent, so our public references reflect permission rather than volume. Three are shareable at the moment: Yojit Enterprises, a dairy processing equipment manufacturer in Nashik, at https://manojrashinkar.com/yojit-enterprises ; RB Ads, an advertising agency in Shrirampur, at https://rbads.in ; and Om Kale Photography in Ahilyanagar, written entirely in Marathi, at https://omkale-undertesting.manojrashinkar.com — that last one is still in review and will move to its own domain, so please look at it as work in progress rather than a finished site.",
+    "countAnswer": "We do not publish a project count. An unverifiable figure carries little weight, and we would rather you assessed the work itself. Three projects are shareable at the moment: https://manojrashinkar.com/yojit-enterprises (dairy equipment manufacturer, Nashik), https://rbads.in (advertising agency, Shrirampur), and https://omkale-undertesting.manojrashinkar.com (photography, Ahilyanagar — in review, and the address will change). Others exist but are not published, because those clients have not agreed.",
     "status": "verified",
-    "maintenanceNote": "Add a project here only once that client has agreed in writing to have it shown publicly. When the community page goes live: set publicPortfolioStatus to 'live', set communityPageUrl, and update the portfolio FAQs in faq.json. Leave verifiedPublicProjectCount as null unless there is an approved figure — null makes the Assistant say the number is not published, which is true, rather than stating one that is not."
+    "maintenanceNote": "Add a project here only once that client has agreed to have it shown publicly. Set status to 'in_review' for anything not yet on its own domain, and say so in the note — an unfinished site judged as a finished one is the worst outcome. Keep this file in step with the work array in src/content/communityContent.ts. Leave verifiedPublicProjectCount as null unless there is an approved figure."
   },
   "businessRules": {
     "identity": {

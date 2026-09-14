@@ -1,8 +1,9 @@
 // Copy for the Web Services community page.
 //
 // Honesty rules that apply to everything here: no invented clients, no project
-// counts, no testimonials, no ratings, no guarantees. Only Yojit Enterprises
-// has agreed to be shown publicly, so only Yojit Enterprises appears.
+// counts, no testimonials, no ratings, no guarantees. A project appears only
+// once that client has agreed to have it shown, and one still in review says
+// so rather than being passed off as delivered.
 
 export const venture = {
   parent: 'Manoj Rashinkar Venture',
@@ -106,9 +107,16 @@ export interface WorkItem {
   type: string;
   url: string;
   highlights: string[];
+  /**
+   * 'preview' marks a project still being built and reviewed. It is shown
+   * with the link labelled as a preview so nobody judges an unfinished site
+   * as a delivered one — and so the visitor is told, rather than working it
+   * out from the URL.
+   */
+  status?: 'live' | 'preview';
 }
 
-/** Only clients who have agreed in writing to be shown publicly. */
+/** Only clients who have agreed to be shown publicly. */
 export const work: WorkItem[] = [
   {
     name: 'Yojit Enterprises',
@@ -120,6 +128,31 @@ export const work: WorkItem[] = [
       'Built mobile-first for on-site browsing',
       'Direct enquiry routes to the business',
     ],
+    status: 'live',
+  },
+  {
+    name: 'RB Ads',
+    sector: 'Advertising agency, Shrirampur',
+    type: 'Agency website',
+    url: 'https://rbads.in/',
+    highlights: [
+      'Services set out for reels, social media and campaigns',
+      'Own domain, registered in the business’s name',
+      'Built to be found in local search',
+    ],
+    status: 'live',
+  },
+  {
+    name: 'Om Kale Photography',
+    sector: 'Wedding and event photography, Pimpalgaon Malvi, Ahilyanagar',
+    type: 'Photography website',
+    url: 'https://omkale-undertesting.manojrashinkar.com/',
+    highlights: [
+      'Written entirely in Marathi, for customers who read Marathi',
+      'Gallery and services built for browsing on a phone',
+      'Currently in review before it moves to its own domain',
+    ],
+    status: 'preview',
   },
 ];
 

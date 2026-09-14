@@ -156,7 +156,7 @@ export default function HomePage() {
                     rel="noopener noreferrer"
                     onClick={() => trackEvent('community_work_click', { project: item.name })}
                   >
-                    Visit the site
+                    {item.status === 'preview' ? 'View the preview' : 'Visit the site'}
                     <Icon name="arrow-right" size={16} />
                   </a>
                 </article>
@@ -172,7 +172,7 @@ export default function HomePage() {
                   by consent, not by need.
                 </p>
                 <Link className="work-link" to={communityPath('work')}>
-                  Why this page is short
+                  How this page works
                   <Icon name="arrow-right" size={16} />
                 </Link>
               </article>

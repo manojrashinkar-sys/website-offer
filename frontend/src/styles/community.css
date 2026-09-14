@@ -835,3 +835,14 @@
   .community-footer .footer-grid { grid-template-columns: 1fr; gap: 1.35rem; }
   .community-footer .footer-grid > :nth-child(n) { grid-column: 1 / -1; }
 }
+
+/* A project still in review carries a second chip beside its type. An
+   unfinished site judged as a finished one is the worst outcome here, and
+   the URL alone is not a label the visitor should have to decode. */
+.work-card-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 0.85rem; }
+.work-card-tags .work-type { margin-bottom: 0; }
+.work-type-preview {
+  background: transparent;
+  border: 1px dashed var(--border-strong);
+  color: var(--text-body);
+}

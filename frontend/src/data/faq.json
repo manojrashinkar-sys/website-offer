@@ -1085,7 +1085,7 @@
     "id": "portfolio-examples",
     "category": "Portfolio",
     "question": "Can I see your portfolio or examples of your work?",
-    "answer": "Yes. We publish client work only where we hold that client's written consent, so our public references reflect permission rather than volume. The project we are currently authorised to share is Yojit Enterprises, a dairy processing equipment manufacturer in Nashik: https://manojrashinkar.com/yojit-enterprises — please assess the design, structure and presentation for yourself. A dedicated Web Services page bringing our references together is in preparation.",
+    "answer": "Yes. We publish client work only where we hold that client's consent, so our public references reflect permission rather than volume. Three are shareable at the moment:\n\n• Yojit Enterprises — dairy processing equipment manufacturer, Nashik: https://manojrashinkar.com/yojit-enterprises\n• RB Ads — advertising agency, Shrirampur: https://rbads.in\n• Om Kale Photography — Ahilyanagar, written entirely in Marathi: https://omkale-undertesting.manojrashinkar.com\n\nThe last of those is still in review and will move to its own domain, so please look at it as work in progress rather than a finished site.",
     "keywords": [
       "portfolio",
       "examples",
@@ -1099,7 +1099,11 @@
       "demo",
       "reference",
       "previous work",
-      "case study"
+      "case study",
+      "advertising agency",
+      "photography",
+      "marathi website",
+      "marathi site"
     ],
     "followUpQuestions": [
       "portfolio-count"
@@ -1110,7 +1114,7 @@
     "id": "portfolio-count",
     "category": "Portfolio",
     "question": "How many websites have you developed?",
-    "answer": "We do not publish a project count. An unverifiable figure carries little weight, and we would rather you assessed the work itself. Client work is published only where we hold that client's written consent, so our public references reflect permission rather than volume. The project we are currently authorised to share is Yojit Enterprises, a dairy processing equipment manufacturer in Nashik: https://manojrashinkar.com/yojit-enterprises",
+    "answer": "We do not publish a count of websites developed — a number nobody can verify is worth very little, and we would rather you assessed the work itself. Three projects are shareable at the moment: https://manojrashinkar.com/yojit-enterprises (dairy equipment manufacturer, Nashik), https://rbads.in (advertising agency, Shrirampur) and https://omkale-undertesting.manojrashinkar.com (photography, Ahilyanagar — still in review, and the address will change). Others have been delivered but are not published, because those clients have not agreed to it.",
     "keywords": [
       "how many",
       "websites developed",
@@ -1320,7 +1324,7 @@
     "id": "community-page",
     "category": "Portfolio",
     "question": "Do you have a community or projects page?",
-    "answer": "A dedicated Web Services page bringing our references together is currently in preparation. It will list projects with live links, and a project is included only where we hold that client's written consent — which is why it is being built up progressively rather than published in one go. The project we are currently authorised to share is Yojit Enterprises: https://manojrashinkar.com/yojit-enterprises",
+    "answer": "A dedicated Web Services page bringing our references together is currently in preparation. A project is included only where we hold that client's consent, which is why it is being built up progressively rather than published in one go. The projects we can share today are https://manojrashinkar.com/yojit-enterprises , https://rbads.in and https://omkale-undertesting.manojrashinkar.com — the last still in review.",
     "keywords": [
       "community",
       "community page",
