@@ -5,6 +5,7 @@ import { useDiscussAction } from '../hooks/useDiscussAction';
 import { attributionSummary } from '../utils/attribution';
 import { whatsappLink } from '../utils/whatsapp';
 import Reveal from '../components/Reveal';
+import GalaxyField from './GalaxyField';
 
 /** Opening message for someone who came from a particular page. */
 function intro(page: string): string {
@@ -46,6 +47,10 @@ export default function CommunityCta({ heading, body, page, children }: Props) {
 
   return (
     <section className="community-cta-band">
+      {/* The same field as the hero, lighter. It pauses whenever it is off
+          screen, so having one here and one in the hero costs what a single
+          animation costs — at most one is ever running. */}
+      <GalaxyField intensity="band" />
       <div className="container">
         <Reveal>
           <div className="community-cta">

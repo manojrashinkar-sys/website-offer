@@ -1793,3 +1793,23 @@
   width: 100%; height: 100%;
   display: block; pointer-events: none;
 }
+
+/* ---------- Starfield layering ----------
+   Background only. It sits at the bottom of its section's stacking context,
+   never takes a pointer event, and never affects layout: absolutely
+   positioned, so it contributes nothing to the flow and cannot cause a
+   shift or a horizontal overflow.
+
+   The site's own ladder is untouched — content sits at 1 to 4, back-to-top
+   at 89, the mobile bar at 95, the assistant at 96 and 97, the header at
+   100, the drawer at 110 and 120, scroll progress at 130, modals at 150,
+   the skip link at 200. Nothing here goes near any of them. */
+.galaxy {
+  position: absolute; inset: 0; z-index: 0;
+  width: 100%; height: 100%;
+  display: block;
+  pointer-events: none;
+}
+/* Both hosts already clip their overflow and establish a stacking context,
+   so the canvas cannot escape either one. Content is lifted above it. */
+.community-cta-band > .container { position: relative; z-index: 1; }
