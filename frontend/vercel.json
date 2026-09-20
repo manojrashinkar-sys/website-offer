@@ -2,7 +2,12 @@
   "rewrites": [
     {
       "source": "/robots.txt",
-      "has": [{ "type": "host", "value": "webservices.manojrashinkar.com" }],
+      "has": [
+        {
+          "type": "host",
+          "value": "webservices.manojrashinkar.com"
+        }
+      ],
       "destination": "/robots-webservices.txt"
     },
     {
@@ -11,12 +16,27 @@
     },
     {
       "source": "/sitemap.xml",
-      "has": [{ "type": "host", "value": "webservices.manojrashinkar.com" }],
+      "has": [
+        {
+          "type": "host",
+          "value": "webservices.manojrashinkar.com"
+        }
+      ],
       "destination": "/sitemap-webservices.xml"
     },
     {
       "source": "/sitemap.xml",
       "destination": "/sitemap-main.xml"
+    },
+    {
+      "source": "/((?!api/).*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "webservices.manojrashinkar.com"
+        }
+      ],
+      "destination": "/index-webservices.html"
     },
     {
       "source": "/((?!api/).*)",
