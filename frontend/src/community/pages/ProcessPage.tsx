@@ -3,11 +3,11 @@ import { Link } from 'react-router-dom';
 import { config } from '../../config';
 import { trackEvent } from '../../analytics';
 import { processNote, stepDetail, steps } from '../../content/communityContent';
-import { useDiscussAction } from '../../hooks/useDiscussAction';
 import type { StructuredData } from '../../hooks/useDocumentMeta';
 import { communityPath } from '../routing';
 import { useCommunityMeta } from '../useCommunityMeta';
 import PageHero from '../PageHero';
+import CommunityCta from '../CommunityCta';
 import Icon from '../../components/Icon';
 import Reveal from '../../components/Reveal';
 
@@ -26,7 +26,6 @@ const structuredData: StructuredData[] = [
 ];
 
 export default function ProcessPage() {
-  const discuss = useDiscussAction('community_process');
   useCommunityMeta('process', structuredData);
   useEffect(() => { trackEvent('community_page_view', { page: 'process' }); }, []);
 
@@ -88,23 +87,13 @@ export default function ProcessPage() {
         </div>
       </section>
 
-      <section className="section section-alt">
-        <div className="container">
-          <Reveal>
-            <div className="community-cta">
-              <h2>Start at stage one</h2>
-              <p>
-                Discovery costs nothing and commits you to nothing. It exists so both sides can tell
-                whether the project is worth doing.
-              </p>
-              <div className="community-cta-actions">
-                <button className="btn btn-primary btn-lg" onClick={discuss}>Discuss a Project</button>
-                <Link className="btn btn-outline btn-lg" to={communityPath('contact')}>Contact</Link>
-              </div>
-            </div>
-          </Reveal>
-        </div>
-      </section>
+      <CommunityCta
+        heading="Start at stage one"
+        body="Discovery costs nothing and commits you to nothing. It exists so both sides can tell whether the project is worth doing."
+        page="process"
+      >
+        <Link className="btn btn-outline btn-lg" to={communityPath('contact')}>Contact</Link>
+      </CommunityCta>
     </>
   );
 }

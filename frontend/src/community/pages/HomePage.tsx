@@ -7,6 +7,7 @@ import type { StructuredData } from '../../hooks/useDocumentMeta';
 import { communityOrigin, communityPath } from '../routing';
 import { useCommunityMeta } from '../useCommunityMeta';
 import PageHero from '../PageHero';
+import CommunityCta from '../CommunityCta';
 import Icon from '../../components/Icon';
 import Reveal from '../../components/Reveal';
 
@@ -166,6 +167,18 @@ export default function HomePage() {
             {work.map((item, index) => (
               <Reveal key={item.name} delay={index * 70}>
                 <article className="work-card">
+                  {item.image && (
+                    <figure className="work-shot">
+                      <img
+                        src={item.image.src}
+                        alt={item.image.alt}
+                        width="1200"
+                        height="750"
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    </figure>
+                  )}
                   <span className="work-type">{item.type}</span>
                   <h3>{item.name}</h3>
                   <p className="work-sector">{item.sector}</p>
@@ -202,23 +215,11 @@ export default function HomePage() {
       </section>
 
       {/* ---------- Closing ---------- */}
-      <section className="section section-alt">
-        <div className="container">
-          <Reveal>
-            <div className="community-cta">
-              <h2>Tell us what the business needs</h2>
-              <p>
-                Describe what you do and what is not working. You will get a straight answer about
-                whether we can help — including if the answer is no.
-              </p>
-              <div className="community-cta-actions">
-                <button className="btn btn-primary btn-lg" onClick={discuss}>Discuss a Project</button>
-                <Link className="btn btn-outline btn-lg" to={communityPath('contact')}>Contact</Link>
-              </div>
-            </div>
-          </Reveal>
-        </div>
-      </section>
+      <CommunityCta
+        heading="Tell us what the business needs"
+        body="Describe what you do and what is not working. You will get a straight answer about whether we can help — including if the answer is no."
+        page="home"
+      ></CommunityCta>
     </>
   );
 }

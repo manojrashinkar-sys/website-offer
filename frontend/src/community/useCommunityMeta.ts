@@ -54,11 +54,18 @@ export function useCommunityMeta(key: PageKey, structuredData: StructuredData[] 
       'og:title': ogTitle,
       'og:description': page.description,
       'og:url': canonical,
+      // index.html points og:image at the offer domain. On this host that is
+      // a cross-origin URL for the same file, and some scrapers will not
+      // follow it — so it is restated here against this origin.
+      'og:image': `${communityOrigin}/og-image.png`,
+      'og:image:width': '1200',
+      'og:image:height': '630',
     },
     twitter: {
       'twitter:card': 'summary_large_image',
       'twitter:title': ogTitle,
       'twitter:description': page.description,
+      'twitter:image': `${communityOrigin}/og-image.png`,
     },
     structuredData: [...structuredData, breadcrumb],
   });

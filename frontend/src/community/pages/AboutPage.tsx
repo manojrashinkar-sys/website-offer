@@ -8,6 +8,7 @@ import { useDiscussAction } from '../../hooks/useDiscussAction';
 import { communityPath } from '../routing';
 import { useCommunityMeta } from '../useCommunityMeta';
 import PageHero from '../PageHero';
+import CommunityCta from '../CommunityCta';
 import Icon from '../../components/Icon';
 import Reveal from '../../components/Reveal';
 
@@ -82,6 +83,17 @@ export default function AboutPage() {
 
           <Reveal delay={90}>
             <aside className="community-aside">
+              {founderNote.photo && (
+                <img
+                  className="founder-photo"
+                  src={founderNote.photo.src}
+                  alt={founderNote.photo.alt}
+                  width="320"
+                  height="320"
+                  loading="lazy"
+                  decoding="async"
+                />
+              )}
               <h3>{founderNote.heading}</h3>
               <p>{founderNote.body}</p>
               <a
@@ -122,23 +134,13 @@ export default function AboutPage() {
       </section>
 
       {/* ---------- Commitments ---------- */}
-      <section className="section section-alt">
-        <div className="container community-prose-wrap">
-          <Reveal>
-            <div className="section-head">
-              <h2>What we will and will not promise</h2>
-              <p>
-                The things worth saying out loud, before money or expectations are involved.
-              </p>
-            </div>
-          </Reveal>
-          <Reveal delay={80}>
-            <ul className="dot-list commitment-list">
-              {commitments.map((item) => <li key={item}>{item}</li>)}
-            </ul>
-          </Reveal>
-        </div>
-      </section>
+      <CommunityCta
+        heading="Still deciding whether we are a fit?"
+        body="Look at how a project actually runs, or just describe your situation and get an honest read on it."
+        page="about"
+      >
+        <Link className="btn btn-outline btn-lg" to={communityPath('process')}>How a Project Runs</Link>
+      </CommunityCta>
 
       {/* ---------- Closing ---------- */}
       <section className="section">

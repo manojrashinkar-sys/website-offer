@@ -858,3 +858,82 @@
   border-radius: var(--radius-pill); padding: 0.34rem 0.8rem;
 }
 .place-list svg { color: var(--btn-ink); opacity: 0.7; }
+
+/* ---------- Closing band ----------
+   Six pages of white cards on a white ground read as one undifferentiated
+   scroll. A dark full-width band at the end of each gives the eye a floor,
+   and makes a page feel finished rather than simply stopped.
+
+   It is also where the page becomes actionable: WhatsApp sits right here,
+   one tap, no page load, which is how most of this audience makes contact. */
+.community-cta-band {
+  position: relative;
+  padding: clamp(3rem, 7vw, 4.75rem) 0;
+  background:
+    radial-gradient(900px 340px at 20% 0%, rgba(74, 106, 168, 0.28), transparent 65%),
+    linear-gradient(135deg, #0b1020 0%, #141b30 55%, #1b2340 100%);
+  overflow: hidden;
+}
+/* The same faint grid the hero uses, so the two read as the same surface. */
+.community-cta-band::before {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.045) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(70% 70% at 50% 40%, #000, transparent);
+}
+.community-cta-band .community-cta { position: relative; }
+.community-cta-band h2 { color: #fff; }
+.community-cta-band p { color: rgba(226, 232, 245, 0.82); }
+
+/* On a dark band the ink button disappears, exactly as in the hero. */
+.community-cta-band .btn-primary {
+  background: #fff; color: var(--btn-on-white);
+  background-size: auto; animation: none;
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.32);
+}
+.community-cta-band .btn-primary:hover { background: #eef2f8; filter: none; }
+.community-cta-band .btn-outline {
+  color: #fff; border-color: rgba(255, 255, 255, 0.34);
+  background: rgba(255, 255, 255, 0.06);
+}
+.community-cta-band .btn-outline:hover {
+  background: rgba(255, 255, 255, 0.14); border-color: rgba(255, 255, 255, 0.55);
+}
+
+@media (max-width: 480px) {
+  .community-cta-band .community-cta-actions { grid-template-columns: 1fr; }
+  .community-cta-band .community-cta-actions .btn { width: 100%; }
+}
+
+/* ---------- Pictures ----------
+   Both reserve their space before the file arrives, so nothing on the page
+   moves while images load. A card that jumps as you reach for it is the
+   single most irritating thing a slow connection can do. */
+.work-shot {
+  margin: -1.6rem -1.6rem 1.1rem;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  border-radius: 20px 20px 0 0;
+  background: var(--color-surface-alt);
+}
+.work-shot img {
+  width: 100%; height: 100%; object-fit: cover; object-position: top center;
+  display: block;
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.work-card:hover .work-shot img { transform: scale(1.03); }
+@media (max-width: 640px) {
+  .work-shot { margin: -1.2rem -1.2rem 0.9rem; border-radius: 18px 18px 0 0; }
+}
+
+.founder-photo {
+  width: 84px; height: 84px; border-radius: 50%; object-fit: cover;
+  display: block; margin-bottom: 0.9rem;
+  border: 2px solid var(--border-subtle);
+  box-shadow: var(--shadow-1);
+}
+@media (prefers-reduced-motion: reduce) {
+  .work-shot img, .work-card:hover .work-shot img { transition: none; transform: none; }
+}

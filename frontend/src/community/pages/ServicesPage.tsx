@@ -2,11 +2,11 @@ import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { trackEvent } from '../../analytics';
 import { capabilities, capabilityDetail, servicesNote } from '../../content/communityContent';
-import { useDiscussAction } from '../../hooks/useDiscussAction';
 import type { StructuredData } from '../../hooks/useDocumentMeta';
 import { communityCanonical, communityPath } from '../routing';
 import { useCommunityMeta } from '../useCommunityMeta';
 import PageHero from '../PageHero';
+import CommunityCta from '../CommunityCta';
 import Icon from '../../components/Icon';
 import Reveal from '../../components/Reveal';
 
@@ -26,7 +26,6 @@ const structuredData: StructuredData[] = [
 ];
 
 export default function ServicesPage() {
-  const discuss = useDiscussAction('community_services');
   useCommunityMeta('services', structuredData);
   useEffect(() => { trackEvent('community_page_view', { page: 'services' }); }, []);
 
@@ -83,23 +82,13 @@ export default function ServicesPage() {
         </div>
       </section>
 
-      <section className="section section-alt">
-        <div className="container">
-          <Reveal>
-            <div className="community-cta">
-              <h2>Not sure which one you need?</h2>
-              <p>
-                That is the normal starting point. Describe the business and what is not working,
-                and the answer usually settles itself in one conversation.
-              </p>
-              <div className="community-cta-actions">
-                <button className="btn btn-primary btn-lg" onClick={discuss}>Discuss a Project</button>
-                <Link className="btn btn-outline btn-lg" to={communityPath('process')}>See the Process</Link>
-              </div>
-            </div>
-          </Reveal>
-        </div>
-      </section>
+      <CommunityCta
+        heading="Not sure which one you need?"
+        body="That is the normal starting point. Describe the business and what is not working, and the answer usually settles itself in one conversation."
+        page="services"
+      >
+        <Link className="btn btn-outline btn-lg" to={communityPath('process')}>See the Process</Link>
+      </CommunityCta>
     </>
   );
 }

@@ -2,15 +2,14 @@ import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { trackEvent } from '../../analytics';
 import { work, workNote } from '../../content/communityContent';
-import { useDiscussAction } from '../../hooks/useDiscussAction';
 import { communityPath } from '../routing';
 import { useCommunityMeta } from '../useCommunityMeta';
 import PageHero from '../PageHero';
+import CommunityCta from '../CommunityCta';
 import Icon from '../../components/Icon';
 import Reveal from '../../components/Reveal';
 
 export default function WorkPage() {
-  const discuss = useDiscussAction('community_work');
   useCommunityMeta('work');
   useEffect(() => { trackEvent('community_page_view', { page: 'work' }); }, []);
 
@@ -24,6 +23,18 @@ export default function WorkPage() {
             {work.map((item, index) => (
               <Reveal key={item.name} delay={index * 70}>
                 <article className="work-card">
+                  {item.image && (
+                    <figure className="work-shot">
+                      <img
+                        src={item.image.src}
+                        alt={item.image.alt}
+                        width="1200"
+                        height="750"
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    </figure>
+                  )}
                   <span className="work-card-tags">
                     <span className="work-type">{item.type}</span>
                     {item.status === 'preview' && (
@@ -71,23 +82,13 @@ export default function WorkPage() {
         </div>
       </section>
 
-      <section className="section section-alt">
-        <div className="container">
-          <Reveal>
-            <div className="community-cta">
-              <h2>Want to see something closer to your sector?</h2>
-              <p>
-                Ask. We will tell you honestly what we can show, what we cannot, and why — rather
-                than sending a portfolio of work that belongs to somebody else.
-              </p>
-              <div className="community-cta-actions">
-                <button className="btn btn-primary btn-lg" onClick={discuss}>Ask About Your Sector</button>
-                <Link className="btn btn-outline btn-lg" to={communityPath('services')}>What We Build</Link>
-              </div>
-            </div>
-          </Reveal>
-        </div>
-      </section>
+      <CommunityCta
+        heading="Want to see something closer to your sector?"
+        body="Ask. We will tell you honestly what we can show, what we cannot, and why — rather than sending a portfolio of work that belongs to somebody else."
+        page="work"
+      >
+        <Link className="btn btn-outline btn-lg" to={communityPath('services')}>What We Build</Link>
+      </CommunityCta>
     </>
   );
 }

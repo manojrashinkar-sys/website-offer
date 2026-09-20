@@ -114,6 +114,16 @@ export interface WorkItem {
    * out from the URL.
    */
   status?: 'live' | 'preview';
+  /**
+   * A screenshot of the delivered site. Optional on purpose: the card reads
+   * correctly without one, so a project can be listed the day it is agreed
+   * and the picture can follow.
+   *
+   * Put the file in public/images/work/ and set src to '/images/work/<file>'.
+   * 16:10, at least 1200px wide. The alt text describes the business, not the
+   * picture — a screen reader gets no value from "screenshot of a website".
+   */
+  image?: { src: string; alt: string };
 }
 
 /** Only clients who have agreed to be shown publicly. */
@@ -380,6 +390,12 @@ export const founderNote = {
     'and a build.',
   linkLabel: 'manojrashinkar.com',
   linkUrl: 'https://manojrashinkar.com',
+  /**
+   * A photograph. "You deal directly with the developer" is the strongest
+   * thing this page says, and it is considerably more credible with a face
+   * next to it. Drop a square image in public/images/about/ and set this.
+   */
+  photo: null as { src: string; alt: string } | null,
 };
 
 /* ---------------- Services page ---------------- */
