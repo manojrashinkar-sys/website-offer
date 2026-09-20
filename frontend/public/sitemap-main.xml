@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Served as /sitemap.xml on website-offer.manojrashinkar.com.
+     There is no public/sitemap.xml on purpose: Vercel serves static files
+     before it applies rewrites, so a file at that path would win and the
+     Web Services subdomain could never be given its own. See vercel.json. -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://website-offer.manojrashinkar.com/</loc>
