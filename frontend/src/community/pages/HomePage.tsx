@@ -2,13 +2,15 @@ import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { trackEvent } from '../../analytics';
 import {
-  capabilities, pipeline, pillars, serviceAreas, venture, work,
+  capabilities, pillars, serviceAreas, venture, work,
 } from '../../content/communityContent';
 import { useDiscussAction } from '../../hooks/useDiscussAction';
 import type { StructuredData } from '../../hooks/useDocumentMeta';
 import { communityOrigin, communityPath } from '../routing';
 import { useCommunityMeta } from '../useCommunityMeta';
 import PageHero from '../PageHero';
+import HeroPipeline from '../HeroPipeline';
+import CapabilityMarquee from '../CapabilityMarquee';
 import SafeImage from '../SafeImage';
 import CommunityCta from '../CommunityCta';
 import Icon from '../../components/Icon';
@@ -61,24 +63,10 @@ export default function HomePage() {
             <Link className="btn btn-outline btn-lg" to={communityPath('work')}>See Our Work</Link>
           </>
         }
-        aside={
-          <div className="pipeline-panel">
-            <p className="pipeline-title">Everywhere a customer looks for you</p>
-            <ol className="pipeline">
-              {pipeline.map((step) => (
-                <li className="pipeline-step" key={step.title}>
-                  <span className="pipeline-icon"><Icon name={step.icon} size={17} /></span>
-                  <span className="pipeline-text">
-                    <strong>{step.title}</strong>
-                    <small>{step.body}</small>
-                  </span>
-                </li>
-              ))}
-            </ol>
-            <p className="pipeline-foot">Built together, handed over in your name.</p>
-          </div>
-        }
+        aside={<HeroPipeline />}
       />
+
+      <CapabilityMarquee />
 
       {/* ---------- Work, first ----------
           Evidence before claims. Someone landing here wants to know whether

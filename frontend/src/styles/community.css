@@ -1139,3 +1139,139 @@
   .service-block-head .capability-icon,
   .service-block-chevron { transition: none; }
 }
+
+/* ============================================================
+   Hero pipeline as a carousel on phones
+   The column works on a wide screen, where it sits beside the
+   headline. On a phone it is four stacked rows the visitor has
+   to scroll past before reaching anything else — so below 900px
+   the same markup lays out as a snapping row that advances on
+   its own.
+   ============================================================ */
+@media (max-width: 900px) {
+  .pipeline {
+    display: flex;
+    gap: 0.75rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    /* Bleed to the panel edges so a card can sit flush while scrolling,
+       then pad the ends back so the first and last still look inset. */
+    margin: 0 -1.4rem;
+    padding: 0.15rem 1.4rem 0.35rem;
+    -webkit-overflow-scrolling: touch;
+  }
+  .pipeline::-webkit-scrollbar { display: none; }
+
+  .pipeline-step {
+    flex: 0 0 min(76%, 17.5rem);
+    scroll-snap-align: center;
+    flex-direction: column;
+    gap: 0.7rem;
+    padding: 1.05rem 1rem;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.055);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    transition: background 0.3s ease, border-color 0.3s ease, transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  /* The rail is a column device; a row needs no thread between cards. */
+  .pipeline-step:not(:last-child)::before { content: none; }
+  /* The card in view lifts slightly, so the row has a subject. */
+  .pipeline-step.is-current {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.24);
+    transform: translateY(-2px);
+  }
+  .pipeline-text { padding-top: 0; }
+
+  .pipeline-dots { display: flex; justify-content: center; gap: 0.4rem; margin-top: 0.9rem; }
+  .pipeline-dot {
+    width: 7px; height: 7px; padding: 0; border: 0; border-radius: 50%; cursor: pointer;
+    background: rgba(255, 255, 255, 0.28);
+    transition: width 0.28s cubic-bezier(0.22, 1, 0.36, 1), background 0.2s ease;
+    -webkit-tap-highlight-color: transparent;
+  }
+  /* The active dot stretches into a bar rather than just brightening —
+     legible at a glance without needing colour to carry it. */
+  .pipeline-dot.is-current { width: 20px; border-radius: 4px; background: #fff; }
+  .pipeline-dot:focus-visible { outline: 2px solid rgba(255, 255, 255, 0.7); outline-offset: 3px; }
+}
+
+/* ============================================================
+   Marquee
+   A moving row of what gets built, edge to edge under the hero.
+   The list is rendered twice and the track travels exactly half
+   its own width, so the reset lands on an identical frame and
+   the motion never appears to jump.
+   ============================================================ */
+.marquee {
+  position: relative;
+  overflow: hidden;
+  padding: 1.35rem 0;
+  border-bottom: 1px solid var(--border-subtle);
+  background: var(--color-surface-alt);
+}
+/* Fade both ends so cards enter and leave rather than being cut off. */
+.marquee::before,
+.marquee::after {
+  content: ""; position: absolute; top: 0; bottom: 0; width: clamp(2rem, 8vw, 6rem);
+  z-index: 2; pointer-events: none;
+}
+.marquee::before { left: 0; background: linear-gradient(90deg, var(--color-surface-alt), transparent); }
+.marquee::after { right: 0; background: linear-gradient(270deg, var(--color-surface-alt), transparent); }
+
+.marquee-track {
+  display: flex;
+  gap: 0.85rem;
+  width: max-content;
+  animation: marquee-slide 42s linear infinite;
+}
+/* Slows to a stop under the pointer, so anything that catches the eye can
+   actually be read. */
+.marquee:hover .marquee-track { animation-play-state: paused; }
+
+@keyframes marquee-slide {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+.marquee-card {
+  display: flex; align-items: center; gap: 0.8rem;
+  flex: 0 0 auto; max-width: 21rem;
+  padding: 0.85rem 1.15rem;
+  background: var(--card-bg);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-pill);
+  box-shadow: var(--shadow-1);
+}
+.marquee-icon {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 34px; height: 34px; flex: 0 0 auto; border-radius: 50%;
+  color: var(--btn-ink-text); background: var(--btn-ink);
+}
+.marquee-text { display: flex; flex-direction: column; gap: 0.1rem; min-width: 0; }
+.marquee-text strong {
+  font-family: var(--font-heading); font-weight: 700; font-size: 0.9rem;
+  letter-spacing: -0.012em; color: var(--text-heading); white-space: nowrap;
+}
+.marquee-text small {
+  font-size: 0.78rem; line-height: 1.4; color: var(--text-body);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+
+@media (max-width: 640px) {
+  .marquee { padding: 1rem 0; }
+  .marquee-track { animation-duration: 32s; gap: 0.6rem; }
+  .marquee-card { padding: 0.7rem 0.95rem; gap: 0.65rem; }
+  .marquee-icon { width: 30px; height: 30px; }
+  .marquee-text strong { font-size: 0.85rem; }
+  .marquee-text small { font-size: 0.74rem; max-width: 13rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* No travel at all — it becomes a row you scroll yourself. */
+  .marquee-track { animation: none; width: auto; }
+  .marquee { overflow-x: auto; }
+  .marquee::before, .marquee::after { content: none; }
+  .pipeline-step, .pipeline-dot { transition: none; }
+}
