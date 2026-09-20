@@ -62,7 +62,7 @@
 /* Pages without an aside centre their copy — a half-empty two-column grid
    looks like something failed to load. */
 .community-hero-solo { padding: 3rem 0 2.75rem; }
-.community-hero-solo .community-hero-inner { grid-template-columns: 1fr; }
+.community-hero-solo .community-hero-inner { grid-template-columns: minmax(0, 1fr); }
 .community-hero-solo .hero-copy { max-width: 46rem; margin: 0 auto; text-align: center; }
 
 .community-eyebrow {
@@ -234,7 +234,7 @@
 .community-cta-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; justify-content: center; }
 
 /* ---------- Pillars and values ---------- */
-.pillar-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(235px, 1fr)); gap: 1.1rem; }
+.pillar-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(235px, 100%), 1fr)); gap: 1.1rem; }
 .pillar-card {
   position: relative; height: 100%; background: var(--card-bg);
   border: 1px solid var(--border-subtle); border-radius: 18px; padding: 1.4rem;
@@ -282,8 +282,8 @@
 }
 
 /* ---------- Work ---------- */
-.work-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.25rem; }
-.work-grid-detailed { grid-template-columns: repeat(auto-fit, minmax(330px, 1fr)); }
+.work-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); gap: 1.25rem; }
+.work-grid-detailed { grid-template-columns: repeat(auto-fit, minmax(min(330px, 100%), 1fr)); }
 .work-card {
   display: flex; flex-direction: column; height: 100%;
   background: var(--card-bg); border: 1px solid var(--border-subtle);
@@ -339,7 +339,7 @@
 .stage-detail p { font-size: 0.87rem; line-height: 1.6; color: var(--text-body); margin: 0; }
 
 /* ---------- Contact page ---------- */
-.contact-route-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 1rem; }
+.contact-route-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(210px, 100%), 1fr)); gap: 1rem; }
 .contact-route {
   display: flex; flex-direction: column; align-items: flex-start; gap: 0.3rem; height: 100%;
   background: var(--card-bg); border: 1px solid var(--border-subtle);
@@ -412,8 +412,16 @@
 }
 
 @media (max-width: 900px) {
-  .community-hero-inner { grid-template-columns: 1fr; gap: 2rem; }
-  .community-hero .hero-copy { text-align: center; }
+  /* minmax(0, 1fr), never a bare 1fr. A bare 1fr is minmax(auto, 1fr), and
+     an auto minimum means the column refuses to shrink below its content's
+     minimum width. The carousel track inside the aside has a wide minimum,
+     so the column blew past the container, the hero with it, and the centred
+     heading was clipped at the right.
+
+     Only the home page has an aside, which is exactly why only the home page
+     was broken while Services, Our Work and the rest were fine. */
+  .community-hero-inner { grid-template-columns: minmax(0, 1fr); gap: 2rem; }
+  .community-hero .hero-copy { text-align: center; min-width: 0; }
   .community-hero-panel { max-width: 30rem; margin: 0 auto; width: 100%; }
   .community-hero-panel-title { text-align: left; }
   .community-hero .hero-actions { justify-content: center; }
@@ -1013,6 +1021,7 @@
    reads as one connected thing rather than four services on a list.
    ============================================================ */
 .pipeline-panel {
+  min-width: 0;
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.14);
   border-radius: 22px; padding: 1.5rem 1.4rem 1.3rem;
@@ -1024,7 +1033,7 @@
   letter-spacing: 0.1em; text-transform: uppercase;
   color: var(--hero-ink-soft); margin: 0 0 1.15rem;
 }
-.pipeline { list-style: none; margin: 0; padding: 0; }
+.pipeline { list-style: none; margin: 0; padding: 0; min-width: 0; }
 .pipeline-step {
   position: relative; display: flex; gap: 0.95rem; align-items: flex-start;
   padding-bottom: 1.15rem;
@@ -1300,11 +1309,12 @@
   display: grid;
   grid-template-columns: minmax(0, 15rem) minmax(0, 1fr);
   gap: 1.5rem;
+  min-width: 0;
   align-items: start;
 }
 
 /* ---------- The list ---------- */
-.showcase-tabs { display: flex; flex-direction: column; gap: 0.5rem; }
+.showcase-tabs { display: flex; flex-direction: column; gap: 0.5rem; min-width: 0; }
 .showcase-tab {
   position: relative; display: flex; align-items: center; gap: 0.85rem;
   width: 100%; text-align: left; cursor: pointer;
@@ -1409,7 +1419,7 @@
 
 /* ---------- Narrow ---------- */
 @media (max-width: 900px) {
-  .showcase { grid-template-columns: 1fr; gap: 1rem; }
+  .showcase { grid-template-columns: minmax(0, 1fr); gap: 1rem; }
   /* The list becomes a scrolling row of chips above the panel, so it costs
      one line rather than a third of the screen. */
   .showcase-tabs {
