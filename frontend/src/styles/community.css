@@ -1784,31 +1784,16 @@
   .contact-route::after, .service-block::after { transition: none; }
 }
 
-/* ---------- Starfield ----------
-   Sits above the aurora and below the drifting lights, so the stars read as
-   further away than the glow. Pointer-events off: it is scenery. */
-.galaxy {
+/* Particle ribbon: decoration inside the existing clipped section only.
+   Content retains its original stacking order and all input passes through. */
+.particle-ribbon {
   position: absolute; inset: 0; z-index: 0;
   width: 100%; height: 100%;
   display: block; pointer-events: none;
 }
-
-/* ---------- Starfield layering ----------
-   Background only. It sits at the bottom of its section's stacking context,
-   never takes a pointer event, and never affects layout: absolutely
-   positioned, so it contributes nothing to the flow and cannot cause a
-   shift or a horizontal overflow.
-
-   The site's own ladder is untouched — content sits at 1 to 4, back-to-top
-   at 89, the mobile bar at 95, the assistant at 96 and 97, the header at
-   100, the drawer at 110 and 120, scroll progress at 130, modals at 150,
-   the skip link at 200. Nothing here goes near any of them. */
-.galaxy {
-  position: absolute; inset: 0; z-index: 0;
-  width: 100%; height: 100%;
-  display: block;
-  pointer-events: none;
-}
-/* Both hosts already clip their overflow and establish a stacking context,
-   so the canvas cannot escape either one. Content is lifted above it. */
 .community-cta-band > .container { position: relative; z-index: 1; }
+
+/* Reversible site-wide particle preview. Cards, forms and links stay above
+   the decorative canvas; each offscreen instance suspends its animation. */
+.community-site [data-particle-preview] { position: relative; isolation: isolate; }
+.community-site [data-particle-preview] > .container { position: relative; z-index: 1; }

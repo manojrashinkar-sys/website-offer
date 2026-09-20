@@ -10,6 +10,7 @@ import { communityPath } from './routing';
 import Icon from '../components/Icon';
 import ThemeToggle from '../components/ThemeToggle';
 import ScrollProgress from '../components/ScrollProgress';
+import SiteParticlePreview from './SiteParticlePreview';
 import MobileStickyActions from '../components/MobileStickyActions';
 import WebsiteAdvisor from '../components/website-advisor/WebsiteAdvisor';
 
@@ -199,6 +200,7 @@ export default function CommunityLayout() {
   return (
     <div className="offer-page community-site" ref={rootRef}>
       <ScrollProgress />
+      <SiteParticlePreview />
       <a className="skip-link" href="#main">Skip to content</a>
 
       <header className={`offer-header community-header ${scrolled ? 'scrolled' : ''}`}>

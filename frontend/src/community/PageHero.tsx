@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 import { pages, type PageKey } from '../content/communityContent';
 import HeroAurora from '../components/HeroAurora';
-import GalaxyField from './GalaxyField';
+import ParticleRibbon from './ParticleRibbon';
 
 interface Props {
   page: PageKey;
@@ -26,7 +26,7 @@ export default function PageHero({ page, actions, aside, eyebrow }: Props) {
   return (
     <section className={`hero community-hero ${aside ? '' : 'community-hero-solo'}`}>
       <HeroAurora />
-      <GalaxyField />
+      <ParticleRibbon />
       {/* Two slow-drifting lights behind the copy. Decorative, so they are
           hidden from assistive technology and stopped under reduced motion. */}
       <span className="hero-glow hero-glow-a" aria-hidden="true" />
