@@ -98,7 +98,11 @@ globalThis.matchMedia = mediaQuery;
 const { render } = await import(pathToFileURL(OUT).href);
 
 const CHECKS = [
-  { path: '/', name: 'Home', must: ['Websites and web applications', 'Four things that do not change', 'Yojit Enterprises', 'Awaiting client permission'] },
+  // The home page leads with evidence: the founder card, then the projects.
+  // The "awaiting permission" card is deliberately NOT here — it belongs on
+  // the Work page, which explains it, and on the home grid it turned a row of
+  // three into a row of four whose fourth was a disclaimer.
+  { path: '/', name: 'Home', must: ['Websites and web applications', 'Manoj Rashinkar', 'Recent work', 'Yojit Enterprises', 'RB Ads', 'Four things that do not change'] },
   { path: '/about', name: 'About', must: ['About Web Services', 'Why this branch exists', 'Ownership, not dependency', 'Who you will be dealing with'] },
   { path: '/services', name: 'Services', must: ['What we build', 'Business websites', 'Web applications', 'Who it suits', 'Worth knowing'] },
   { path: '/work', name: 'Work', must: ['Our work', 'Yojit Enterprises', 'manojrashinkar.com/yojit-enterprises', 'Awaiting client permission'] },

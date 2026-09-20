@@ -7,6 +7,7 @@ import type { StructuredData } from '../../hooks/useDocumentMeta';
 import { communityOrigin, communityPath } from '../routing';
 import { useCommunityMeta } from '../useCommunityMeta';
 import PageHero from '../PageHero';
+import FounderCard from '../FounderCard';
 import SafeImage from '../SafeImage';
 import CommunityCta from '../CommunityCta';
 import Icon from '../../components/Icon';
@@ -56,30 +57,65 @@ export default function HomePage() {
         actions={
           <>
             <button className="btn btn-primary btn-lg" onClick={discuss}>Discuss a Project</button>
-            <Link className="btn btn-outline btn-lg" to={communityPath('services')}>What We Build</Link>
-            <Link className="btn btn-outline btn-lg" to={communityPath('work')}>Our Work</Link>
+            <Link className="btn btn-outline btn-lg" to={communityPath('work')}>See Our Work</Link>
           </>
         }
-        aside={
-          <div className="community-hero-panel">
-            <p className="community-hero-panel-title">What we build</p>
-            <ul className="community-hero-list">
-              {capabilities.map((c) => (
-                <li key={c.title}>
-                  <span className="community-hero-icon"><Icon name={c.icon} size={18} /></span>
-                  <span className="community-hero-text">
-                    <strong>{c.title}</strong>
-                    <small>{c.summary}</small>
-                  </span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        }
+        /* A face and a name, not the same four capabilities the section below
+           already shows as full cards. The site argues that you deal with the
+           developer rather than an account manager; this is the one thing on
+           the page that proves it, and the one thing an agency cannot copy. */
+        aside={<FounderCard />}
       />
 
-      {/* ---------- How we work ---------- */}
+      {/* ---------- Work, first ----------
+          Evidence before claims. Someone landing here wants to know whether
+          this person can build the thing, and three real sites answer that
+          faster than any number of statements about how we work. */}
       <section className="section">
+        <div className="container">
+          <Reveal>
+            <div className="section-head">
+              <h2>Recent work</h2>
+              <p>Three businesses, three very different problems. Each one is live — go and look.</p>
+            </div>
+          </Reveal>
+
+          <div className="work-grid">
+            {work.map((item, index) => (
+              <Reveal key={item.name} delay={index * 70}>
+                <article className="work-card">
+                  {item.image && (
+                    <SafeImage
+                      figureClassName="work-shot"
+                      src={item.image.src}
+                      alt={item.image.alt}
+                      width={1200}
+                      height={750}
+                    />
+                  )}
+                  <span className="work-type">{item.type}</span>
+                  <h3>{item.name}</h3>
+                  <p className="work-sector">{item.sector}</p>
+                  <a
+                    className="work-link"
+                    href={item.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => trackEvent('community_work_click', { project: item.name })}
+                  >
+                    {item.status === 'preview' ? 'View the preview' : 'Visit the site'}
+                    <Icon name="arrow-right" size={16} />
+                  </a>
+                </article>
+              </Reveal>
+            ))}
+
+          </div>
+        </div>
+      </section>
+
+      {/* ---------- How we work ---------- */}
+      <section className="section section-alt">
         <div className="container">
           <Reveal>
             <div className="section-head">
@@ -114,7 +150,7 @@ export default function HomePage() {
       </section>
 
       {/* ---------- What we build ---------- */}
-      <section className="section section-alt">
+      <section className="section">
         <div className="container">
           <Reveal>
             <div className="section-head">
@@ -154,68 +190,12 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ---------- Work ---------- */}
-      <section className="section">
-        <div className="container">
-          <Reveal>
-            <div className="section-head">
-              <h2>Work we are permitted to show</h2>
-              <p>A project appears here only once that client has agreed to it.</p>
-            </div>
-          </Reveal>
 
-          <div className="work-grid">
-            {work.map((item, index) => (
-              <Reveal key={item.name} delay={index * 70}>
-                <article className="work-card">
-                  {item.image && (
-                    <SafeImage
-                      figureClassName="work-shot"
-                      src={item.image.src}
-                      alt={item.image.alt}
-                      width={1200}
-                      height={750}
-                    />
-                  )}
-                  <span className="work-type">{item.type}</span>
-                  <h3>{item.name}</h3>
-                  <p className="work-sector">{item.sector}</p>
-                  <a
-                    className="work-link"
-                    href={item.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onClick={() => trackEvent('community_work_click', { project: item.name })}
-                  >
-                    {item.status === 'preview' ? 'View the preview' : 'Visit the site'}
-                    <Icon name="arrow-right" size={16} />
-                  </a>
-                </article>
-              </Reveal>
-            ))}
-
-            <Reveal delay={work.length * 70}>
-              <article className="work-card work-card-pending">
-                <span className="work-type">Awaiting client permission</span>
-                <h3>More projects</h3>
-                <p className="work-sector">
-                  We do not publish a client’s work until that client has agreed. This page fills up
-                  by consent, not by need.
-                </p>
-                <Link className="work-link" to={communityPath('work')}>
-                  How this page works
-                  <Icon name="arrow-right" size={16} />
-                </Link>
-              </article>
-            </Reveal>
-          </div>
-        </div>
-      </section>
 
       {/* ---------- Closing ---------- */}
       <CommunityCta
-        heading="Tell us what the business needs"
-        body="Describe what you do and what is not working. You will get a straight answer about whether we can help — including if the answer is no."
+        heading="Tell me what the business needs"
+        body="Describe what you do and what is not working. You will get a straight answer about whether I can help — including if the answer is no."
         page="home"
       ></CommunityCta>
     </>

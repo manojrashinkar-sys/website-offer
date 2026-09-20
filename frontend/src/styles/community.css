@@ -937,3 +937,86 @@
 @media (prefers-reduced-motion: reduce) {
   .work-shot img, .work-card:hover .work-shot img { transition: none; transform: none; }
 }
+
+/* ============================================================
+   Founder card
+   Sits where a list of four capabilities used to — the same four
+   the section below shows as cards. A face and a name is the one
+   thing on this page a competing agency cannot reproduce.
+   ============================================================ */
+.founder-card {
+  background: rgba(255, 255, 255, 0.055);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 22px;
+  padding: 1.6rem 1.5rem;
+  box-shadow: 0 28px 70px rgba(0, 0, 0, 0.34);
+  animation: hero-fade-in 0.9s ease 0.34s both;
+}
+.founder-card-head { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.1rem; }
+.founder-card-photo {
+  width: 76px; height: 76px; flex: 0 0 auto;
+  border-radius: 50%; object-fit: cover; object-position: center top;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.36);
+}
+.founder-card-id { display: flex; flex-direction: column; gap: 0.15rem; min-width: 0; }
+.founder-card-id strong {
+  font-family: var(--font-heading); font-weight: 800;
+  font-size: 1.12rem; letter-spacing: -0.022em; color: var(--hero-ink);
+}
+.founder-card-id small {
+  font-size: 0.74rem; font-weight: 700; letter-spacing: 0.07em;
+  text-transform: uppercase; color: var(--hero-ink-soft);
+}
+.founder-card-line {
+  font-size: 0.93rem; line-height: 1.65; color: var(--hero-ink-soft);
+  margin: 0 0 1.15rem;
+}
+.founder-card-places {
+  list-style: none; margin: 0 0 1.25rem; padding: 0;
+  display: flex; flex-wrap: wrap; gap: 0.4rem;
+}
+.founder-card-places li {
+  display: inline-flex; align-items: center; gap: 0.3rem;
+  font-size: 0.76rem; font-weight: 600; color: var(--hero-ink);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: var(--radius-pill); padding: 0.26rem 0.65rem;
+}
+.founder-card-places svg { opacity: 0.7; }
+.founder-card-action {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  font-weight: 700; font-size: 0.88rem; text-decoration: none;
+  color: #0d1220; background: #fff;
+  border-radius: var(--radius-pill); padding: 0.6rem 1.05rem;
+  transition: background 0.18s ease, transform 0.18s ease;
+}
+.founder-card-action:hover { background: #eef2f8; transform: translateY(-1px); }
+.founder-card-action:focus-visible { outline: 3px solid rgba(255, 255, 255, 0.55); outline-offset: 3px; }
+
+@media (max-width: 900px) {
+  .founder-card { max-width: 30rem; margin: 0 auto; width: 100%; }
+}
+@media (max-width: 640px) {
+  .founder-card { padding: 1.25rem 1.1rem; border-radius: 18px; }
+  .founder-card-photo { width: 64px; height: 64px; }
+  .founder-card-id strong { font-size: 1.02rem; }
+  .founder-card-line { font-size: 0.88rem; }
+}
+
+/* ---------- More air ----------
+   The sections were all the same weight: same heading size, same padding,
+   same spacing above and below. Giving headings more room and more contrast
+   with the body text is what separates a page you read from a page you
+   scroll past. */
+.community-site .section { padding-block: clamp(3.25rem, 7vw, 5.5rem); }
+.community-site .section-head { margin-bottom: clamp(1.75rem, 3.5vw, 2.5rem); }
+.community-site .section-head h2 {
+  font-size: clamp(1.6rem, 3.6vw, 2.35rem);
+  line-height: 1.15;
+}
+.community-site .section-head p {
+  font-size: clamp(0.95rem, 1.6vw, 1.05rem);
+  line-height: 1.65;
+  max-width: 56ch;
+}

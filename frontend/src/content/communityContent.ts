@@ -170,6 +170,24 @@ export const work: WorkItem[] = [
 ];
 
 /**
+ * The person, for the hero.
+ *
+ * The site's whole argument is that you deal with the developer rather than
+ * an account manager, and it was making that argument in prose while showing
+ * nobody. A photograph and a name is the single most candid thing a
+ * one-person operation can put above the fold, and no competing agency can
+ * copy it — they would have to show a department.
+ */
+export const founder = {
+  name: 'Manoj Rashinkar',
+  role: 'Developer · Web Services',
+  line:
+    'I plan, design, build and hand over every project myself. The person you '
+    + 'discuss it with is the person who writes the code.',
+  photo: { src: '/images/about/manoj.jpg', alt: 'Manoj Rashinkar' },
+};
+
+/**
  * Where the work has actually happened.
  *
  * Not a claim about coverage — these are the towns the delivered projects are
