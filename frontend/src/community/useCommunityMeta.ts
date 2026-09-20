@@ -8,13 +8,14 @@ import { useDocumentMeta, type StructuredData } from '../hooks/useDocumentMeta';
 import { communityCanonical, communityOrigin, onWebServicesHost } from './routing';
 
 /**
- * The site is still being written. While this is false every page carries
- * noindex, on both hostnames, so nothing half-finished reaches search results.
+ * Published. Pages on the subdomain are indexable; the copies served under
+ * /community on the main domain keep their noindex, so the two never compete
+ * for the same terms.
  *
- * To publish: set this to true, remove the `Disallow: /community` line from
- * public/robots.txt, and add the six URLs to public/sitemap.xml.
+ * To unpublish: set this to false, put `Disallow: /` back in
+ * public/robots-webservices.txt, and empty public/sitemap-webservices.xml.
  */
-export const COMMUNITY_PUBLISHED = false;
+export const COMMUNITY_PUBLISHED = true;
 
 /**
  * Whether this particular render should be indexable. Only the subdomain ever

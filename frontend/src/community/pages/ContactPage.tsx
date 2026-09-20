@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import { config } from '../../config';
+import { scrollToSection } from '../../utils/scroll';
 import { trackEvent } from '../../analytics';
 import { contactExpect, contactHelpful } from '../../content/communityContent';
 import type { EnquiryResult } from '../../api/enquiry';
@@ -35,6 +37,18 @@ export default function ContactPage() {
   const [applicant, setApplicant] = useState<Applicant>(
     { name: '', businessName: '', category: '', city: '' },
   );
+
+  const { state } = useLocation();
+
+  // Arrivals from a "Discuss a Project" button carry the section they were
+  // promised. Scrolled after mount, on the next frame, because the form is
+  // below two sections that have to lay out first or the target moves.
+  useEffect(() => {
+    const target = (state as { scrollTo?: string } | null)?.scrollTo;
+    if (!target) return;
+    const frame = requestAnimationFrame(() => scrollToSection(target));
+    return () => cancelAnimationFrame(frame);
+  }, [state]);
 
   useCommunityMeta('contact');
   useEffect(() => { trackEvent('community_page_view', { page: 'contact' }); }, []);

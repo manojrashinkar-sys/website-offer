@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { trackEvent } from '../../analytics';
 import {
-  aboutStory, commitments, founderNote, values, venture, whoWeServe,
+  aboutStory, commitments, founderNote, serviceAreas, values, venture, whoWeServe,
 } from '../../content/communityContent';
 import { useDiscussAction } from '../../hooks/useDiscussAction';
 import { communityPath } from '../routing';
@@ -95,6 +95,28 @@ export default function AboutPage() {
                 <Icon name="arrow-right" size={16} />
               </a>
             </aside>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ---------- Where we work ---------- */}
+      <section className="section">
+        <div className="container community-prose-wrap">
+          <Reveal>
+            <div className="section-head">
+              <h2>{serviceAreas.heading}</h2>
+            </div>
+          </Reveal>
+          <Reveal delay={70}>
+            <p className="community-prose-lead">{serviceAreas.body}</p>
+            <ul className="place-list">
+              {serviceAreas.places.map((place) => (
+                <li key={place}>
+                  <Icon name="map-pin" size={15} />
+                  {place}
+                </li>
+              ))}
+            </ul>
           </Reveal>
         </div>
       </section>

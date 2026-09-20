@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { trackEvent } from '../../analytics';
-import { capabilities, pillars, venture, work } from '../../content/communityContent';
+import { capabilities, pillars, serviceAreas, venture, work } from '../../content/communityContent';
 import { useDiscussAction } from '../../hooks/useDiscussAction';
 import type { StructuredData } from '../../hooks/useDocumentMeta';
 import { communityOrigin, communityPath } from '../routing';
@@ -18,7 +18,27 @@ const structuredData: StructuredData[] = [
     description: venture.intro,
     url: `${communityOrigin}/`,
     serviceType: 'Website design, web application development and deployment',
-    areaServed: 'IN',
+    // Named places rather than a bare country code. These are the towns the
+    // delivered projects are in, which is what local search actually matches.
+    areaServed: [
+      ...serviceAreas.places.map((name) => ({ '@type': 'City', name })),
+      { '@type': 'AdministrativeArea', name: serviceAreas.region },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: 'Published client projects',
+    itemListElement: work.map((item, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      item: {
+        '@type': 'WebSite',
+        name: item.name,
+        url: item.url,
+        description: item.sector,
+      },
+    })),
   },
 ];
 

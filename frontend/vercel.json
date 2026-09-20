@@ -10,6 +10,11 @@
       "destination": "/robots-main.txt"
     },
     {
+      "source": "/sitemap.xml",
+      "has": [{ "type": "host", "value": "webservices.manojrashinkar.com" }],
+      "destination": "/sitemap-webservices.xml"
+    },
+    {
       "source": "/((?!api/).*)",
       "destination": "/index.html"
     }

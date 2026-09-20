@@ -156,6 +156,24 @@ export const work: WorkItem[] = [
   },
 ];
 
+/**
+ * Where the work has actually happened.
+ *
+ * Not a claim about coverage — these are the towns the delivered projects are
+ * in, and nothing more. "Website developer in Nashik" is close to how these
+ * clients search, and the site had never said any of it.
+ */
+export const serviceAreas = {
+  heading: 'Where we work',
+  body:
+    'The projects delivered so far are for businesses in Nashik, Shrirampur and Ahilyanagar. '
+    + 'Discovery, development, review and handover all happen remotely, over WhatsApp and calls, '
+    + 'so where your business is makes very little difference to how a project runs — and the '
+    + 'domain and accounts end up in your name wherever you are.',
+  places: ['Nashik', 'Shrirampur', 'Ahilyanagar'],
+  region: 'Maharashtra, India',
+};
+
 export const workNote =
   'This page grows one project at a time. We do not publish a client’s work until that client has ' +
   'agreed to it, so what you see here is limited by consent rather than by how much has been built. ' +

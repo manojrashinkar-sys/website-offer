@@ -6,9 +6,9 @@
 User-agent: *
 Allow: /
 
-# The Web Services pages are reachable here for previewing on deployments that
-# are not the subdomain. They are not finished, and the subdomain is their real
-# home, so they are kept out of search results from both directions.
+# The Web Services pages are reachable here so they can be opened on preview
+# deployments, which are not the subdomain. The subdomain is their real home
+# and the only indexable copy, so this one stays closed.
 Disallow: /community
 
 Sitemap: https://website-offer.manojrashinkar.com/sitemap.xml
