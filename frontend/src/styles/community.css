@@ -1447,3 +1447,154 @@
   .showcase-panel { animation: none; }
   .showcase-tab, .showcase-tab:hover { transition: none; transform: none; }
 }
+
+/* ============================================================
+   Process stepper
+   A process is a sequence, and a stack of equal cards is the one
+   shape that fails to say so — every stage looks like a sibling
+   rather than a step. A rail with a filled portion says where you
+   are and how much is left, which is the information the word
+   "process" actually carries.
+   ============================================================ */
+.stepper { min-width: 0; }
+
+/* ---------- The rail ---------- */
+.stepper-rail {
+  position: relative;
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(0, 1fr);
+  gap: 0.5rem;
+  margin-bottom: 1.75rem;
+  min-width: 0;
+}
+/* The line sits behind the nodes, inset by half a node so it runs between
+   their centres rather than past the ends of the row. */
+.stepper-line {
+  position: absolute; z-index: 0; top: 17px;
+  left: calc(100% / 12); right: calc(100% / 12);
+  height: 2px; border-radius: 2px;
+  background: var(--border-subtle);
+}
+.stepper-line-fill {
+  display: block; height: 100%; border-radius: inherit;
+  background: var(--btn-ink);
+  transition: width 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.stepper-node {
+  position: relative; z-index: 1;
+  display: flex; flex-direction: column; align-items: center; gap: 0.55rem;
+  background: none; border: 0; padding: 0; cursor: pointer;
+  font: inherit; color: inherit; min-width: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+.stepper-node:focus-visible { outline: 3px solid var(--focus-ring); outline-offset: 4px; border-radius: 10px; }
+
+.stepper-node-dot {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 36px; height: 36px; border-radius: 50%; flex: 0 0 auto;
+  font-family: var(--font-heading); font-weight: 800; font-size: 0.8rem;
+  font-variant-numeric: tabular-nums;
+  background: var(--color-surface); color: var(--text-body);
+  border: 2px solid var(--border-subtle);
+  transition: background 0.25s ease, border-color 0.25s ease, color 0.25s ease, transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.stepper-node:hover .stepper-node-dot { border-color: var(--border-strong); }
+.stepper-node.is-done .stepper-node-dot {
+  background: var(--btn-ink); border-color: var(--btn-ink); color: var(--btn-ink-text);
+}
+.stepper-node.is-active .stepper-node-dot {
+  background: var(--btn-ink); border-color: var(--btn-ink); color: var(--btn-ink-text);
+  transform: scale(1.18);
+  box-shadow: 0 0 0 5px var(--focus-ring);
+}
+.stepper-node-label {
+  font-size: 0.76rem; font-weight: 600; line-height: 1.3; text-align: center;
+  color: var(--text-body);
+  transition: color 0.2s ease;
+}
+.stepper-node.is-active .stepper-node-label { color: var(--text-heading); font-weight: 700; }
+
+/* ---------- The panel ---------- */
+.stepper-panel {
+  background: var(--card-bg);
+  border: 1px solid var(--border-subtle);
+  border-radius: 20px;
+  padding: clamp(1.4rem, 3.5vw, 2.1rem);
+  box-shadow: var(--shadow-2), inset 0 1px 0 rgba(255, 255, 255, 0.7);
+  animation: stepper-in 0.34s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+[data-theme="dark"] .stepper-panel {
+  box-shadow: var(--shadow-2), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+.stepper-panel:focus-visible { outline: 3px solid var(--focus-ring); outline-offset: 3px; }
+@keyframes stepper-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: none; }
+}
+
+.stepper-count {
+  font-family: var(--font-heading); font-size: 0.7rem; font-weight: 800;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--text-body); opacity: 0.7; margin: 0 0 0.5rem;
+  font-variant-numeric: tabular-nums;
+}
+.stepper-title { font-size: clamp(1.25rem, 3vw, 1.7rem); letter-spacing: -0.025em; margin-bottom: 0.55rem; }
+.stepper-lead { font-size: 1rem; line-height: 1.7; color: var(--text-body); margin: 0 0 1.5rem; }
+
+.stepper-detail {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr));
+  gap: 1.4rem;
+  padding-top: 1.4rem; border-top: 1px solid var(--border-subtle);
+}
+.stepper-detail p { font-size: 0.9rem; line-height: 1.65; color: var(--text-body); margin: 0; }
+
+/* ---------- Move ---------- */
+.stepper-controls {
+  display: flex; justify-content: space-between; gap: 0.75rem;
+  margin-top: 1.6rem; padding-top: 1.3rem;
+  border-top: 1px solid var(--border-subtle);
+}
+.stepper-move {
+  display: inline-flex; align-items: center; gap: 0.45rem;
+  font: inherit; font-weight: 700; font-size: 0.88rem; cursor: pointer;
+  color: var(--text-heading);
+  background: var(--color-surface); border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-pill); padding: 0.6rem 1.05rem;
+  transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease, opacity 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+.stepper-move:hover:not(:disabled) { border-color: var(--border-strong); transform: translateY(-1px); }
+.stepper-move:focus-visible { outline: 3px solid var(--focus-ring); outline-offset: 2px; }
+.stepper-move:disabled { opacity: 0.34; cursor: not-allowed; }
+/* The back arrow is the forward one turned round, so there is one glyph. */
+.stepper-move:not(.stepper-move-next) svg { transform: rotate(180deg); }
+.stepper-move-next {
+  background: var(--btn-ink); border-color: var(--btn-ink); color: var(--btn-ink-text);
+}
+.stepper-move-next:hover:not(:disabled) { background: var(--btn-ink-hover); border-color: var(--btn-ink-hover); }
+
+/* ---------- Narrow ---------- */
+@media (max-width: 760px) {
+  /* Six nodes with labels will not fit. The rail scrolls, the labels go, and
+     the numbers carry it — the panel names the stage anyway. */
+  .stepper-rail {
+    display: flex; grid-auto-flow: unset;
+    overflow-x: auto; scrollbar-width: none;
+    padding: 0.2rem 0.25rem 0.5rem; margin: 0 -0.25rem 1.35rem;
+    scroll-snap-type: x proximity;
+  }
+  .stepper-rail::-webkit-scrollbar { display: none; }
+  .stepper-node { flex: 0 0 auto; scroll-snap-align: center; }
+  .stepper-node-label { display: none; }
+  .stepper-line { top: 19px; left: 1.4rem; right: 1.4rem; }
+  .stepper-node-dot { width: 34px; height: 34px; }
+  .stepper-controls .stepper-move { flex: 1; justify-content: center; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stepper-panel { animation: none; }
+  .stepper-line-fill, .stepper-node-dot, .stepper-move { transition: none; }
+  .stepper-node.is-active .stepper-node-dot { transform: none; }
+}

@@ -7,6 +7,7 @@ import type { StructuredData } from '../../hooks/useDocumentMeta';
 import { communityPath } from '../routing';
 import { useCommunityMeta } from '../useCommunityMeta';
 import PageHero from '../PageHero';
+import ProcessStepper from '../ProcessStepper';
 import CommunityCta from '../CommunityCta';
 import Icon from '../../components/Icon';
 import Reveal from '../../components/Reveal';
@@ -35,36 +36,7 @@ export default function ProcessPage() {
 
       <section className="section">
         <div className="container">
-          <ol className="stage-list">
-            {steps.map((step, index) => {
-              const detail = stepDetail[step.n];
-              return (
-                <Reveal key={step.n} delay={index * 60} as="li">
-                  <article className="stage">
-                    <div className="stage-marker" aria-hidden="true">
-                      <span className="stage-n">{step.n}</span>
-                    </div>
-                    <div className="stage-body">
-                      <h2>{step.title}</h2>
-                      <p className="stage-lead">{step.body}</p>
-                      {detail && (
-                        <div className="stage-detail">
-                          <div>
-                            <h3 className="service-label">What you provide</h3>
-                            <p>{detail.youProvide}</p>
-                          </div>
-                          <div>
-                            <h3 className="service-label">What you get</h3>
-                            <p>{detail.youGet}</p>
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                  </article>
-                </Reveal>
-              );
-            })}
-          </ol>
+          <ProcessStepper />
 
           <Reveal>
             <p className="section-note community-note">{processNote}</p>
