@@ -70,8 +70,8 @@ const BUDGET = {
   // see the formula in build(). Keying it off one dimension gave 61% of the
   // width at 1440px and 88% at 390px, because a phone is tall and narrow and
   // a desktop is not.
-  desktop: { total: 1400, dpr: 2, sizeScale: 1, reach: 1, glow: true },
-  mobile: { total: 520, dpr: 1.5, sizeScale: 1.35, reach: 1, glow: false },
+  desktop: { total: 3400, dpr: 2, sizeScale: 1, reach: 1, glow: true },
+  mobile: { total: 1150, dpr: 1.5, sizeScale: 1.3, reach: 1, glow: false },
 };
 
 /**
@@ -141,10 +141,14 @@ export default function GalaxyField({ intensity = 'hero' }: Props) {
       canvas.height = Math.round(height * dpr);
       context.setTransform(dpr, 0, 0, dpr, 0, 0);
 
-      // Off centre, because a galaxy pinned to the middle of a box looks
-      // placed rather than photographed.
-      cx = width * (intensity === 'band' ? 0.7 : 0.44);
-      cy = height * 0.42;
+      // Placed away from the copy, not merely off centre. On a wide screen
+      // the text sits left and the panel right, so the core goes to the upper
+      // right where neither lands on it; on a phone everything is centred and
+      // stacked, so it goes high, above the headline. A dense core behind a
+      // heading is the one place this could genuinely hurt the page.
+      const stacked = small.matches;
+      cx = width * (intensity === 'band' ? 0.74 : stacked ? 0.52 : 0.70);
+      cy = height * (intensity === 'band' ? 0.4 : stacked ? 0.16 : 0.38);
 
       // Bounded by both dimensions, so the galaxy keeps the same share of the
       // frame whatever its shape: about two thirds of the width on a phone, a
@@ -159,8 +163,8 @@ export default function GalaxyField({ intensity = 'hero' }: Props) {
         const roll = Math.random();
         const tier = roll < 0.74 ? 0 : roll < 0.95 ? 1 : 2;
         const tint = Math.random() < 0.04 ? 3 : Math.random() < 0.3 ? 2 : Math.random() < 0.5 ? 1 : 0;
-        const base = [0.9, 1.5, 2.4][tier] * sizeScale;
-        const alpha = [0.2, 0.42, 0.85][tier] * weight;
+        const base = [1.0, 1.7, 2.6][tier] * sizeScale;
+        const alpha = [0.30, 0.55, 0.95][tier] * weight;
 
         next.push({
           angle,
@@ -173,12 +177,14 @@ export default function GalaxyField({ intensity = 'hero' }: Props) {
           alpha: alpha * (0.6 + Math.random() * 0.55),
           wobble: Math.random() * TAU,
           wobbleRate: 0.0002 + Math.random() * 0.0004,
-          flicker: tier === 2 ? 0.22 : 0.08,
+          // Nearly nothing. Twinkle was reading as blinking, which is what
+          // makes a field of dots look like dots rather than like mass.
+          flicker: tier === 2 ? 0.09 : 0.025,
         });
       };
 
       // --- Arms: the structure ---------------------------------------
-      const armTotal = Math.round(total * 0.62);
+      const armTotal = Math.round(total * 0.60);
       for (const arm of ARMS) {
         const count = Math.round(armTotal * arm.share);
         for (let i = 0; i < count; i++) {
@@ -188,28 +194,31 @@ export default function GalaxyField({ intensity = 'hero' }: Props) {
           // Logarithmic spiral: the curve real arms approximate.
           const theta = Math.log(radius / core) / Math.tan(arm.pitch);
           // Scatter grows with radius, so arms are tight in and frayed out.
-          const spread = 0.055 + (radius / outer) * 0.3;
+          // Tighter than before near the core. Wide scatter at small radius
+        // dissolves the arms into the disc, which is what stopped them
+        // reading as arms at all.
+        const spread = 0.028 + Math.pow(radius / outer, 1.4) * 0.34;
           const jitter = (Math.random() + Math.random() - 1) * spread;
           push(radius * (1 + (Math.random() - 0.5) * 0.06), arm.offset + theta + jitter, arm.bright);
         }
       }
 
       // --- Disc: keeps the space between arms sparse, not empty -------
-      const discCount = Math.round(total * 0.16);
+      const discCount = Math.round(total * 0.14);
       for (let i = 0; i < discCount; i++) {
         const radius = core + Math.pow(Math.random(), 1.3) * (outer - core);
         push(radius, Math.random() * TAU, 0.55);
       }
 
       // --- Core: density, never a gradient ----------------------------
-      const coreCount = Math.round(total * 0.14);
+      const coreCount = Math.round(total * 0.19);
       for (let i = 0; i < coreCount; i++) {
         const radius = Math.pow(Math.random(), 0.55) * core * 3.4;
         push(radius, Math.random() * TAU, 1.15);
       }
 
       // --- Far field: almost stationary, behind everything ------------
-      const farCount = Math.round(total * 0.08);
+      const farCount = Math.round(total * 0.07);
       for (let i = 0; i < farCount; i++) {
         next.push({
           angle: Math.random() * TAU,
@@ -217,7 +226,7 @@ export default function GalaxyField({ intensity = 'hero' }: Props) {
           speed: 0.05,
           sprite: Math.random() < 0.2 ? 2 : 0,
           size: (0.7 + Math.random() * 0.5) * sizeScale,
-          alpha: 0.1 + Math.random() * 0.14,
+          alpha: 0.14 + Math.random() * 0.16,
           wobble: Math.random() * TAU,
           wobbleRate: 0.0002,
           flicker: 0.05,
@@ -252,6 +261,13 @@ export default function GalaxyField({ intensity = 'hero' }: Props) {
       const tilt = 0.42;                    // the disc seen at an angle
       const dim = intensity === 'band' ? 0.6 : 1;
 
+      // Additive. This is the difference between a galaxy and a dot field:
+      // overlapping particles sum instead of covering each other, so density
+      // becomes brightness on its own. The core glows because a few hundred
+      // faint sprites pile up there, not because anything draws a glow, and
+      // the arms show as ridges because that is where the mass is.
+      context.globalCompositeOperation = 'lighter';
+
       for (const p of particles) {
         p.wobble += delta * p.wobbleRate;
         const angle = p.angle + rotation * p.speed + Math.sin(p.wobble) * 0.012;
@@ -269,6 +285,24 @@ export default function GalaxyField({ intensity = 'hero' }: Props) {
         context.drawImage(sprites[p.sprite], x - drawn / 2, y - drawn / 2, drawn, drawn);
       }
       context.globalAlpha = 1;
+      context.globalCompositeOperation = 'source-over';
+
+      // The contrast layer the architecture calls for: galaxy, then a wash,
+      // then the content. A soft darkening over the side the copy occupies,
+      // so density can be high where it reads well and still never fight the
+      // words. No panel behind the text, and nothing rectangular — just less
+      // light where light is not wanted.
+      const copyX = small.matches ? width * 0.5 : width * 0.3;
+      const copyY = small.matches ? height * 0.62 : height * 0.5;
+      const wash = context.createRadialGradient(
+        copyX, copyY, 0,
+        copyX, copyY, Math.max(width, height) * (small.matches ? 0.78 : 0.62),
+      );
+      wash.addColorStop(0, `rgba(7, 11, 22, ${0.46 * reveal})`);
+      wash.addColorStop(0.65, `rgba(7, 11, 22, ${0.2 * reveal})`);
+      wash.addColorStop(1, 'rgba(7, 11, 22, 0)');
+      context.fillStyle = wash;
+      context.fillRect(0, 0, width, height);
     };
 
     let previous = performance.now();
