@@ -1860,3 +1860,100 @@
   .community-site .stepper-rail { gap: .25rem; }
   .community-site .contact-route small { overflow-wrap: anywhere; }
 }
+
+/* ============================================================
+   Founder card: its own atmosphere
+   The one card on the site that is about a person rather than a
+   service, so it gets a treatment nothing else has. Entirely CSS
+   — no canvas, no JavaScript, no extra markup — because three
+   gradients on one element cost nothing next to a particle
+   system, and this card is small enough that a particle system
+   would be absurd.
+   ============================================================ */
+
+/* An angle has to be registered before it can be animated. Without
+   @property the browser cannot interpolate one, so the sweep simply does
+   not run and the rim sits still — which is a fine place to land. */
+@property --founder-angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+
+.founder-card {
+  position: relative;
+  isolation: isolate;
+  /* Two soft lights over the card's own surface, drifting on different
+     cycles so the pattern never repeats visibly. Painted as background
+     layers rather than elements, so they sit under the content by the
+     nature of backgrounds and can never interfere with it. */
+  background:
+    radial-gradient(60% 55% at 18% 12%, rgba(120, 155, 255, 0.16), transparent 70%),
+    radial-gradient(52% 48% at 88% 82%, rgba(86, 196, 232, 0.13), transparent 72%),
+    var(--card-bg);
+  background-size: 180% 180%, 165% 165%, auto;
+  background-position: 0% 0%, 100% 100%, 0 0;
+  animation: founder-aurora 28s ease-in-out infinite;
+}
+[data-theme="dark"] .founder-card {
+  background:
+    radial-gradient(60% 55% at 18% 12%, rgba(120, 155, 255, 0.2), transparent 70%),
+    radial-gradient(52% 48% at 88% 82%, rgba(86, 196, 232, 0.16), transparent 72%),
+    var(--card-bg);
+  background-size: 180% 180%, 165% 165%, auto;
+  background-position: 0% 0%, 100% 100%, 0 0;
+}
+@keyframes founder-aurora {
+  0%, 100% { background-position: 0% 0%, 100% 100%, 0 0; }
+  50%      { background-position: 42% 28%, 58% 66%, 0 0; }
+}
+
+/* A light travelling the rim.
+   Masked down to a ring rather than tucked behind the card. A negative
+   z-index child paints above its parent's background and only below the
+   content, so hiding the middle behind the card's own surface does not
+   work — the cone would cover the whole face. The mask keeps the padding
+   band and excludes everything inside it, which leaves exactly the border. */
+.founder-card::before {
+  content: "";
+  position: absolute; inset: 0; z-index: -1;
+  border-radius: inherit;
+  padding: 1.5px;
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+  background: conic-gradient(
+    from var(--founder-angle),
+    transparent 0deg 190deg,
+    rgba(150, 180, 255, 0.55) 250deg,
+    rgba(215, 235, 255, 0.85) 285deg,
+    rgba(120, 200, 235, 0.45) 320deg,
+    transparent 360deg
+  );
+  animation: founder-sweep 11s linear infinite;
+  opacity: 0.85;
+}
+@keyframes founder-sweep {
+  to { --founder-angle: 360deg; }
+}
+
+/* The photograph keeps a slow halo — the person at the centre of it. */
+.founder-card-photo {
+  animation: founder-halo 6.5s ease-in-out infinite;
+}
+@keyframes founder-halo {
+  0%, 100% { box-shadow: var(--shadow-2), 0 0 0 0 rgba(140, 175, 255, 0.28); }
+  50%      { box-shadow: var(--shadow-2), 0 0 0 7px rgba(140, 175, 255, 0); }
+}
+
+/* The rim brightens a little while the card is hovered. */
+.founder-card:hover::before { opacity: 1; }
+
+@media (prefers-reduced-motion: reduce) {
+  /* Everything holds still. The resting state is the finished one: the
+     lights sit where they started and the rim keeps its highlight. */
+  .founder-card,
+  .founder-card::before,
+  .founder-card-photo { animation: none; }
+  .founder-card-photo { box-shadow: var(--shadow-2); }
+}
