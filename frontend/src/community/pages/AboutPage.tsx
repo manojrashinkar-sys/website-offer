@@ -8,6 +8,7 @@ import { useDiscussAction } from '../../hooks/useDiscussAction';
 import { communityPath } from '../routing';
 import { useCommunityMeta } from '../useCommunityMeta';
 import PageHero from '../PageHero';
+import SafeImage from '../SafeImage';
 import CommunityCta from '../CommunityCta';
 import Icon from '../../components/Icon';
 import Reveal from '../../components/Reveal';
@@ -84,14 +85,12 @@ export default function AboutPage() {
           <Reveal delay={90}>
             <aside className="community-aside">
               {founderNote.photo && (
-                <img
+                <SafeImage
                   className="founder-photo"
                   src={founderNote.photo.src}
                   alt={founderNote.photo.alt}
-                  width="320"
-                  height="320"
-                  loading="lazy"
-                  decoding="async"
+                  width={320}
+                  height={320}
                 />
               )}
               <h3>{founderNote.heading}</h3>

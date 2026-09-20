@@ -5,6 +5,7 @@ import { work, workNote } from '../../content/communityContent';
 import { communityPath } from '../routing';
 import { useCommunityMeta } from '../useCommunityMeta';
 import PageHero from '../PageHero';
+import SafeImage from '../SafeImage';
 import CommunityCta from '../CommunityCta';
 import Icon from '../../components/Icon';
 import Reveal from '../../components/Reveal';
@@ -24,16 +25,13 @@ export default function WorkPage() {
               <Reveal key={item.name} delay={index * 70}>
                 <article className="work-card">
                   {item.image && (
-                    <figure className="work-shot">
-                      <img
-                        src={item.image.src}
-                        alt={item.image.alt}
-                        width="1200"
-                        height="750"
-                        loading="lazy"
-                        decoding="async"
-                      />
-                    </figure>
+                    <SafeImage
+                      figureClassName="work-shot"
+                      src={item.image.src}
+                      alt={item.image.alt}
+                      width={1200}
+                      height={750}
+                    />
                   )}
                   <span className="work-card-tags">
                     <span className="work-type">{item.type}</span>

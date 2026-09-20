@@ -130,6 +130,7 @@ export interface WorkItem {
 export const work: WorkItem[] = [
   {
     name: 'Yojit Enterprises',
+    image: { src: '/images/work/yojit.jpg', alt: 'The Yojit Enterprises website, showing its dairy processing equipment range' },
     sector: 'Dairy processing equipment manufacturer, Nashik',
     type: 'Manufacturer website',
     url: 'https://manojrashinkar.com/yojit-enterprises',
@@ -142,6 +143,7 @@ export const work: WorkItem[] = [
   },
   {
     name: 'RB Ads',
+    image: { src: '/images/work/rbads.jpg', alt: 'The RB Ads website, showing its reels and social media services' },
     sector: 'Advertising agency, Shrirampur',
     type: 'Agency website',
     url: 'https://rbads.in/',
@@ -154,6 +156,7 @@ export const work: WorkItem[] = [
   },
   {
     name: 'Om Kale Photography',
+    image: { src: '/images/work/omkale.jpg', alt: 'The Om Kale Photography website, in Marathi, showing its gallery' },
     sector: 'Wedding and event photography, Pimpalgaon Malvi, Ahilyanagar',
     type: 'Photography website',
     url: 'https://omkale-undertesting.manojrashinkar.com/',
@@ -395,7 +398,10 @@ export const founderNote = {
    * thing this page says, and it is considerably more credible with a face
    * next to it. Drop a square image in public/images/about/ and set this.
    */
-  photo: null as { src: string; alt: string } | null,
+  photo: {
+    src: '/images/about/manoj.jpg',
+    alt: 'Manoj Rashinkar',
+  } as { src: string; alt: string } | null,
 };
 
 /* ---------------- Services page ---------------- */
