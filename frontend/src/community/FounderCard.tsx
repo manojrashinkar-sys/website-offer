@@ -20,7 +20,17 @@ import Icon from '../components/Icon';
 export default function FounderCard() {
   return (
     <aside className="founder-card">
-      <div className="founder-card-head">
+      {/* One link around the photograph and the name together, rather than
+          two adjacent links to the same place — which is what a screen reader
+          would announce it as, and what a keyboard user would have to tab
+          past twice. */}
+      <a
+        className="founder-card-head"
+        href={founder.portfolio}
+        target="_blank"
+        rel="noopener noreferrer"
+        onClick={() => trackEvent('community_founder_link_click', { placement: 'founder_card' })}
+      >
         <SafeImage
           className="founder-card-photo"
           src={founder.photo.src}
@@ -28,11 +38,15 @@ export default function FounderCard() {
           width={1254}
           height={1254}
         />
-        <div className="founder-card-id">
+        <span className="founder-card-id">
           <strong>{founder.name}</strong>
           <small>{founder.role}</small>
-        </div>
-      </div>
+          <span className="founder-card-visit">
+            View portfolio
+            <Icon name="arrow-right" size={13} />
+          </span>
+        </span>
+      </a>
 
       <p className="founder-card-line">{founder.line}</p>
 

@@ -127,22 +127,29 @@ export interface WorkItem {
    */
   status?: 'live' | 'preview';
   /**
-   * A screenshot of the delivered site. Optional on purpose: the card reads
-   * correctly without one, so a project can be listed the day it is agreed
-   * and the picture can follow.
+   * Screenshots of the delivered site, first one first — the home page.
    *
-   * Put the file in public/images/work/ and set src to '/images/work/<file>'.
-   * 16:10, at least 1200px wide. The alt text describes the business, not the
-   * picture — a screen reader gets no value from "screenshot of a website".
+   * Optional on purpose: a card reads correctly without any, so a project can
+   * be listed the day the client agrees and the pictures can follow. Produced
+   * by scripts/optimise-shots.mjs from the originals in backend/, which
+   * downscales them to 1000px; the raw exports are two to six times larger
+   * than anything the page can display.
+   *
+   * Alt text describes the business and the page, not the medium — a screen
+   * reader gets nothing from "screenshot of a website".
    */
-  image?: { src: string; alt: string };
+  shots?: { src: string; alt: string }[];
 }
 
 /** Only clients who have agreed to be shown publicly. */
 export const work: WorkItem[] = [
   {
     name: 'Yojit Enterprises',
-    image: { src: '/images/work/yojit.jpg', alt: 'The Yojit Enterprises website, showing its dairy processing equipment range' },
+    shots: [
+      { src: '/images/work/yojit.png', alt: 'Yojit Enterprises home page, introducing the dairy processing equipment business' },
+      { src: '/images/work/yojit-2.png', alt: 'The Yojit Enterprises product range, laid out for technical buyers' },
+      { src: '/images/work/yojit-3.png', alt: 'Completed projects listed on the Yojit Enterprises site' },
+    ],
     sector: 'Dairy processing equipment manufacturer, Nashik',
     type: 'Manufacturer website',
     url: 'https://manojrashinkar.com/yojit-enterprises',
@@ -155,7 +162,10 @@ export const work: WorkItem[] = [
   },
   {
     name: 'RB Ads',
-    image: { src: '/images/work/rbads.jpg', alt: 'The RB Ads website, showing its reels and social media services' },
+    shots: [
+      { src: '/images/work/rbads.png', alt: 'RB Ads home page, an advertising agency in Shrirampur' },
+      { src: '/images/work/rbads-2.png', alt: 'RB Ads work page, showing its reels and campaign services' },
+    ],
     sector: 'Advertising agency, Shrirampur',
     type: 'Agency website',
     url: 'https://rbads.in/',
@@ -168,7 +178,9 @@ export const work: WorkItem[] = [
   },
   {
     name: 'Om Kale Photography',
-    image: { src: '/images/work/omkale.jpg', alt: 'The Om Kale Photography website, in Marathi, showing its gallery' },
+    shots: [
+      { src: '/images/work/omkale.png', alt: 'Om Kale Photography gallery page, written in Marathi' },
+    ],
     sector: 'Wedding and event photography, Pimpalgaon Malvi, Ahilyanagar',
     type: 'Photography website',
     url: 'https://omkale-undertesting.manojrashinkar.com/',
@@ -231,6 +243,7 @@ export const founder = {
     'I plan, design, build and hand over every project myself. The person you '
     + 'discuss it with is the person who writes the code.',
   photo: { src: '/images/about/manoj.jpg', alt: 'Manoj Rashinkar' },
+  portfolio: 'https://manojrashinkar.com/',
 };
 
 /**

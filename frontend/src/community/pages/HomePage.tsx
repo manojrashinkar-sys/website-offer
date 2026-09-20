@@ -85,13 +85,13 @@ export default function HomePage() {
             {work.map((item, index) => (
               <Reveal key={item.name} delay={index * 70}>
                 <article className="work-card">
-                  {item.image && (
+                  {item.shots?.[0] && (
                     <SafeImage
                       figureClassName="work-shot"
-                      src={item.image.src}
-                      alt={item.image.alt}
-                      width={1200}
-                      height={750}
+                      src={item.shots[0].src}
+                      alt={item.shots[0].alt}
+                      width={1000}
+                      height={505}
                     />
                   )}
                   <span className="work-type">{item.type}</span>

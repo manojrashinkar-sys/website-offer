@@ -29,8 +29,13 @@ function displayHost(url: string): string {
  */
 export default function WorkShowcase() {
   const [active, setActive] = useState(0);
+  const [shot, setShot] = useState(0);
   const tabsRef = useRef<HTMLDivElement>(null);
   const item = work[active];
+  const shots = item.shots ?? [];
+  // Guard the index: projects have different numbers of shots, so moving from
+  // one with three to one with one must not leave it pointing past the end.
+  const current = shots[Math.min(shot, shots.length - 1)];
 
   const onKeyDown = (event: React.KeyboardEvent) => {
     const last = work.length - 1;
@@ -43,6 +48,7 @@ export default function WorkShowcase() {
 
     event.preventDefault();
     setActive(next);
+    setShot(0);
     // Selection follows focus in this pattern, so move focus with it.
     tabsRef.current?.querySelectorAll<HTMLButtonElement>('[role="tab"]')[next]?.focus();
   };
@@ -67,7 +73,7 @@ export default function WorkShowcase() {
             aria-controls="work-panel"
             tabIndex={index === active ? 0 : -1}
             className={`showcase-tab ${index === active ? 'is-active' : ''}`}
-            onClick={() => setActive(index)}
+            onClick={() => { setActive(index); setShot(0); }}
           >
             <span className="showcase-tab-n" aria-hidden="true">
               {String(index + 1).padStart(2, '0')}
@@ -103,14 +109,34 @@ export default function WorkShowcase() {
           </div>
 
           <div className="showcase-viewport">
-            {item.image ? (
+            {current ? (
               <SafeImage
-                src={item.image.src}
-                alt={item.image.alt}
-                width={1200}
-                height={750}
+                key={current.src}
+                figureClassName="showcase-shot"
+                src={current.src}
+                alt={current.alt}
+                width={1000}
+                height={505}
               />
             ) : null}
+
+            {shots.length > 1 && (
+              <div className="showcase-thumbs" role="group" aria-label={`${item.name} screenshots`}>
+                {shots.map((image, index) => (
+                  <button
+                    key={image.src}
+                    type="button"
+                    className={`showcase-thumb ${index === Math.min(shot, shots.length - 1) ? 'is-active' : ''}`}
+                    aria-label={image.alt}
+                    aria-pressed={index === Math.min(shot, shots.length - 1)}
+                    onClick={() => setShot(index)}
+                  >
+                    <img src={image.src} alt="" width={1000} height={505} loading="lazy" decoding="async" />
+                  </button>
+                ))}
+              </div>
+            )}
+
             <ul className="showcase-highlights">
               {item.highlights.map((highlight) => (
                 <li key={highlight}>
