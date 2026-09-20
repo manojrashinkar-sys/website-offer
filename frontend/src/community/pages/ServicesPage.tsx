@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { trackEvent } from '../../analytics';
 import { capabilities, capabilityDetail, servicesNote } from '../../content/communityContent';
@@ -26,6 +26,11 @@ const structuredData: StructuredData[] = [
 ];
 
 export default function ServicesPage() {
+  // One open at a time, the first by default. Four blocks all expanded made
+  // the page a wall of identical slabs you scrolled rather than read; opening
+  // one at a time turns it into something you look through.
+  const [open, setOpen] = useState(0);
+
   useCommunityMeta('services', structuredData);
   useEffect(() => { trackEvent('community_page_view', { page: 'services' }); }, []);
 
@@ -40,16 +45,34 @@ export default function ServicesPage() {
               const detail = capabilityDetail[capability.title];
               return (
                 <Reveal key={capability.title} delay={index * 60}>
-                  <article className="service-block" id={capability.title.toLowerCase().replace(/\s+/g, '-')}>
-                    <div className="service-block-head">
-                      <span className="capability-icon"><Icon name={capability.icon} size={28} /></span>
-                      <div>
-                        <h2>{capability.title}</h2>
-                        <p className="capability-summary">{capability.summary}</p>
-                      </div>
-                    </div>
+                  <article
+                    className={`service-block ${open === index ? 'is-open' : ''}`}
+                    id={capability.title.toLowerCase().replace(/\s+/g, '-')}
+                  >
+                    <h2 className="service-block-heading">
+                      <button
+                        type="button"
+                        className="service-block-head"
+                        aria-expanded={open === index}
+                        aria-controls={`service-body-${index}`}
+                        onClick={() => setOpen(open === index ? -1 : index)}
+                      >
+                        <span className="capability-icon"><Icon name={capability.icon} size={28} /></span>
+                        <span className="service-block-title">
+                          <span className="service-block-name">{capability.title}</span>
+                          <span className="capability-summary">{capability.summary}</span>
+                        </span>
+                        <span className="service-block-chevron" aria-hidden="true">
+                          <Icon name="arrow-right" size={18} />
+                        </span>
+                      </button>
+                    </h2>
 
-                    <div className="service-block-body">
+                    <div
+                      className="service-block-body"
+                      id={`service-body-${index}`}
+                      hidden={open !== index}
+                    >
                       <div>
                         <h3 className="service-label">What it includes</h3>
                         <ul className="tick-list">

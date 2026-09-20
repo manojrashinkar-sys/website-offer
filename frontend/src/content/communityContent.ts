@@ -170,7 +170,24 @@ export const work: WorkItem[] = [
 ];
 
 /**
- * The person, for the hero.
+ * The hero panel.
+ *
+ * Three figures, each verifiable from this same site: count the projects on
+ * the Work page, count the towns below, and there is one developer. Nothing
+ * here is a claim that cannot be checked, which is the only kind of number
+ * this site is allowed to show.
+ *
+ * Numerals give the hero something with visual weight in it. A panel of
+ * sentences reads as more of the paragraph beside it.
+ */
+export const heroFacts = [
+  { figure: '03', label: 'Live client sites', note: 'Built, launched and handed over' },
+  { figure: '04', label: 'Towns served', note: 'Navi Mumbai to Ahilyanagar' },
+  { figure: '01', label: 'Developer, start to finish', note: 'No agency layer, no account manager' },
+];
+
+/**
+ * The person, for the About and Contact pages.
  *
  * The site's whole argument is that you deal with the developer rather than
  * an account manager, and it was making that argument in prose while showing
@@ -197,11 +214,11 @@ export const founder = {
 export const serviceAreas = {
   heading: 'Where we work',
   body:
-    'The projects delivered so far are for businesses in Nashik, Shrirampur and Ahilyanagar. '
+    'We work with businesses in Navi Mumbai, Nashik, Shrirampur and Ahilyanagar. '
     + 'Discovery, development, review and handover all happen remotely, over WhatsApp and calls, '
     + 'so where your business is makes very little difference to how a project runs — and the '
     + 'domain and accounts end up in your name wherever you are.',
-  places: ['Nashik', 'Shrirampur', 'Ahilyanagar'],
+  places: ['Navi Mumbai', 'Nashik', 'Shrirampur', 'Ahilyanagar'],
   region: 'Maharashtra, India',
 };
 

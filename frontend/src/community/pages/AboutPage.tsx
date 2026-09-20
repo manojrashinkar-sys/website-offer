@@ -2,12 +2,13 @@ import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { trackEvent } from '../../analytics';
 import {
-  aboutStory, commitments, founderNote, serviceAreas, values, venture, whoWeServe,
+  aboutStory, commitments, serviceAreas, values, venture, whoWeServe,
 } from '../../content/communityContent';
 import { useDiscussAction } from '../../hooks/useDiscussAction';
 import { communityPath } from '../routing';
 import { useCommunityMeta } from '../useCommunityMeta';
 import PageHero from '../PageHero';
+import FounderCard from '../FounderCard';
 import SafeImage from '../SafeImage';
 import CommunityCta from '../CommunityCta';
 import Icon from '../../components/Icon';
@@ -83,29 +84,7 @@ export default function AboutPage() {
           </Reveal>
 
           <Reveal delay={90}>
-            <aside className="community-aside">
-              {founderNote.photo && (
-                <SafeImage
-                  className="founder-photo"
-                  src={founderNote.photo.src}
-                  alt={founderNote.photo.alt}
-                  width={320}
-                  height={320}
-                />
-              )}
-              <h3>{founderNote.heading}</h3>
-              <p>{founderNote.body}</p>
-              <a
-                className="work-link"
-                href={founderNote.linkUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={() => trackEvent('community_founder_link_click')}
-              >
-                {founderNote.linkLabel}
-                <Icon name="arrow-right" size={16} />
-              </a>
-            </aside>
+            <FounderCard />
           </Reveal>
         </div>
       </section>

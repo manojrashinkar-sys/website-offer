@@ -9,6 +9,7 @@ import { attributionSummary } from '../../utils/attribution';
 import { whatsappLink } from '../../utils/whatsapp';
 import { useCommunityMeta } from '../useCommunityMeta';
 import PageHero from '../PageHero';
+import FounderCard from '../FounderCard';
 import Icon from '../../components/Icon';
 import Reveal from '../../components/Reveal';
 import EnquiryForm from '../../components/EnquiryForm';
@@ -99,7 +100,8 @@ export default function ContactPage() {
           </Reveal>
 
           <Reveal delay={90}>
-            <aside className="community-aside">
+            <FounderCard />
+            <aside className="community-aside community-aside-stacked">
               <h3>Useful to include</h3>
               <p>None of this is required — it just saves a round of questions.</p>
               <ul className="dot-list">

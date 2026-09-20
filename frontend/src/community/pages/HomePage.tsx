@@ -1,13 +1,14 @@
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { trackEvent } from '../../analytics';
-import { capabilities, pillars, serviceAreas, venture, work } from '../../content/communityContent';
+import {
+  capabilities, heroFacts, pillars, serviceAreas, venture, work,
+} from '../../content/communityContent';
 import { useDiscussAction } from '../../hooks/useDiscussAction';
 import type { StructuredData } from '../../hooks/useDocumentMeta';
 import { communityOrigin, communityPath } from '../routing';
 import { useCommunityMeta } from '../useCommunityMeta';
 import PageHero from '../PageHero';
-import FounderCard from '../FounderCard';
 import SafeImage from '../SafeImage';
 import CommunityCta from '../CommunityCta';
 import Icon from '../../components/Icon';
@@ -60,11 +61,19 @@ export default function HomePage() {
             <Link className="btn btn-outline btn-lg" to={communityPath('work')}>See Our Work</Link>
           </>
         }
-        /* A face and a name, not the same four capabilities the section below
-           already shows as full cards. The site argues that you deal with the
-           developer rather than an account manager; this is the one thing on
-           the page that proves it, and the one thing an agency cannot copy. */
-        aside={<FounderCard />}
+        aside={
+          <div className="hero-facts">
+            {heroFacts.map((fact) => (
+              <div className="hero-fact" key={fact.label}>
+                <span className="hero-fact-figure" aria-hidden="true">{fact.figure}</span>
+                <span className="hero-fact-text">
+                  <strong>{fact.label}</strong>
+                  <small>{fact.note}</small>
+                </span>
+              </div>
+            ))}
+          </div>
+        }
       />
 
       {/* ---------- Work, first ----------
