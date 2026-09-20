@@ -4,11 +4,6 @@ import { trackEvent } from '../analytics';
 import SafeImage from './SafeImage';
 import Icon from '../components/Icon';
 
-/** The domain, without the scheme or a trailing slash — what a browser shows. */
-function displayHost(url: string): string {
-  return url.replace(/^https?:\/\//, '').replace(/\/$/, '');
-}
-
 /**
  * The projects as a showcase rather than a grid of equal cards.
  *
@@ -22,10 +17,11 @@ function displayHost(url: string): string {
  * the behaviour a screen reader user expects from this pattern and the part
  * most implementations skip.
  *
- * The preview is a browser frame. Until a screenshot exists it shows the
- * address bar and the project's own highlights, which is honest — it is
- * plainly a placeholder rather than a picture of something that does not
- * exist. When the file lands it fills the frame.
+ * The preview is a browser frame, but the bar carries the project name
+ * rather than its address. Two of these still sit on testing URLs, and an
+ * address nobody needs to read is not worth showing — the link itself still
+ * goes where it goes, and the browser will show the address once it is
+ * followed.
  */
 export default function WorkShowcase() {
   const [active, setActive] = useState(0);
@@ -55,14 +51,15 @@ export default function WorkShowcase() {
 
   return (
     <div className="showcase">
-      <div
-        className="showcase-tabs"
-        role="tablist"
-        aria-label="Projects"
-        aria-orientation="vertical"
-        ref={tabsRef}
-        onKeyDown={onKeyDown}
-      >
+      <div className="showcase-tabs-wrap">
+        <div
+          className="showcase-tabs"
+          role="tablist"
+          aria-label="Projects"
+          aria-orientation="vertical"
+          ref={tabsRef}
+          onKeyDown={onKeyDown}
+        >
         {work.map((project, index) => (
           <button
             key={project.name}
@@ -86,7 +83,8 @@ export default function WorkShowcase() {
               <span className="showcase-tab-flag">In review</span>
             )}
           </button>
-        ))}
+          ))}
+        </div>
       </div>
 
       <div
@@ -105,7 +103,7 @@ export default function WorkShowcase() {
             <span className="showcase-dot" />
             <span className="showcase-dot" />
             <span className="showcase-dot" />
-            <span className="showcase-address">{displayHost(item.url)}</span>
+            <span className="showcase-address">{item.name}</span>
           </div>
 
           <div className="showcase-viewport">

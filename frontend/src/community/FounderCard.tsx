@@ -41,10 +41,6 @@ export default function FounderCard() {
         <span className="founder-card-id">
           <strong>{founder.name}</strong>
           <small>{founder.role}</small>
-          <span className="founder-card-visit">
-            View portfolio
-            <Icon name="arrow-right" size={13} />
-          </span>
         </span>
       </a>
 

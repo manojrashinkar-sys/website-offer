@@ -1420,6 +1420,12 @@
 /* ---------- Narrow ---------- */
 @media (max-width: 900px) {
   .showcase { grid-template-columns: minmax(0, 1fr); gap: 1rem; }
+  .showcase-tabs-wrap { position: relative; }
+  .showcase-tabs-wrap::after {
+    content: ""; position: absolute; top: 0; bottom: 0.35rem; right: 0;
+    width: 2.25rem; pointer-events: none; z-index: 1;
+    background: linear-gradient(270deg, var(--color-surface), transparent);
+  }
   /* The list becomes a scrolling row of chips above the panel, so it costs
      one line rather than a third of the screen. */
   .showcase-tabs {
@@ -1429,12 +1435,21 @@
     scroll-snap-type: x proximity;
   }
   .showcase-tabs::-webkit-scrollbar { display: none; }
+  /* Compact enough that more than one fits. Full-width pills meant a single
+     project filled the row, so the list read as the only project rather than
+     as something to scroll — which is the worst possible result on the page
+     whose whole job is showing three. */
   .showcase-tab {
     flex: 0 0 auto; scroll-snap-align: start;
-    padding: 0.7rem 0.9rem; border-radius: var(--radius-pill);
+    gap: 0.5rem; padding: 0.55rem 0.9rem; border-radius: var(--radius-pill);
   }
   .showcase-tab:hover { transform: none; }
   .showcase-tab-flag { display: none; }
+  /* The type is already named in the panel below; here it only makes the
+     chip twice as wide. */
+  .showcase-tab-text small { display: none; }
+  .showcase-tab-text strong { font-size: 0.88rem; white-space: nowrap; }
+  .showcase-tab-n { font-size: 0.74rem; }
 }
 @media (max-width: 640px) {
   .showcase-tabs { margin: 0 -0.25rem; padding: 0.15rem 0.25rem 0.35rem; }
@@ -1667,4 +1682,105 @@
 @media (prefers-reduced-motion: reduce) {
   .showcase-thumb, .founder-card-visit svg, .founder-card-photo { transition: none; }
   .showcase-thumb.is-active { transform: none; }
+}
+
+/* ============================================================
+   Hero dressing
+   ============================================================ */
+
+/* ---------- Drifting lights ----------
+   Two soft lights moving behind the copy on long, unequal cycles, so the
+   background never settles into a pattern you can predict. Heavily blurred
+   and low opacity: the point is that the hero looks alive, not that anyone
+   notices a shape moving. */
+.hero-glow {
+  position: absolute; z-index: 0; pointer-events: none;
+  border-radius: 50%; filter: blur(70px); opacity: 0.5;
+}
+.hero-glow-a {
+  width: clamp(18rem, 42vw, 34rem); aspect-ratio: 1;
+  top: -18%; left: -8%;
+  background: radial-gradient(circle, rgba(96, 137, 255, 0.5), transparent 68%);
+  animation: glow-drift-a 26s ease-in-out infinite;
+}
+.hero-glow-b {
+  width: clamp(14rem, 34vw, 28rem); aspect-ratio: 1;
+  bottom: -22%; right: -6%;
+  background: radial-gradient(circle, rgba(56, 189, 248, 0.38), transparent 68%);
+  animation: glow-drift-b 34s ease-in-out infinite;
+}
+@keyframes glow-drift-a {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  50%      { transform: translate3d(14%, 12%, 0) scale(1.14); }
+}
+@keyframes glow-drift-b {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  50%      { transform: translate3d(-12%, -14%, 0) scale(1.1); }
+}
+
+/* ---------- The grid, panning ----------
+   The hero already carries a faint grid. Moving it very slowly gives the
+   background depth without anything appearing to animate. */
+.community-hero::before {
+  content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+  background-size: 54px 54px;
+  mask-image: radial-gradient(120% 90% at 50% 0%, #000 35%, transparent 78%);
+  animation: grid-pan 60s linear infinite;
+}
+@keyframes grid-pan {
+  from { background-position: 0 0; }
+  to   { background-position: 54px 54px; }
+}
+
+/* The copy and the panel sit above all of it. */
+.community-hero-inner { position: relative; z-index: 1; }
+
+/* ---------- The headline, arriving ---------- */
+.hero-headline .hero-word {
+  display: inline-block;
+  animation: word-rise 0.62s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+@keyframes word-rise {
+  from { opacity: 0; transform: translateY(0.5em) rotate(1.5deg); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* ---------- Section headings, drawn ----------
+   The accent bar above each heading grows out from the left as the section
+   arrives, rather than being there from the start. */
+.community-site .section-head::before {
+  transform-origin: left center;
+  transform: scaleX(0);
+  transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1) 0.1s;
+}
+.community-site .reveal-visible .section-head::before { transform: scaleX(1); }
+
+/* ---------- Cards, lit along the top edge on hover ---------- */
+.pillar-card, .capability-card, .work-card, .contact-route, .service-block {
+  position: relative;
+}
+.pillar-card::after, .capability-card::after,
+.contact-route::after, .service-block::after {
+  content: ""; position: absolute; inset: 0 0 auto; height: 2px;
+  border-radius: inherit;
+  background: linear-gradient(90deg, transparent, var(--btn-ink), transparent);
+  opacity: 0; transform: scaleX(0.4);
+  transition: opacity 0.3s ease, transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+  pointer-events: none;
+}
+.pillar-card:hover::after, .capability-card:hover::after,
+.contact-route:hover::after, .service-block:hover::after {
+  opacity: 0.55; transform: scaleX(1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-glow { animation: none; }
+  .community-hero::before { animation: none; }
+  .hero-headline .hero-word { animation: none; opacity: 1; transform: none; }
+  .community-site .section-head::before { transition: none; transform: scaleX(1); }
+  .pillar-card::after, .capability-card::after,
+  .contact-route::after, .service-block::after { transition: none; }
 }

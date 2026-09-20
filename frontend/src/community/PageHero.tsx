@@ -25,10 +25,30 @@ export default function PageHero({ page, actions, aside, eyebrow }: Props) {
   return (
     <section className={`hero community-hero ${aside ? '' : 'community-hero-solo'}`}>
       <HeroAurora />
+      {/* Two slow-drifting lights behind the copy. Decorative, so they are
+          hidden from assistive technology and stopped under reduced motion. */}
+      <span className="hero-glow hero-glow-a" aria-hidden="true" />
+      <span className="hero-glow hero-glow-b" aria-hidden="true" />
+
       <div className="container community-hero-inner">
         <div className="hero-copy">
           {eyebrow && <p className="community-eyebrow">{eyebrow}</p>}
-          <h1>{heading}</h1>
+          {/* Split so the words arrive in reading order rather than the
+              whole block appearing at once. Each word keeps its trailing
+              space inside the span, so selecting and copying the heading
+              still produces a normal sentence. */}
+          <h1 className="hero-headline">
+            {heading.split(' ').map((word, index) => (
+              <span
+                className="hero-word"
+                key={`${word}-${index}`}
+                style={{ animationDelay: `${0.06 + index * 0.055}s` }}
+              >
+                {word}
+                {index < heading.split(' ').length - 1 ? ' ' : ''}
+              </span>
+            ))}
+          </h1>
           <p className="hero-sub">{lead}</p>
           {actions && <div className="hero-actions">{actions}</div>}
         </div>

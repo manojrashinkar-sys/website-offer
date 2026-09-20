@@ -126,8 +126,19 @@ for (const { path, name, must } of CHECKS) {
     continue;
   }
 
-  const missing = [...must, ...SHELL].filter((needle) => !html.includes(needle));
-  const h1 = (html.match(/<h1[^>]*>([^<]+)/) || [])[1] || '(none)';
+  // Matched against the rendered text, not the markup. The hero headline is
+  // split into a span per word so they can arrive in sequence, which leaves
+  // the words separated by tags in the HTML while reading as one sentence on
+  // the page and to a screen reader. Checking the markup would fail on a
+  // presentational detail and say nothing about what the visitor sees.
+  const text = html.replace(/<[^>]+>/g, '').replace(/\s+/g, ' ');
+  // Either is a pass: some needles are visible copy, others live in
+  // attributes — an aria-label, or an href now that the browser frame shows
+  // the project name instead of its address.
+  const missing = [...must, ...SHELL]
+    .filter((needle) => !text.includes(needle) && !html.includes(needle));
+  const h1 = ((html.match(/<h1[^>]*>([\s\S]*?)<\/h1>/) || [])[1] || '')
+    .replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim() || '(none)';
   const navLinks = (html.match(/class="nav-link[^"]*"/g) || []).length;
 
   if (missing.length === 0 && html.length > 4000) {
