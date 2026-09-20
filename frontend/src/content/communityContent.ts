@@ -8,12 +8,12 @@
 export const venture = {
   parent: 'Manoj Rashinkar Venture',
   branch: 'Web Services',
-  tagline: 'Websites and web applications for growing businesses',
+  tagline: 'The complete digital face of your business',
   // Used in structured data and wherever the operation needs describing in one
   // sentence. Says what we do, not where we sit on an org chart.
   intro:
-    'We plan, design, build and launch websites for businesses that need a credible presence ' +
-    'online — and web applications for the ones that have outgrown a website.',
+    'We build the whole digital face of a business — the website, and the WhatsApp, Facebook, ' +
+    'Instagram and Google presence around it, connected so they all point at the same place.',
 };
 
 export interface Pillar {
@@ -86,6 +86,18 @@ export const capabilities: Capability[] = [
       'Keep the domain and the search history',
       'Content migrated, not retyped',
       'Performance and mobile fixed properly',
+    ],
+  },
+  {
+    icon: 'chat',
+    title: 'Social and messaging integration',
+    summary: 'The website connected to the places your customers already are.',
+    points: [
+      'WhatsApp enquiry buttons that open a ready-written message',
+      'Facebook and Instagram linked from the site, and back to it',
+      'Google Business Profile and Maps set up',
+      'Click-to-call and enquiry forms that reach you directly',
+      'Share previews that look right when a link is sent',
     ],
   },
   {
@@ -170,20 +182,37 @@ export const work: WorkItem[] = [
 ];
 
 /**
- * The hero panel.
+ * The hero panel: the pipeline, not a score.
  *
- * Three figures, each verifiable from this same site: count the projects on
- * the Work page, count the towns below, and there is one developer. Nothing
- * here is a claim that cannot be checked, which is the only kind of number
- * this site is allowed to show.
+ * Figures told the visitor how much has been done. This tells them what they
+ * get — which is the thing that was missing from the whole site. A website on
+ * its own is half a job; what a business actually needs is every place a
+ * customer might look at them, connected and pointing back to the same place.
  *
- * Numerals give the hero something with visual weight in it. A panel of
- * sentences reads as more of the paragraph beside it.
+ * Each step is something we do, stated as what it does for the business
+ * rather than what it is called.
  */
-export const heroFacts = [
-  { figure: '03', label: 'Live client sites', note: 'Built, launched and handed over' },
-  { figure: '04', label: 'Towns served', note: 'Navi Mumbai to Ahilyanagar' },
-  { figure: '01', label: 'Developer, start to finish', note: 'No agency layer, no account manager' },
+export const pipeline = [
+  {
+    icon: 'monitor',
+    title: 'Your website',
+    body: 'The centre of it, on your own domain, in your own name.',
+  },
+  {
+    icon: 'chat',
+    title: 'WhatsApp',
+    body: 'One tap from any page, straight to the phone you already answer.',
+  },
+  {
+    icon: 'users',
+    title: 'Facebook and Instagram',
+    body: 'Profiles linked both ways, so the audience you have finds the site.',
+  },
+  {
+    icon: 'search',
+    title: 'Google',
+    body: 'Business Profile, Maps and search set up and pointing at you.',
+  },
 ];
 
 /**
@@ -268,20 +297,22 @@ export const pages = {
   home: {
     path: '',
     nav: 'Home',
-    title: 'Web Services — Manoj Rashinkar Venture',
+    title: 'Digital Presence for Business | Web Services',
     // This is what a searcher reads before deciding to click, so it says what
     // we do for them — not how the business is organised internally.
     description:
-      'Business websites, web applications, redesigns, and domain and hosting setup. You deal ' +
-      'directly with the developer, the scope is agreed in writing, and everything is yours to own.',
-    heading: 'Websites and web applications for growing businesses',
+      'Websites, web applications, and the WhatsApp, Facebook, Instagram and Google presence ' +
+      'around them — built and connected as one. You deal directly with the developer, and every ' +
+      'account ends up in your name.',
+    heading: 'The complete digital face of your business',
     // No mention of branches or parent companies here. A prospective client is
     // deciding whether we can help them; our internal structure tells them
     // nothing about that. It belongs on the About page, where it answers a
     // question someone has actually asked.
     lead:
-      'You deal directly with the developer who builds your project. The scope is agreed in ' +
-      'writing before work starts, and the domain, the accounts and the site all end up in your name.',
+      'Not just a website — the whole of it. The site, WhatsApp, Facebook, Instagram and Google, ' +
+      'set up and connected so a customer finds the same business wherever they look. You deal ' +
+      'directly with the developer, and every account ends up in your name.',
   },
   about: {
     path: 'about',
@@ -304,8 +335,8 @@ export const pages = {
       'setup. What each involves, who it suits, and what it does not include.',
     heading: 'What we build',
     lead:
-      'Four kinds of work. Most businesses need the first. Some need the second. A fair number arrive ' +
-      'needing the third.',
+      'Five parts to a digital presence. Most businesses need the first and the fourth; the rest ' +
+      'depend on what the business actually does.',
   },
   work: {
     path: 'work',

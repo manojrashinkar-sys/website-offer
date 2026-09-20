@@ -1575,6 +1575,37 @@ const K: Knowledge = {
         "type-webapp"
       ],
       "status": "verified"
+    },
+    {
+      "id": "social-integration",
+      "category": "Services",
+      "question": "Do you connect the website to WhatsApp, Facebook and Instagram?",
+      "answer": "Yes — that is part of the build rather than an extra. A WhatsApp button on every page that opens a ready-written enquiry, Facebook and Instagram linked from the site and back to it, Google Business Profile and Maps set up, click-to-call, and share previews so a link looks right when somebody sends it.\n\nThe point is that a customer finds the same business wherever they look. Every account is created in your name, so you keep them whatever happens later.",
+      "keywords": [
+        "whatsapp",
+        "facebook",
+        "instagram",
+        "social media",
+        "social",
+        "integration",
+        "connect social",
+        "google business",
+        "google maps",
+        "business profile",
+        "click to call",
+        "digital presence",
+        "digital face",
+        "link my instagram",
+        "my instagram",
+        "link instagram",
+        "instagram page",
+        "social profiles"
+      ],
+      "followUpQuestions": [
+        "start-what-first",
+        "third-party-charges"
+      ],
+      "status": "verified"
     }
   ],
   "technologies": [
@@ -2165,6 +2196,23 @@ const K: Knowledge = {
       "recommendedArchitecture": "Not applicable — a service, not an architecture",
       "requiresBackend": false,
       "futureUpgradePath": "Move up a level as the site grows.",
+      "status": "verified"
+    },
+    {
+      "id": "social-messaging-integration",
+      "name": "Social and Messaging Integration",
+      "shortDescription": "The website connected to WhatsApp, Facebook, Instagram and Google, so a customer finds the same business wherever they look.",
+      "detailedDescription": "A website on its own is half a job. This connects it to the places customers already are: WhatsApp enquiry buttons that open a ready-written message, Facebook and Instagram linked from the site and back to it, Google Business Profile and Maps set up, click-to-call, and share previews that look right when someone sends the link. Set up as part of the build, and every account is created in the business owner’s name.",
+      "idealCustomers": [
+        "Businesses already active on WhatsApp or Instagram",
+        "Local businesses that customers find through Google Maps",
+        "Any business whose enquiries arrive by phone or message"
+      ],
+      "typicalFeatures": [],
+      "businessBenefits": [],
+      "recommendedArchitecture": "Next.js or React on managed hosting, connected to your own domain",
+      "requiresBackend": false,
+      "futureUpgradePath": "Add a content system, accounts or a backend later if a real requirement appears.",
       "status": "verified"
     }
   ],

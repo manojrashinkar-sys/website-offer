@@ -102,9 +102,9 @@ const CHECKS = [
   // The "awaiting permission" card is deliberately NOT here — it belongs on
   // the Work page, which explains it, and on the home grid it turned a row of
   // three into a row of four whose fourth was a disclaimer.
-  { path: '/', name: 'Home', must: ['Websites and web applications', 'Manoj Rashinkar', 'Recent work', 'Yojit Enterprises', 'RB Ads', 'Four things that do not change'] },
+  { path: '/', name: 'Home', must: ['complete digital face', 'WhatsApp', 'Facebook and Instagram', 'Recent work', 'Yojit Enterprises', 'RB Ads'] },
   { path: '/about', name: 'About', must: ['About Web Services', 'Why this branch exists', 'Ownership, not dependency', 'Manoj Rashinkar', 'Navi Mumbai'] },
-  { path: '/services', name: 'Services', must: ['What we build', 'Business websites', 'Web applications', 'Who it suits', 'Worth knowing'] },
+  { path: '/services', name: 'Services', must: ['What we build', 'Business websites', 'Social and messaging integration', 'Who it suits', 'Worth knowing'] },
   { path: '/work', name: 'Work', must: ['Our work', 'Yojit Enterprises', 'manojrashinkar.com/yojit-enterprises', 'Awaiting client permission'] },
   { path: '/process', name: 'Process', must: ['How a project runs', 'Discovery', 'Launch and handover', 'What you provide', 'What you get'] },
   { path: '/contact', name: 'Contact', must: ['Start a conversation', 'What to expect', 'Reach us directly', 'Manoj Rashinkar'] },

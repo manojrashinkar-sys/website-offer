@@ -1552,5 +1552,36 @@
     "followUpQuestions": [],
     "unlisted": true,
     "status": "verified"
+  },
+  {
+    "id": "social-integration",
+    "category": "Services",
+    "question": "Do you connect the website to WhatsApp, Facebook and Instagram?",
+    "answer": "Yes — that is part of the build rather than an extra. A WhatsApp button on every page that opens a ready-written enquiry, Facebook and Instagram linked from the site and back to it, Google Business Profile and Maps set up, click-to-call, and share previews so a link looks right when somebody sends it.\n\nThe point is that a customer finds the same business wherever they look. Every account is created in your name, so you keep them whatever happens later.",
+    "keywords": [
+      "whatsapp",
+      "facebook",
+      "instagram",
+      "social media",
+      "social",
+      "integration",
+      "connect social",
+      "google business",
+      "google maps",
+      "business profile",
+      "click to call",
+      "digital presence",
+      "digital face",
+      "link my instagram",
+      "my instagram",
+      "link instagram",
+      "instagram page",
+      "social profiles"
+    ],
+    "followUpQuestions": [
+      "start-what-first",
+      "third-party-charges"
+    ],
+    "status": "verified"
   }
 ]

@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { trackEvent } from '../../analytics';
 import {
-  capabilities, heroFacts, pillars, serviceAreas, venture, work,
+  capabilities, pipeline, pillars, serviceAreas, venture, work,
 } from '../../content/communityContent';
 import { useDiscussAction } from '../../hooks/useDiscussAction';
 import type { StructuredData } from '../../hooks/useDocumentMeta';
@@ -62,16 +62,20 @@ export default function HomePage() {
           </>
         }
         aside={
-          <div className="hero-facts">
-            {heroFacts.map((fact) => (
-              <div className="hero-fact" key={fact.label}>
-                <span className="hero-fact-figure" aria-hidden="true">{fact.figure}</span>
-                <span className="hero-fact-text">
-                  <strong>{fact.label}</strong>
-                  <small>{fact.note}</small>
-                </span>
-              </div>
-            ))}
+          <div className="pipeline-panel">
+            <p className="pipeline-title">Everywhere a customer looks for you</p>
+            <ol className="pipeline">
+              {pipeline.map((step) => (
+                <li className="pipeline-step" key={step.title}>
+                  <span className="pipeline-icon"><Icon name={step.icon} size={17} /></span>
+                  <span className="pipeline-text">
+                    <strong>{step.title}</strong>
+                    <small>{step.body}</small>
+                  </span>
+                </li>
+              ))}
+            </ol>
+            <p className="pipeline-foot">Built together, handed over in your name.</p>
           </div>
         }
       />
