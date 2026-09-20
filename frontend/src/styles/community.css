@@ -464,10 +464,14 @@
 }
 
 @media (max-width: 480px) {
-  .community-hero .hero-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; }
-  .community-hero .hero-actions > :first-child { grid-column: 1 / -1; }
+  /* One per row. The old rule put the first button across two columns and
+     left the second sitting in one of them, which is what made them look
+     mismatched — it was written when the hero had three. nowrap is gone too:
+     a label that refuses to wrap in a narrow cell is another way to push a
+     page wider than the screen. */
+  .community-hero .hero-actions { display: grid; grid-template-columns: 1fr; gap: 0.55rem; }
   .community-hero .hero-actions .btn {
-    width: 100%; min-width: 0; padding: 0.72rem 0.5rem; font-size: 0.82rem; white-space: nowrap;
+    width: 100%; min-width: 0; padding: 0.8rem 0.9rem; font-size: 0.9rem;
   }
   .community-cta-actions { display: grid; grid-template-columns: 1fr; gap: 0.55rem; }
   .community-cta-actions .btn { width: 100%; }
@@ -1058,7 +1062,9 @@
   .pipeline-panel { max-width: 30rem; margin: 0 auto; width: 100%; }
 }
 @media (max-width: 640px) {
-  .pipeline-panel { padding: 1.2rem 1.05rem 1.05rem; border-radius: 18px; }
+  .pipeline-panel { padding: 1.2rem 0 1.05rem; border-radius: 18px; }
+  .pipeline-title, .pipeline-foot, .pipeline-dots { padding-left: 1.05rem; padding-right: 1.05rem; }
+  .pipeline { padding-left: 1.05rem; padding-right: 1.05rem; }
   .pipeline-step { gap: 0.8rem; padding-bottom: 0.95rem; }
   .pipeline-text strong { font-size: 0.89rem; }
   .pipeline-text small { font-size: 0.77rem; }
@@ -1149,15 +1155,22 @@
    its own.
    ============================================================ */
 @media (max-width: 900px) {
+  /* The track runs to the panel edge. Done by removing the panel's own side
+     padding and giving it to the track, never by pulling the track outwards
+     with a negative margin — that margin was larger than the padding it was
+     cancelling, so the track pushed past the panel, the panel past the
+     container, and the whole page ended up wider than the screen with the
+     heading sliced off at the right. */
+  .pipeline-panel { padding-left: 0; padding-right: 0; }
+  .pipeline-title, .pipeline-foot, .pipeline-dots { padding-left: 1.4rem; padding-right: 1.4rem; }
+
   .pipeline {
     display: flex;
     gap: 0.75rem;
     overflow-x: auto;
     scroll-snap-type: x mandatory;
     scrollbar-width: none;
-    /* Bleed to the panel edges so a card can sit flush while scrolling,
-       then pad the ends back so the first and last still look inset. */
-    margin: 0 -1.4rem;
+    margin: 0;
     padding: 0.15rem 1.4rem 0.35rem;
     -webkit-overflow-scrolling: touch;
   }
@@ -1274,4 +1287,153 @@
   .marquee { overflow-x: auto; }
   .marquee::before, .marquee::after { content: none; }
   .pipeline-step, .pipeline-dot { transition: none; }
+}
+
+/* ============================================================
+   Work showcase
+   A grid asks the visitor to read three cards and compare them.
+   This asks them to pick one and look at it, which is how work
+   is actually assessed — and each project gets the full width
+   instead of a third of it.
+   ============================================================ */
+.showcase {
+  display: grid;
+  grid-template-columns: minmax(0, 15rem) minmax(0, 1fr);
+  gap: 1.5rem;
+  align-items: start;
+}
+
+/* ---------- The list ---------- */
+.showcase-tabs { display: flex; flex-direction: column; gap: 0.5rem; }
+.showcase-tab {
+  position: relative; display: flex; align-items: center; gap: 0.85rem;
+  width: 100%; text-align: left; cursor: pointer;
+  font: inherit; color: inherit;
+  padding: 0.95rem 1rem;
+  background: var(--card-bg);
+  border: 1px solid var(--border-subtle);
+  border-radius: 14px;
+  transition: border-color 0.22s ease, background 0.22s ease, transform 0.22s cubic-bezier(0.22, 1, 0.36, 1);
+  -webkit-tap-highlight-color: transparent;
+}
+.showcase-tab:hover { border-color: var(--border-strong); transform: translateX(2px); }
+.showcase-tab:focus-visible { outline: 3px solid var(--focus-ring); outline-offset: 2px; }
+.showcase-tab.is-active {
+  background: var(--btn-ink); border-color: var(--btn-ink);
+}
+.showcase-tab.is-active strong,
+.showcase-tab.is-active small,
+.showcase-tab.is-active .showcase-tab-n { color: var(--btn-ink-text); }
+.showcase-tab.is-active small { opacity: 0.78; }
+
+.showcase-tab-n {
+  font-family: var(--font-heading); font-weight: 800; font-size: 0.82rem;
+  color: var(--text-body); opacity: 0.5; font-variant-numeric: tabular-nums;
+}
+.showcase-tab-text { display: flex; flex-direction: column; gap: 0.1rem; min-width: 0; }
+.showcase-tab-text strong {
+  font-family: var(--font-heading); font-weight: 700; font-size: 0.95rem;
+  letter-spacing: -0.015em; color: var(--text-heading);
+}
+.showcase-tab-text small { font-size: 0.76rem; color: var(--text-body); }
+.showcase-tab-flag {
+  margin-left: auto; flex: 0 0 auto;
+  font-size: 0.6rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase;
+  border: 1px dashed currentColor; border-radius: var(--radius-pill);
+  padding: 0.16rem 0.45rem; opacity: 0.75;
+}
+
+/* ---------- The panel ---------- */
+.showcase-panel {
+  background: var(--card-bg);
+  border: 1px solid var(--border-subtle);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: var(--shadow-2);
+  animation: showcase-in 0.34s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.showcase-panel:focus-visible { outline: 3px solid var(--focus-ring); outline-offset: 3px; }
+@keyframes showcase-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: none; }
+}
+
+.showcase-browser { background: var(--color-surface-alt); }
+.showcase-chrome {
+  display: flex; align-items: center; gap: 0.4rem;
+  padding: 0.7rem 0.9rem;
+  border-bottom: 1px solid var(--border-subtle);
+}
+.showcase-dot {
+  width: 9px; height: 9px; border-radius: 50%;
+  background: var(--border-strong); opacity: 0.6;
+}
+.showcase-address {
+  flex: 1; margin-left: 0.6rem;
+  font-size: 0.76rem; color: var(--text-body);
+  background: var(--card-bg);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-pill);
+  padding: 0.24rem 0.75rem;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+
+.showcase-viewport { position: relative; }
+.showcase-viewport img {
+  display: block; width: 100%; height: auto;
+  border-bottom: 1px solid var(--border-subtle);
+}
+/* The highlights are the placeholder until a screenshot exists — plainly a
+   list rather than a fake picture of a site. */
+.showcase-highlights {
+  list-style: none; margin: 0; padding: 1.4rem 1.5rem;
+  display: flex; flex-direction: column; gap: 0.7rem;
+}
+.showcase-highlights li {
+  display: flex; align-items: flex-start; gap: 0.6rem;
+  font-size: 0.9rem; line-height: 1.55; color: var(--text-body);
+}
+.showcase-highlights svg { flex: 0 0 auto; margin-top: 0.15rem; color: var(--btn-ink); opacity: 0.75; }
+
+.showcase-meta {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 1rem; flex-wrap: wrap;
+  padding: 1.25rem 1.5rem;
+  border-top: 1px solid var(--border-subtle);
+}
+.showcase-meta h3 { font-size: 1.15rem; letter-spacing: -0.02em; margin-bottom: 0.2rem; }
+.showcase-meta p { font-size: 0.87rem; color: var(--text-body); margin: 0; }
+.showcase-meta .btn { display: inline-flex; align-items: center; gap: 0.45rem; }
+
+.work-card-note { margin-top: 1.5rem; }
+
+/* ---------- Narrow ---------- */
+@media (max-width: 900px) {
+  .showcase { grid-template-columns: 1fr; gap: 1rem; }
+  /* The list becomes a scrolling row of chips above the panel, so it costs
+     one line rather than a third of the screen. */
+  .showcase-tabs {
+    flex-direction: row; gap: 0.5rem;
+    overflow-x: auto; scrollbar-width: none;
+    margin: 0 -1rem; padding: 0.15rem 1rem 0.35rem;
+    scroll-snap-type: x proximity;
+  }
+  .showcase-tabs::-webkit-scrollbar { display: none; }
+  .showcase-tab {
+    flex: 0 0 auto; scroll-snap-align: start;
+    padding: 0.7rem 0.9rem; border-radius: var(--radius-pill);
+  }
+  .showcase-tab:hover { transform: none; }
+  .showcase-tab-flag { display: none; }
+}
+@media (max-width: 640px) {
+  .showcase-tabs { margin: 0 -0.25rem; padding: 0.15rem 0.25rem 0.35rem; }
+  .showcase-highlights { padding: 1.1rem 1.1rem; }
+  .showcase-highlights li { font-size: 0.85rem; }
+  .showcase-meta { padding: 1.05rem 1.1rem; }
+  .showcase-meta .btn { width: 100%; justify-content: center; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .showcase-panel { animation: none; }
+  .showcase-tab, .showcase-tab:hover { transition: none; transform: none; }
 }

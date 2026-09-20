@@ -5,6 +5,7 @@ import { work, workNote } from '../../content/communityContent';
 import { communityPath } from '../routing';
 import { useCommunityMeta } from '../useCommunityMeta';
 import PageHero from '../PageHero';
+import WorkShowcase from '../WorkShowcase';
 import SafeImage from '../SafeImage';
 import CommunityCta from '../CommunityCta';
 import Icon from '../../components/Icon';
@@ -20,59 +21,22 @@ export default function WorkPage() {
 
       <section className="section">
         <div className="container">
-          <div className="work-grid work-grid-detailed">
-            {work.map((item, index) => (
-              <Reveal key={item.name} delay={index * 70}>
-                <article className="work-card">
-                  {item.image && (
-                    <SafeImage
-                      figureClassName="work-shot"
-                      src={item.image.src}
-                      alt={item.image.alt}
-                      width={1200}
-                      height={750}
-                    />
-                  )}
-                  <span className="work-card-tags">
-                    <span className="work-type">{item.type}</span>
-                    {item.status === 'preview' && (
-                      <span className="work-type work-type-preview">In review</span>
-                    )}
-                  </span>
-                  <h2>{item.name}</h2>
-                  <p className="work-sector">{item.sector}</p>
-                  <ul className="tick-list">
-                    {item.highlights.map((highlight) => <li key={highlight}>{highlight}</li>)}
-                  </ul>
-                  <a
-                    className="work-link"
-                    href={item.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onClick={() => trackEvent('community_work_click', { project: item.name })}
-                  >
-                    {item.status === 'preview' ? 'View the preview' : 'Visit the site'}
-                    <Icon name="arrow-right" size={16} />
-                  </a>
-                </article>
-              </Reveal>
-            ))}
+          <WorkShowcase />
 
-            <Reveal delay={work.length * 70}>
-              <article className="work-card work-card-pending">
-                <span className="work-type">Awaiting client permission</span>
-                <h2>More projects</h2>
-                <p className="work-sector">
-                  Other projects have been delivered. They are not shown here because those clients
-                  have not agreed to have their work published, and we do not treat silence as
-                  consent.
-                </p>
-                <p className="work-sector">
-                  The same applies to yours. Nothing of yours appears anywhere without you saying so.
-                </p>
-              </article>
-            </Reveal>
-          </div>
+          <Reveal>
+            <article className="work-card work-card-pending work-card-note">
+              <span className="work-type">Awaiting client permission</span>
+              <h2>More projects</h2>
+              <p className="work-sector">
+                Other projects have been delivered. They are not shown here because those clients
+                have not agreed to have their work published, and we do not treat silence as
+                consent.
+              </p>
+              <p className="work-sector">
+                The same applies to yours. Nothing of yours appears anywhere without you saying so.
+              </p>
+            </article>
+          </Reveal>
 
           <Reveal>
             <p className="section-note community-note">{workNote}</p>
