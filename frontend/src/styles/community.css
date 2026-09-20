@@ -1784,3 +1784,12 @@
   .pillar-card::after, .capability-card::after,
   .contact-route::after, .service-block::after { transition: none; }
 }
+
+/* ---------- Starfield ----------
+   Sits above the aurora and below the drifting lights, so the stars read as
+   further away than the glow. Pointer-events off: it is scenery. */
+.galaxy {
+  position: absolute; inset: 0; z-index: 0;
+  width: 100%; height: 100%;
+  display: block; pointer-events: none;
+}

@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { work } from '../content/communityContent';
 import { trackEvent } from '../analytics';
 import SafeImage from './SafeImage';
@@ -26,12 +26,27 @@ import Icon from '../components/Icon';
 export default function WorkShowcase() {
   const [active, setActive] = useState(0);
   const [shot, setShot] = useState(0);
+  // Stops for good once the visitor takes control. Something that keeps
+  // cycling after you have chosen a project is taking the page back off you.
+  const [held, setHeld] = useState(false);
   const tabsRef = useRef<HTMLDivElement>(null);
   const item = work[active];
   const shots = item.shots ?? [];
   // Guard the index: projects have different numbers of shots, so moving from
   // one with three to one with one must not leave it pointing past the end.
   const current = shots[Math.min(shot, shots.length - 1)];
+
+  // Walks the projects on its own so all three are seen without asking
+  // anyone to notice the list and use it.
+  useEffect(() => {
+    if (held) return undefined;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return undefined;
+    const timer = window.setInterval(() => {
+      setActive((current) => (current + 1) % work.length);
+      setShot(0);
+    }, 6500);
+    return () => window.clearInterval(timer);
+  }, [held]);
 
   const onKeyDown = (event: React.KeyboardEvent) => {
     const last = work.length - 1;
@@ -43,6 +58,7 @@ export default function WorkShowcase() {
     else return;
 
     event.preventDefault();
+    setHeld(true);
     setActive(next);
     setShot(0);
     // Selection follows focus in this pattern, so move focus with it.
@@ -50,7 +66,7 @@ export default function WorkShowcase() {
   };
 
   return (
-    <div className="showcase">
+    <div className="showcase" onPointerDown={() => setHeld(true)}>
       <div className="showcase-tabs-wrap">
         <div
           className="showcase-tabs"
@@ -70,7 +86,7 @@ export default function WorkShowcase() {
             aria-controls="work-panel"
             tabIndex={index === active ? 0 : -1}
             className={`showcase-tab ${index === active ? 'is-active' : ''}`}
-            onClick={() => { setActive(index); setShot(0); }}
+            onClick={() => { setHeld(true); setActive(index); setShot(0); }}
           >
             <span className="showcase-tab-n" aria-hidden="true">
               {String(index + 1).padStart(2, '0')}
@@ -127,7 +143,7 @@ export default function WorkShowcase() {
                     className={`showcase-thumb ${index === Math.min(shot, shots.length - 1) ? 'is-active' : ''}`}
                     aria-label={image.alt}
                     aria-pressed={index === Math.min(shot, shots.length - 1)}
-                    onClick={() => setShot(index)}
+                    onClick={() => { setHeld(true); setShot(index); }}
                   >
                     <img src={image.src} alt="" width={1000} height={505} loading="lazy" decoding="async" />
                   </button>
