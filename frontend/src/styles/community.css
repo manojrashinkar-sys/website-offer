@@ -1243,13 +1243,14 @@
 
 .marquee-track {
   display: flex;
-  gap: 0.85rem;
   width: max-content;
   animation: marquee-slide 42s linear infinite;
 }
 /* Slows to a stop under the pointer, so anything that catches the eye can
    actually be read. */
-.marquee:hover .marquee-track { animation-play-state: paused; }
+.marquee:hover .marquee-track, .marquee:focus-within .marquee-track,
+.marquee.is-paused .marquee-track { animation-play-state: paused; }
+.marquee-group { display: flex; flex: 0 0 auto; gap: 0.85rem; padding-right: 0.85rem; }
 
 @keyframes marquee-slide {
   from { transform: translateX(0); }
@@ -1280,20 +1281,28 @@
   white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
 
-@media (max-width: 640px) {
-  .marquee { padding: 1rem 0; }
-  .marquee-track { animation-duration: 32s; gap: 0.6rem; }
-  .marquee-card { padding: 0.7rem 0.95rem; gap: 0.65rem; }
+/* Phone-sized cards are read at the visitor's pace, with no clipped copy. */
+.capability-strip { background: var(--color-surface-alt); }
+.marquee-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding-top: .75rem; }
+.marquee-label { color: var(--text-heading); font-size: .8rem; font-weight: 700; }
+.marquee-hint { display: none; color: var(--text-body); font-size: .75rem; }
+.marquee-toggle { min-height: 44px; padding: .5rem .75rem; border: 1px solid var(--border-subtle); border-radius: 10px; background: var(--card-bg); color: var(--text-heading); font: inherit; font-size: .8rem; cursor: pointer; }
+.marquee:focus-visible, .marquee-toggle:focus-visible { outline: 2px solid var(--btn-ink); outline-offset: -3px; }
+
+@media (max-width: 900px), (prefers-reduced-motion: reduce) {
+  .marquee { overflow-x: auto; padding: .85rem 0 1rem; scroll-snap-type: x proximity; scroll-padding-inline: 1rem; }
+  .marquee-track { animation: none; width: max-content; }
+  .marquee-group { gap: .75rem; padding-inline: 1rem; }
+  .marquee-duplicate, .marquee-toggle { display: none; }
+  .marquee-hint { display: inline; }
+  .marquee::before, .marquee::after { content: none; }
+  .marquee-card { width: min(78vw, 20rem); max-width: none; align-items: flex-start; padding: 1rem; border-radius: 18px; gap: .75rem; scroll-snap-align: start; }
   .marquee-icon { width: 30px; height: 30px; }
-  .marquee-text strong { font-size: 0.85rem; }
-  .marquee-text small { font-size: 0.74rem; max-width: 13rem; }
+  .marquee-text strong { font-size: .9rem; line-height: 1.4; white-space: normal; }
+  .marquee-text small { margin-top: .25rem; font-size: .8125rem; white-space: normal; overflow: visible; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  /* No travel at all — it becomes a row you scroll yourself. */
-  .marquee-track { animation: none; width: auto; }
-  .marquee { overflow-x: auto; }
-  .marquee::before, .marquee::after { content: none; }
   .pipeline-step, .pipeline-dot { transition: none; }
 }
 
@@ -1797,3 +1806,57 @@
    the decorative canvas; each offscreen instance suspends its animation. */
 .community-site [data-particle-preview] { position: relative; isolation: isolate; }
 .community-site [data-particle-preview] > .container { position: relative; z-index: 1; }
+
+/* Mobile hero: readable word spacing, balanced wrapping and generous touch targets. */
+@media (max-width: 640px) {
+  .community-hero, .community-hero-solo { padding: 1.75rem 0 2rem; }
+  .community-hero-inner { gap: 1.5rem; }
+  .community-hero .hero-headline { font-size: clamp(2rem, 8.5vw, 2.65rem); line-height: 1.12; text-wrap: balance; margin-bottom: 1rem; }
+  .community-hero .hero-sub { font-size: 1rem; line-height: 1.65; max-width: 38ch; margin-bottom: 1.5rem; }
+}
+@media (max-width: 900px) {
+  .pipeline-dots { margin-top: .4rem; gap: .25rem; }
+  .pipeline-dot, .pipeline-dot.is-current { position: relative; width: 36px; height: 36px; border-radius: 8px; background: transparent; }
+  .pipeline-dot::before { content: ''; position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 7px; height: 7px; border-radius: 4px; background: rgba(255,255,255,.35); }
+  .pipeline-dot.is-current::before { width: 20px; background: #fff; }
+}
+
+/* All clients remain discoverable, including on small phones. */
+.portfolio-list { display: grid; gap: 2rem; }
+.portfolio-project { min-width: 0; scroll-margin-top: 150px; background: var(--card-bg); border: 1px solid var(--border-subtle); border-radius: 22px; overflow: hidden; box-shadow: var(--shadow-1); }
+.portfolio-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; padding: clamp(1.1rem, 3vw, 1.75rem); border-bottom: 1px solid var(--border-subtle); }
+.portfolio-heading h2 { font-size: clamp(1.35rem, 3vw, 1.75rem); line-height: 1.2; margin-bottom: .5rem; }
+.portfolio-category { font-size: .75rem; font-weight: 700; color: var(--text-body); margin: 0 0 .6rem; }
+.portfolio-sector { font-size: .9rem; line-height: 1.6; color: var(--text-body); margin: 0; }
+.portfolio-status { flex-shrink: 0; border: 1px solid var(--border-subtle); border-radius: 30px; padding: .35rem .7rem; font-size: .75rem; font-weight: 600; color: var(--text-heading); background: var(--color-surface-alt); }
+.portfolio-body { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); }
+.portfolio-media { min-width: 0; padding: 1rem; background: var(--color-surface-alt); }
+.portfolio-image-link { display: block; border-radius: 10px; overflow: hidden; border: 1px solid var(--border-subtle); }
+.portfolio-image { margin: 0; }
+.portfolio-image img { display: block; width: 100%; height: auto; }
+.portfolio-image-caption { display: flex; flex-wrap: wrap; justify-content: space-between; gap: .5rem; padding-top: .65rem; color: var(--text-body); font-size: .75rem; }
+.portfolio-thumbnails { display: flex; flex-wrap: wrap; gap: .6rem; margin-top: .85rem; }
+.portfolio-thumbnail { position: relative; width: 84px; min-height: 48px; padding: 0; overflow: hidden; border: 2px solid var(--border-strong); border-radius: 8px; background: var(--card-bg); cursor: pointer; }
+.portfolio-thumbnail img { display: block; width: 100%; height: auto; }
+.portfolio-thumbnail.is-selected { outline: 2px solid var(--btn-ink); outline-offset: 2px; }
+.portfolio-details { display: flex; flex-direction: column; padding: clamp(1.1rem, 3vw, 1.75rem); }
+.portfolio-details h3 { font-size: 1rem; margin: 0 0 1rem; }
+.portfolio-details ul { display: grid; gap: .85rem; list-style: none; padding: 0; margin: 0 0 1.5rem; }
+.portfolio-details li { display: flex; gap: .65rem; color: var(--text-body); font-size: .9rem; line-height: 1.6; }
+.portfolio-details li svg { flex: 0 0 auto; margin-top: .2rem; color: var(--text-heading); }
+.portfolio-visit { display: inline-flex; align-items: center; justify-content: center; gap: .65rem; margin-top: auto; min-height: 48px; }
+.portfolio a:focus-visible, .portfolio button:focus-visible { outline: 3px solid var(--focus-ring); outline-offset: 3px; }
+/* Author display:grid must not override the native hidden state. */
+.community-site .service-block-body[hidden] { display: none; }
+.community-prose p + p { margin-top: 1rem; }
+@media (max-width: 700px) {
+  .portfolio-body { grid-template-columns: minmax(0, 1fr); }
+  .portfolio-heading { flex-direction: column; gap: .75rem; }
+  .portfolio-project { border-radius: 18px; }
+  .portfolio-list { gap: 1.5rem; }
+  .portfolio-visit { width: 100%; }
+  .community-site .section { padding-block: 2.75rem; }
+  .community-site .stepper-node { min-width: 44px; min-height: 44px; }
+  .community-site .stepper-rail { gap: .25rem; }
+  .community-site .contact-route small { overflow-wrap: anywhere; }
+}

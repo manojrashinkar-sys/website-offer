@@ -1,14 +1,12 @@
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { trackEvent } from '../../analytics';
-import { work, workNote } from '../../content/communityContent';
+import { workNote } from '../../content/communityContent';
 import { communityPath } from '../routing';
 import { useCommunityMeta } from '../useCommunityMeta';
 import PageHero from '../PageHero';
 import WorkShowcase from '../WorkShowcase';
-import SafeImage from '../SafeImage';
 import CommunityCta from '../CommunityCta';
-import Icon from '../../components/Icon';
 import Reveal from '../../components/Reveal';
 
 export default function WorkPage() {

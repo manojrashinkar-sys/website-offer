@@ -107,13 +107,12 @@ export default function HeroPipeline() {
       </ol>
 
       {isCarousel && (
-        <div className="pipeline-dots" role="tablist" aria-label="Pipeline steps">
+        <div className="pipeline-dots" role="group" aria-label="Pipeline steps">
           {pipeline.map((step, i) => (
             <button
               key={step.title}
               type="button"
-              role="tab"
-              aria-selected={i === index}
+              aria-pressed={i === index}
               aria-label={step.title}
               className={`pipeline-dot ${i === index ? 'is-current' : ''}`}
               onClick={() => { hold(); setIndex(i); goTo(i); }}

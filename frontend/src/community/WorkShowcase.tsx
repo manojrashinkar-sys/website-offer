@@ -1,184 +1,56 @@
-import { useEffect, useRef, useState } from 'react';
-import { work } from '../content/communityContent';
+import { useState } from 'react';
+import { work, type WorkItem } from '../content/communityContent';
 import { trackEvent } from '../analytics';
 import SafeImage from './SafeImage';
 import Icon from '../components/Icon';
 
-/**
- * The projects as a showcase rather than a grid of equal cards.
- *
- * A grid asks the visitor to read three cards and compare them. A showcase
- * asks them to pick one and look at it, which is how someone actually
- * assesses work — and it gives each project the whole width instead of a
- * third of it.
- *
- * Built as a real tablist: arrow keys move between projects, Home and End
- * jump to the ends, and only the selected tab is in the tab order, which is
- * the behaviour a screen reader user expects from this pattern and the part
- * most implementations skip.
- *
- * The preview is a browser frame, but the bar carries the project name
- * rather than its address. Two of these still sit on testing URLs, and an
- * address nobody needs to read is not worth showing — the link itself still
- * goes where it goes, and the browser will show the address once it is
- * followed.
- */
-export default function WorkShowcase() {
-  const [active, setActive] = useState(0);
+const projectId = (index: number) => `client-project-${index + 1}`;
+
+function Project({ item, index }: { item: WorkItem; index: number }) {
   const [shot, setShot] = useState(0);
-  // Stops for good once the visitor takes control. Something that keeps
-  // cycling after you have chosen a project is taking the page back off you.
-  const [held, setHeld] = useState(false);
-  const tabsRef = useRef<HTMLDivElement>(null);
-  const item = work[active];
   const shots = item.shots ?? [];
-  // Guard the index: projects have different numbers of shots, so moving from
-  // one with three to one with one must not leave it pointing past the end.
-  const current = shots[Math.min(shot, shots.length - 1)];
-
-  // Walks the projects on its own so all three are seen without asking
-  // anyone to notice the list and use it.
-  useEffect(() => {
-    if (held) return undefined;
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return undefined;
-    const timer = window.setInterval(() => {
-      setActive((current) => (current + 1) % work.length);
-      setShot(0);
-    }, 6500);
-    return () => window.clearInterval(timer);
-  }, [held]);
-
-  const onKeyDown = (event: React.KeyboardEvent) => {
-    const last = work.length - 1;
-    let next = active;
-    if (event.key === 'ArrowDown' || event.key === 'ArrowRight') next = active === last ? 0 : active + 1;
-    else if (event.key === 'ArrowUp' || event.key === 'ArrowLeft') next = active === 0 ? last : active - 1;
-    else if (event.key === 'Home') next = 0;
-    else if (event.key === 'End') next = last;
-    else return;
-
-    event.preventDefault();
-    setHeld(true);
-    setActive(next);
-    setShot(0);
-    // Selection follows focus in this pattern, so move focus with it.
-    tabsRef.current?.querySelectorAll<HTMLButtonElement>('[role="tab"]')[next]?.focus();
-  };
-
+  const current = shots[shot];
   return (
-    <div className="showcase" onPointerDown={() => setHeld(true)}>
-      <div className="showcase-tabs-wrap">
-        <div
-          className="showcase-tabs"
-          role="tablist"
-          aria-label="Projects"
-          aria-orientation="vertical"
-          ref={tabsRef}
-          onKeyDown={onKeyDown}
-        >
-        {work.map((project, index) => (
-          <button
-            key={project.name}
-            type="button"
-            role="tab"
-            id={`work-tab-${index}`}
-            aria-selected={index === active}
-            aria-controls="work-panel"
-            tabIndex={index === active ? 0 : -1}
-            className={`showcase-tab ${index === active ? 'is-active' : ''}`}
-            onClick={() => { setHeld(true); setActive(index); setShot(0); }}
-          >
-            <span className="showcase-tab-n" aria-hidden="true">
-              {String(index + 1).padStart(2, '0')}
-            </span>
-            <span className="showcase-tab-text">
-              <strong>{project.name}</strong>
-              <small>{project.type}</small>
-            </span>
-            {project.status === 'preview' && (
-              <span className="showcase-tab-flag">In review</span>
-            )}
-          </button>
-          ))}
+    <article className="portfolio-project" id={projectId(index)} aria-labelledby={`${projectId(index)}-title`}>
+      <header className="portfolio-heading">
+        <div>
+          <p className="portfolio-category">{item.type}</p>
+          <h2 id={`${projectId(index)}-title`}>{item.name}</h2>
+          <p className="portfolio-sector">{item.sector}</p>
         </div>
-      </div>
-
-      <div
-        className="showcase-panel"
-        role="tabpanel"
-        id="work-panel"
-        aria-labelledby={`work-tab-${active}`}
-        tabIndex={0}
-        // Keyed so the panel remounts and its entrance animation runs again
-        // on every change — without it the content swaps with no transition
-        // and the interaction feels like nothing happened.
-        key={item.name}
-      >
-        <div className="showcase-browser">
-          <div className="showcase-chrome" aria-hidden="true">
-            <span className="showcase-dot" />
-            <span className="showcase-dot" />
-            <span className="showcase-dot" />
-            <span className="showcase-address">{item.name}</span>
-          </div>
-
-          <div className="showcase-viewport">
-            {current ? (
-              <SafeImage
-                key={current.src}
-                figureClassName="showcase-shot"
-                src={current.src}
-                alt={current.alt}
-                width={1000}
-                height={505}
-              />
-            ) : null}
-
-            {shots.length > 1 && (
-              <div className="showcase-thumbs" role="group" aria-label={`${item.name} screenshots`}>
-                {shots.map((image, index) => (
-                  <button
-                    key={image.src}
-                    type="button"
-                    className={`showcase-thumb ${index === Math.min(shot, shots.length - 1) ? 'is-active' : ''}`}
-                    aria-label={image.alt}
-                    aria-pressed={index === Math.min(shot, shots.length - 1)}
-                    onClick={() => { setHeld(true); setShot(index); }}
-                  >
-                    <img src={image.src} alt="" width={1000} height={505} loading="lazy" decoding="async" />
-                  </button>
-                ))}
-              </div>
-            )}
-
-            <ul className="showcase-highlights">
-              {item.highlights.map((highlight) => (
-                <li key={highlight}>
-                  <Icon name="check-circle" size={15} />
-                  {highlight}
-                </li>
-              ))}
-            </ul>
-          </div>
+        <span className={`portfolio-status ${item.status === 'preview' ? 'is-preview' : ''}`}>{item.status === 'preview' ? 'In review' : 'Live website'}</span>
+      </header>
+      <div className="portfolio-body">
+        <div className="portfolio-media">
+          {current && <>
+            <a className="portfolio-image-link" href={current.src} target="_blank" rel="noopener noreferrer" aria-label={`Open full screenshot: ${current.alt}`}>
+              <SafeImage key={current.src} figureClassName="portfolio-image" src={current.src} alt={current.alt} width={1000} height={505} />
+            </a>
+            <div className="portfolio-image-caption"><span>Tap image to enlarge</span></div>
+          </>}
+          {shots.length > 1 && <div className="portfolio-thumbnails" role="group" aria-label={`${item.name} screenshots`}>
+            {shots.map((image, i) => <button type="button" key={image.src} className={`portfolio-thumbnail ${shot === i ? 'is-selected' : ''}`} aria-pressed={shot === i} aria-label={`Show screenshot: ${image.alt}`} onClick={() => setShot(i)}>
+              <img src={image.src} alt="" width={1000} height={505} loading="lazy" decoding="async" />
+            </button>)}
+          </div>}
         </div>
-
-        <div className="showcase-meta">
-          <div>
-            <h3>{item.name}</h3>
-            <p>{item.sector}</p>
-          </div>
-          <a
-            className="btn btn-primary"
-            href={item.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={() => trackEvent('community_work_click', { project: item.name })}
-          >
-            {item.status === 'preview' ? 'View the preview' : 'Visit the site'}
-            <Icon name="arrow-right" size={16} />
+        <div className="portfolio-details">
+          <h3>What we built</h3>
+          <ul>{item.highlights.map(highlight => <li key={highlight}><Icon name="check-circle" size={17} /><span>{highlight}</span></li>)}</ul>
+          <a className="btn btn-primary portfolio-visit" href={item.url} target="_blank" rel="noopener noreferrer" onClick={() => trackEvent('community_work_click', { project: item.name })}>
+            {item.status === 'preview' ? 'View the preview' : 'Visit the website'}<Icon name="arrow-right" size={17} />
           </a>
         </div>
       </div>
+    </article>
+  );
+}
+
+/** Every client stays visible in the document; no timer or hidden project tabs. */
+export default function WorkShowcase() {
+  return (
+    <div className="portfolio">
+      <div className="portfolio-list">{work.map((item, index) => <Project key={item.name} item={item} index={index} />)}</div>
     </div>
   );
 }

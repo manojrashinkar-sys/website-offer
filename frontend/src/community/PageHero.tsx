@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import { Fragment, type ReactNode } from 'react';
 import { pages, type PageKey } from '../content/communityContent';
 import HeroAurora from '../components/HeroAurora';
 import ParticleRibbon from './ParticleRibbon';
@@ -35,20 +35,19 @@ export default function PageHero({ page, actions, aside, eyebrow }: Props) {
       <div className="container community-hero-inner">
         <div className="hero-copy">
           {eyebrow && <p className="community-eyebrow">{eyebrow}</p>}
-          {/* Split so the words arrive in reading order rather than the
-              whole block appearing at once. Each word keeps its trailing
-              space inside the span, so selecting and copying the heading
-              still produces a normal sentence. */}
+          {/* Spaces belong between inline blocks; trailing whitespace inside
+              an inline block collapses and joins the visible words. */}
           <h1 className="hero-headline">
             {heading.split(' ').map((word, index) => (
-              <span
-                className="hero-word"
-                key={`${word}-${index}`}
-                style={{ animationDelay: `${0.06 + index * 0.055}s` }}
-              >
-                {word}
+              <Fragment key={`${word}-${index}`}>
+                <span
+                  className="hero-word"
+                  style={{ animationDelay: `${0.06 + index * 0.055}s` }}
+                >
+                  {word}
+                </span>
                 {index < heading.split(' ').length - 1 ? ' ' : ''}
-              </span>
+              </Fragment>
             ))}
           </h1>
           <p className="hero-sub">{lead}</p>

@@ -77,7 +77,7 @@ export default function HomePage() {
           <Reveal>
             <div className="section-head">
               <h2>Recent work</h2>
-              <p>Three businesses, three very different problems. Each one is live — go and look.</p>
+              <p>Three businesses, three very different problems. Browse their websites and previews.</p>
             </div>
           </Reveal>
 
@@ -94,7 +94,10 @@ export default function HomePage() {
                       height={505}
                     />
                   )}
-                  <span className="work-type">{item.type}</span>
+                  <div className="work-card-tags">
+                    <span className="work-type">{item.type}</span>
+                    {item.status === 'preview' && <span className="work-type work-type-preview">In review</span>}
+                  </div>
                   <h3>{item.name}</h3>
                   <p className="work-sector">{item.sector}</p>
                   <a
@@ -112,6 +115,9 @@ export default function HomePage() {
             ))}
 
           </div>
+          <p className="community-section-more">
+            <Link className="community-more-link" to={communityPath('work')}>Explore all client projects <Icon name="arrow-right" size={16} /></Link>
+          </p>
         </div>
       </section>
 
